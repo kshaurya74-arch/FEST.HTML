@@ -321,8 +321,8 @@
 
     <div id="bg-video-wrapper">
         <div class="video-overlay"></div>
-        <video id="bg-video" loop muted playsinline preload="auto" width="3840" height="2160">
-            <source src="Superman vs Justice League _ Justice League (4k. HDR).mp4#t=20" type="video/mp4">
+        <video id="bg-video" loop muted playsinline preload="auto" width="7680" height="4320">
+            <source src="Superman vs Justice League _ Justice League (4k. HDR).mp4#t=60" type="video/mp4">
         </video>
     </div>
 
@@ -988,9 +988,9 @@
         function enterSite() {
             document.getElementById('bg-video-wrapper').style.opacity = "1";
             
-            // FORCE VIDEO TO START AT 20 SECONDS MARK
+            // FORCE VIDEO TO START AT 1 MINUTE MARK
             const bgVideo = document.getElementById('bg-video');
-            bgVideo.currentTime = 20; 
+            bgVideo.currentTime = 60; 
             bgVideo.play();
 
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
