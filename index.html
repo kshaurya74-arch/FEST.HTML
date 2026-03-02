@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta property="og:title" content="CONVERGE '26 | MARVEL MULTIVERSE">
-    <meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCrBiF1aJ8rXHmJVasQcwQDoLSTKkDemeqxA&s">
-    <meta property="og:description" content="Enter the Marvel Multiverse. Sector 62 + 128. The ultimate Techno-Cultural crossover event at JIIT.">
+    <meta property="og:title" content="CICR x CONVERGE '26 | MARVEL MULTIVERSE">
+    <meta property="og:image" content="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw">
+    <meta property="og:description" content="Enter the Marvel Multiverse. Sector 128. The ultimate Techno-Cultural crossover event at JIIT.">
     <meta property="og:type" content="website">
 
-    <title>JIIT FEST "CONVERGE" | MARVEL MULTIVERSE</title>
+    <title>CICR x CONVERGE '26 | MARVEL MULTIVERSE</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Oswald:wght@300;400;500;700&family=Roboto+Condensed:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Oswald:wght@300;400;500;700&family=Roboto+Condensed:wght@400;700&family=Permanent+Marker&family=Russo+One&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -39,6 +39,8 @@
                         body: ['Roboto Condensed', 'sans-serif'], 
                         marker: ['Permanent Marker', 'cursive'],
                         code: ['Courier New', 'monospace'],
+                        russo: ['Russo One', 'sans-serif'],
+                        bebas: ['Bebas Neue', 'sans-serif'], 
                     }
                 }
             }
@@ -107,7 +109,6 @@
         }
 
         /* CRAZY TECH AI EFFECTS */
-        /* 1. Marvel Lightning Flashes */
         #lightning-overlay {
             position: fixed; inset: 0; width: 100vw; height: 100vh;
             background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(4,118,242,0.4) 50%, transparent 100%);
@@ -123,7 +124,6 @@
             100% { opacity: 0; }
         }
 
-        /* 2. Cold Wave Ripple on Click */
         .cold-wave {
             position: fixed; border: 2px solid var(--ai-cyan); border-radius: 50%;
             transform: translate(-50%, -50%); pointer-events: none;
@@ -135,14 +135,8 @@
             100% { width: 400px; height: 400px; opacity: 0; border-width: 1px; }
         }
 
-        /* 3. Marvel Fire Border */
         .fire-border-wrapper {
-            position: relative;
-            padding: 6px;
-            border-radius: 8px;
-            background: #000;
-            overflow: hidden;
-            z-index: 1;
+            position: relative; padding: 6px; border-radius: 8px; background: #000; overflow: hidden; z-index: 1;
         }
         .fire-border-wrapper::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
@@ -154,7 +148,6 @@
         }
         @keyframes rotateFire { 100% { transform: rotate(360deg); } }
 
-        /* AI HEX BACKGROUND FOR VIBE CHECK */
         .ai-hex-bg {
             background-color: #050505;
             background-image: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.1) 0%, transparent 60%), 
@@ -186,52 +179,35 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .intro-vid-fullscreen {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; display: none; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; 
         }
         
         #start-screen-content { z-index: 20; text-align: center; width: 100%; }
         .start-trigger-container { cursor: none; transition: all 0.5s ease; }
-        .start-trigger-container:hover { transform: scale(1.05); }
-        .start-logo-glow { box-shadow: 0 0 50px var(--marvel-red), inset 0 0 20px var(--marvel-gold); animation: pulse-glow 3s infinite; }
-        @keyframes pulse-glow { 
-            0%, 100% { box-shadow: 0 0 40px var(--marvel-red); border-color: var(--marvel-red); } 
-            50% { box-shadow: 0 0 70px var(--marvel-gold); border-color: var(--marvel-gold); } 
+        .start-trigger-container:hover { transform: scale(1.02); }
+        
+        .start-logo-glow-blue { box-shadow: 0 0 40px var(--ai-cyan), inset 0 0 20px var(--dc-blue); animation: pulse-glow-blue 3s infinite; border-color: var(--ai-cyan) !important; }
+        @keyframes pulse-glow-blue { 
+            0%, 100% { box-shadow: 0 0 30px var(--ai-cyan); } 
+            50% { box-shadow: 0 0 60px var(--ai-cyan); } 
         }
 
-        /* NEW NAV GLOW ANIMATION */
         @keyframes navGlow {
-            0% { 
-                box-shadow: 0 4px 20px rgba(237, 29, 36, 0.5), inset 0 -2px 10px rgba(252, 209, 22, 0.2); 
-                border-bottom-color: var(--marvel-red); 
-            }
-            100% { 
-                box-shadow: 0 4px 35px rgba(252, 209, 22, 0.7), inset 0 -2px 20px rgba(237, 29, 36, 0.4); 
-                border-bottom-color: var(--marvel-gold); 
-            }
+            0% { box-shadow: 0 4px 20px rgba(237, 29, 36, 0.5), inset 0 -2px 10px rgba(252, 209, 22, 0.2); border-bottom-color: var(--marvel-red); }
+            100% { box-shadow: 0 4px 35px rgba(252, 209, 22, 0.7), inset 0 -2px 20px rgba(237, 29, 36, 0.4); border-bottom-color: var(--marvel-gold); }
         }
 
         nav { 
-            backdrop-filter: blur(20px); 
-            background: rgba(8, 8, 8, 0.9); 
-            border-bottom: 4px solid var(--marvel-red); 
-            z-index: 100; 
-            cursor: none; 
-            animation: navGlow 4s infinite alternate;
+            backdrop-filter: blur(20px); background: rgba(8, 8, 8, 0.9); border-bottom: 4px solid var(--marvel-red); z-index: 100; cursor: none; animation: navGlow 4s infinite alternate;
         }
         nav a, button, select, input { cursor: none !important; }
 
         .hero-card { 
-            background: #111; border: 4px solid #000; 
-            transition: all 0.3s ease; position: relative;
-            transform: skew(-2deg); box-shadow: 8px 8px 0px #000;
+            background: #111; border: 4px solid #000; transition: all 0.3s ease; position: relative; transform: skew(-2deg); box-shadow: 8px 8px 0px #000;
         }
         .hero-card > * { transform: skew(2deg); }
         .hero-card:hover { 
-            border-color: var(--marvel-gold); 
-            box-shadow: 12px 12px 0px var(--marvel-red); 
-            transform: skew(-2deg) translateY(-8px) scale(1.02); 
-            z-index: 10;
+            border-color: var(--marvel-gold); box-shadow: 12px 12px 0px var(--marvel-red); transform: skew(-2deg) translateY(-8px) scale(1.02); z-index: 10;
         }
         .hero-card.gold-style:hover { box-shadow: 12px 12px 0px var(--marvel-gold); border-color: var(--marvel-red); }
 
@@ -245,18 +221,11 @@
         .countdown-box span { font-family: 'Bangers', cursive; font-size: 4.5rem; color: white; line-height: 1; text-shadow: 3px 3px 0px #000; transform: skew(10deg); }
         .countdown-box label { font-family: 'Oswald', sans-serif; font-size: 1.2rem; color: var(--marvel-gold); letter-spacing: 2px; margin-top: 0.5rem; transform: skew(10deg); font-weight: bold; }
 
-        /* MULTIVERSE MARQUEE BANNER */
         .marquee-container {
-            position: fixed; bottom: 0; left: 0; width: 100vw;
-            background: var(--marvel-gold); color: #000; border-top: 4px solid #000;
-            overflow: hidden; white-space: nowrap; z-index: 1000;
-            display: flex; align-items: center; height: 40px;
-            box-shadow: 0 -5px 15px rgba(237, 29, 36, 0.5);
+            position: fixed; bottom: 0; left: 0; width: 100vw; background: var(--marvel-gold); color: #000; border-top: 4px solid #000; overflow: hidden; white-space: nowrap; z-index: 1000; display: flex; align-items: center; height: 40px; box-shadow: 0 -5px 15px rgba(237, 29, 36, 0.5);
         }
         .marquee-content {
-            display: inline-block; font-family: 'Bangers', cursive; font-size: 1.8rem;
-            letter-spacing: 4px; padding-left: 100%;
-            animation: marquee-scroll 20s linear infinite;
+            display: inline-block; font-family: 'Bangers', cursive; font-size: 1.8rem; letter-spacing: 4px; padding-left: 100%; animation: marquee-scroll 20s linear infinite;
         }
         @keyframes marquee-scroll { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
@@ -291,9 +260,7 @@
         @media (min-width: 1024px) { .masonry-col { column-count: 4; } }
         
         .polaroid { 
-            background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(5px); padding: 12px 12px 40px 12px; 
-            transition: all 0.4s ease; margin-bottom: 30px; break-inside: avoid; border: 2px solid #fff;
-            position: relative;
+            background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(5px); padding: 12px 12px 40px 12px; transition: all 0.4s ease; margin-bottom: 30px; break-inside: avoid; border: 2px solid #fff; position: relative;
         }
         .polaroid:nth-child(odd) { box-shadow: 0 0 15px var(--marvel-red), inset 0 0 10px var(--marvel-red); }
         .polaroid:nth-child(even) { box-shadow: 0 0 15px var(--marvel-gold), inset 0 0 10px var(--marvel-gold); }
@@ -315,14 +282,12 @@
         .comic-text-shadow-dc { text-shadow: 4px 4px 0px #000, 8px 8px 0px var(--dc-blue); }
 
         .comic-input {
-            width: 100%; border: 4px solid #333; padding: 1rem; color: white; font-family: 'Oswald', sans-serif; 
-            font-size: 1.2rem; outline: none; transform: skew-x(-2deg); transition: 0.3s; background: #000;
+            width: 100%; border: 4px solid #333; padding: 1rem; color: white; font-family: 'Oswald', sans-serif; font-size: 1.2rem; outline: none; transform: skew-x(-2deg); transition: 0.3s; background: #000;
         }
         .comic-input:focus { border-color: var(--marvel-gold); box-shadow: 4px 4px 0px var(--marvel-red); }
 
         #qrcode-display img { margin: 0 auto; border: 8px solid var(--marvel-red); padding: 10px; background: var(--marvel-gold); box-shadow: 0 0 20px rgba(237, 29, 36, 0.8); }
         
-        /* Custom scrollbar for modals */
         .custom-scrollbar::-webkit-scrollbar { width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #111; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--marvel-red); }
@@ -336,7 +301,7 @@
 
     <div class="marquee-container">
         <div class="marquee-content">
-            FEST CONVERGE 2026 ✦ MARVEL MULTIVERSE ✦ SECTOR 62 & 128 ✦ FEST CONVERGE 2026 ✦ MARVEL MULTIVERSE ✦ SECTOR 62 & 128 ✦ FEST CONVERGE 2026 ✦ MARVEL MULTIVERSE ✦ SECTOR 62 & 128 ✦ FEST CONVERGE 2026 ✦ MARVEL MULTIVERSE ✦
+            FEST CONVERGE 2026 ✦ MARVEL MULTIVERSE ✦ SECTOR 128 ✦ FEST CONVERGE 2026 ✦ MARVEL MULTIVERSE ✦ SECTOR 128 ✦ FEST CONVERGE 2026 ✦ MARVEL MULTIVERSE ✦ SECTOR 128 ✦ FEST CONVERGE 2026 ✦ MARVEL MULTIVERSE ✦
         </div>
     </div>
 
@@ -364,18 +329,29 @@
 
     <div id="intro-overlay">
         <video id="intro-video" class="intro-vid-fullscreen" playsinline preload="auto" width="3840" height="2160">
-            <source src="A_long_visually_hypnotic_sequ.mp4" type="video/mp4">
+            <source src="Video_Enhancement_and_Logo_Addition.mp4" type="video/mp4">
         </video>
         
         <div id="start-screen-content" class="flex flex-col items-center justify-center h-full relative z-10">
             <div class="start-trigger-container flex flex-col items-center group" onclick="startExperience()">
-                <div class="flex flex-col md:flex-row items-center gap-6 mb-6">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCrBiF1aJ8rXHmJVasQcwQDoLSTKkDemeqxA&s" class="w-36 h-36 object-contain start-logo-glow rounded-full p-2 bg-gradient-to-tr from-marvel to-accent border-4 border-black" alt="Converge Logo">
-                    <h1 class="font-bangers text-7xl md:text-9xl tracking-wider flex flex-col md:block items-start transition duration-500 transform group-hover:scale-110">
-                        <span class="text-white comic-text-shadow">CONVERGE</span>
-                        <span class="text-accent ml-0 md:ml-4" style="text-shadow: 4px 4px 0 #000;">'26</span>
-                    </h1>
+                
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-8">
+                    <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" onclick="event.stopPropagation();" style="cursor: none;" class="z-[50]">
+                        <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-full p-1 bg-black border-[3px] border-aicyan shadow-[0_0_25px_#00f0ff] start-logo-glow-blue hover:scale-110 transition duration-300" alt="CICR Logo">
+                    </a>
+                    
+                    <div class="text-center flex flex-wrap justify-center items-baseline gap-3 transition duration-500 transform group-hover:scale-105">
+                        <h1 class="font-russo text-7xl md:text-9xl tracking-widest text-white drop-shadow-[0_0_15px_rgba(0,240,255,0.9)] comic-text-shadow-dc">
+                            CICR
+                        </h1>
+                        <span class="font-bangers text-5xl md:text-7xl text-gray-400 self-center">X</span>
+                        <div class="font-bebas text-7xl md:text-9xl tracking-widest">
+                            <span class="text-white comic-text-shadow">CONVERGE</span>
+                            <span class="text-accent ml-1" style="text-shadow: 4px 4px 0 #000;">'26</span>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="mt-8 flex flex-col items-center gap-2">
                     <p class="text-white font-bangers text-3xl tracking-[0.2em] group-hover:text-accent transition bg-black px-6 py-2 border-4 border-white shadow-[6px_6px_0px_#ED1D24]">ENTER THE MULTIVERSE</p>
                 </div>
@@ -389,10 +365,17 @@
 
     <nav class="fixed top-0 w-full transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="text-4xl font-bangers text-white flex items-center gap-3 tracking-widest cursor-pointer hover:scale-105 transition" style="text-shadow: 3px 3px 0 var(--marvel-red), 5px 5px 0 #000;">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCrBiF1aJ8rXHmJVasQcwQDoLSTKkDemeqxA&s" class="w-10 h-10 object-contain" alt="Small Logo">
-                <span>CONVERGE<span class="text-accent">26</span></span>
-            </a>
+            <div class="flex items-center gap-3" style="text-shadow: 3px 3px 0 var(--marvel-red), 5px 5px 0 #000;">
+                <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" style="cursor: none;">
+                    <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-12 h-12 rounded-full border-2 border-aicyan shadow-[0_0_10px_#00f0ff] bg-black object-contain p-1 hover:scale-110 transition" alt="CICR Logo">
+                </a>
+                <a href="#home" class="flex items-baseline gap-2 cursor-pointer hover:scale-105 transition">
+                    <span class="font-russo text-3xl md:text-4xl text-white tracking-widest uppercase">CICR</span>
+                    <span class="font-bangers text-gray-400 text-2xl">X</span>
+                    <span class="font-bebas text-3xl md:text-4xl text-white tracking-widest">CONVERGE<span class="text-accent">26</span></span>
+                </a>
+            </div>
+            
             <ul class="hidden md:flex gap-8 font-bangers text-xl tracking-widest text-gray-300 uppercase">
                 <li><a href="#home" class="hover:text-marvel hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#ED1D24]">HQ</a></li>
                 <li><a href="#shows" class="hover:text-comic-gold hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#FCD116]">Shows</a></li>
@@ -411,12 +394,18 @@
         <div class="inline-block bg-accent text-black font-bangers text-3xl px-8 py-2 transform -skew-y-3 mb-8 border-4 border-black shadow-[6px_6px_0px_#ED1D24] reveal animate-float mt-12">
             THE INFINITY SAGA
         </div>
-        <h1 class="font-bangers text-6xl md:text-9xl tracking-wider mb-6 reveal relative leading-tight">
-            <span class="block text-white comic-text-shadow">MARVEL MULTIVERSE</span>
-            <span class="block text-accent mt-4 comic-text-shadow">CONVERGE '26</span>
+        
+        <h1 class="tracking-wider mb-6 reveal relative leading-tight flex flex-col items-center">
+            <span class="block text-white comic-text-shadow font-bangers text-5xl md:text-7xl mb-4">MARVEL MULTIVERSE</span>
+            <div class="flex flex-wrap justify-center items-baseline gap-4 text-7xl md:text-9xl">
+                <span class="font-russo text-white comic-text-shadow-dc tracking-widest drop-shadow-[0_0_15px_rgba(0,240,255,0.9)]">CICR</span>
+                <span class="font-bangers text-gray-400 text-5xl md:text-7xl self-center">X</span>
+                <div class="font-bebas text-white comic-text-shadow tracking-widest">CONVERGE <span class="text-accent">'26</span></div>
+            </div>
         </h1>
+        
         <p class="text-white text-xl md:text-3xl max-w-3xl mx-auto mb-8 font-bangers uppercase tracking-widest reveal bg-black p-6 border-4 border-black shadow-[8px_8px_0px_#FCD116]">
-            The ultimate Techno-Cultural crossover event.<br><span class="text-marvel">Sector 62 + 128</span>
+            The ultimate Techno-Cultural crossover event.<br><span class="text-marvel">Sector 128</span>
         </p>
 
         <div class="inline-block bg-marvel text-accent font-bangers text-4xl md:text-6xl px-10 py-3 transform -skew-x-6 mb-10 border-4 border-black shadow-[8px_8px_0px_#FCD116] reveal tracking-widest hover:scale-105 transition-transform duration-300" style="text-shadow: 4px 4px 0 #000;">
@@ -440,51 +429,9 @@
 
     <section id="shows" class="py-24 relative z-10 overflow-hidden">
         <div class="container mx-auto px-6 text-center reveal relative z-10">
-            <h2 class="font-bangers text-7xl md:text-9xl text-white mb-4 tracking-widest uppercase comic-text-shadow-gold">STARK TECH <span class="text-accent">SPECTACLES</span></h2>
-            <p class="text-black text-xl md:text-2xl font-bangers tracking-widest mb-16 uppercase bg-white border-4 border-black inline-block px-8 py-2 shadow-[6px_6px_0px_#ED1D24] transform -skew-x-6 relative z-10">E.D.I.T.H. Drone Protocols Activated</p>
+            <h2 class="font-bangers text-7xl md:text-9xl text-white mb-4 tracking-widest uppercase comic-text-shadow-gold">LIVE <span class="text-accent">COMPETITIONS</span></h2>
+            <p class="text-black text-xl md:text-2xl font-bangers tracking-widest mb-16 uppercase bg-white border-4 border-black inline-block px-8 py-2 shadow-[6px_6px_0px_#ED1D24] transform -skew-x-6 relative z-10">Sanctioned Gauntlet Events</p>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto relative z-10">
-                <div class="p-2 transition-all duration-500 transform relative group">
-                    <div class="relative overflow-hidden border-4 border-[#222] shadow-[12px_12px_0px_#ED1D24] group-hover:shadow-[12px_12px_0px_#FCD116] h-full transition-all duration-300 rounded-sm">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20 z-10 pointer-events-none"></div>
-                        <button onclick="toggleVideoAudio('drone-vid-1', 'drone-audio-icon-1', 'drone-audio-btn-1', 'bg-marvel')" id="drone-audio-btn-1" class="absolute top-4 right-4 z-30 bg-black/80 text-white p-3 rounded-full border-2 border-comic-gold hover:scale-110 hover:bg-marvel transition shadow-[0_0_10px_rgba(252,209,22,0.8)] cursor-none">
-                            <i id="drone-audio-icon-1" class="fas fa-volume-mute text-lg"></i>
-                        </button>
-                        <video id="drone-vid-1" autoplay loop muted playsinline class="w-full h-[350px] md:h-[400px] object-cover scale-105 group-hover:scale-100 transition-transform duration-700"><source src="Drone_Show_At_Converge_Fest.mp4" type="video/mp4"></video>
-                        <div class="absolute bottom-5 left-[-10px] md:left-5 z-20 bg-[#0d0d0d] border-2 border-[#1a1a1a] p-4 md:p-5 transform skew-x-[-6deg] shadow-[6px_6px_0px_rgba(0,0,0,0.9)] transition-all duration-400 group-hover:-translate-y-2">
-                            <div class="absolute left-[-2px] top-[-2px] bottom-[-2px] w-[8px] bg-marvel"></div>
-                            <h3 class="font-bangers text-[1.6rem] md:text-[2.2rem] italic tracking-widest whitespace-nowrap ml-3 leading-tight"><span class="text-white drop-shadow-md">NIGHT SKY</span> <span class="text-accent relative inline-block z-10 ml-1" style="text-shadow: 2px 2px 0 #ED1D24, -1px -1px 0 #ED1D24, 2px -1px 0 #ED1D24, -1px 2px 0 #ED1D24, 4px 4px 0 #000;">BATTLE</span></h3>
-                            <div class="mt-2 font-oswald font-bold tracking-wide space-y-1 ml-3">
-                                <p class="flex items-center text-white text-[0.95rem]"><i class="far fa-calendar-alt mr-2 text-gray-100"></i> FEB 27 <span class="mx-2 text-gray-500">|</span> <i class="far fa-clock mr-2 text-gray-100"></i> <span class="text-marvel">21:00 HRS</span></p>
-                                <p class="flex items-center text-gray-400 uppercase text-[0.8rem] tracking-widest mt-1"><i class="fas fa-puzzle-piece text-accent mr-2"></i> PRESENTED BY CICR</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-2 transition-all duration-500 transform relative group">
-                    <div class="relative overflow-hidden border-4 border-[#222] shadow-[12px_12px_0px_#FCD116] group-hover:shadow-[12px_12px_0px_#ED1D24] h-full transition-all duration-300 rounded-sm">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20 z-10 pointer-events-none"></div>
-                        <button onclick="toggleVideoAudio('drone-vid-2', 'drone-audio-icon-2', 'drone-audio-btn-2', 'bg-accent')" id="drone-audio-btn-2" class="absolute top-4 right-4 z-30 bg-black/80 text-white p-3 rounded-full border-2 border-marvel hover:scale-110 hover:bg-accent hover:text-black transition shadow-[0_0_10px_rgba(237,29,36,0.8)] cursor-none">
-                            <i id="drone-audio-icon-2" class="fas fa-volume-mute text-lg"></i>
-                        </button>
-                        <video id="drone-vid-2" autoplay loop muted playsinline class="w-full h-[350px] md:h-[400px] object-cover scale-105 group-hover:scale-100 transition-transform duration-700"><source src="kling_20260225_VIDEO__The_drone_1604_0.mp4" type="video/mp4"></video>
-                        <div class="absolute bottom-5 left-[-10px] md:left-5 z-20 bg-[#0d0d0d] border-2 border-[#1a1a1a] p-4 md:p-5 transform skew-x-[-6deg] shadow-[6px_6px_0px_rgba(0,0,0,0.9)] transition-all duration-400 group-hover:-translate-y-2">
-                            <div class="absolute left-[-2px] top-[-2px] bottom-[-2px] w-[8px] bg-accent"></div>
-                            <h3 class="font-bangers text-[1.6rem] md:text-[2.2rem] italic tracking-widest whitespace-nowrap ml-3 leading-tight"><span class="text-white drop-shadow-md">IRON LEGION</span> <span class="text-white relative inline-block z-10 ml-1" style="text-shadow: 2px 2px 0 #FCD116, -1px -1px 0 #FCD116, 2px -1px 0 #FCD116, -1px 2px 0 #FCD116, 4px 4px 0 #000;">PROTOCOL</span></h3>
-                            <div class="mt-2 font-oswald font-bold tracking-wide space-y-1 ml-3">
-                                <p class="flex items-center text-white text-[0.95rem]"><i class="far fa-calendar-alt mr-2 text-gray-100"></i> FEB 28 <span class="mx-2 text-gray-500">|</span> <i class="far fa-clock mr-2 text-gray-100"></i> <span class="text-accent">22:00 HRS</span></p>
-                                <p class="flex items-center text-gray-400 uppercase text-[0.8rem] tracking-widest mt-1"><i class="fas fa-thumbtack text-marvel mr-2 transform -rotate-45"></i> STARK INDUSTRIES</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-24 mb-10 max-w-7xl mx-auto flex items-center gap-6 justify-center md:justify-start">
-                <div class="w-16 h-2 bg-marvel shadow-[0_0_10px_#ED1D24] hidden md:block"></div>
-                <h3 class="font-bangers text-4xl md:text-5xl text-white tracking-widest comic-text-shadow">FEATURED <span class="text-marvel">&</span> LIVE COMPETITIONS</h3>
-            </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto relative z-10 text-left">
                 
                 <div class="fire-border-wrapper p-2 transition-all duration-500 transform relative group">
@@ -580,7 +527,7 @@
                     <p class="text-accent font-oswald text-xl uppercase tracking-widest"><i class="fas fa-id-badge mr-2"></i> ID: <span id="ticket-enroll"></span></p>
                     <p class="text-white font-oswald text-xl uppercase tracking-widest"><i class="fas fa-users mr-2"></i> BATCH: <span id="ticket-batch"></span></p>
                 </div>
-                <p class="text-gray-400 font-oswald text-sm uppercase">Screenshot this pass. Valid for Sector 62 & 128.</p>
+                <p class="text-gray-400 font-oswald text-sm uppercase">Screenshot this pass. Valid for Sector 128.</p>
             </div>
         </div>
     </section>
@@ -805,15 +752,15 @@
 
                 <div class="mt-16 bg-black/60 border-4 border-marvel p-6 md:p-8 flex flex-col md:flex-row items-center justify-between shadow-[8px_8px_0px_#FCD116] transform skew-x-[-2deg]">
                     <div class="flex items-center gap-6 mb-6 md:mb-0 text-left">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQHiTOxEFHs7-FB-drlif6udx9Bjxv4_tpzQ&s" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-[0_0_15px_#fff]" alt="CICR Logo">
+                        <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white bg-black p-1 shadow-[0_0_15px_#fff]" alt="CICR Logo">
                         <div>
                             <h3 class="text-3xl md:text-4xl font-bangers text-white tracking-widest">HOSTED BY CICR</h3>
                             <p class="text-comic-gold font-oswald text-lg uppercase tracking-widest text-accent">JIIT Sector 128</p>
                         </div>
                     </div>
-                    <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" class="group flex items-center gap-4 bg-white text-black px-6 py-3 border-4 border-black hover:bg-marvel hover:text-white transition shadow-[6px_6px_0px_#ED1D24] cursor-none">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwxmx-5C83Vq4CUjGHoywFmrrKSBb5MV8ynw&s" class="w-10 h-10 object-contain group-hover:animate-[pulse_1s_infinite]" alt="Instagram">
-                        <span class="font-bangers text-xl md:text-2xl tracking-widest">FOLLOW HQ</span>
+                    <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" class="group flex items-center gap-4 bg-white text-black px-6 py-4 border-4 border-black hover:bg-marvel hover:text-white transition shadow-[6px_6px_0px_#ED1D24] cursor-none transform hover:-translate-y-1">
+                        <i class="fab fa-instagram text-5xl md:text-6xl group-hover:animate-[pulse_1s_infinite] transition-colors"></i>
+                        <span class="font-bangers text-2xl md:text-3xl tracking-widest">FOLLOW HQ</span>
                     </a>
                 </div>
             </div>
@@ -847,7 +794,7 @@
         </div>
 
         <video id="vibe-video" class="absolute inset-0 w-full h-full object-cover hidden z-10 opacity-80" playsinline preload="auto">
-            <source src="Celestial_Forge_Video_Generation.mp4" type="video/mp4">
+            <source src="A_long_visually_hypnotic_sequ.mp4" type="video/mp4">
         </video>
         
         <button id="close-vibe-btn" onclick="closeVibeCheck()" class="absolute top-10 right-10 z-30 text-white hover:text-aicyan text-6xl font-bangers drop-shadow-[0_0_15px_#00f0ff] hidden cursor-none">&times;</button>
