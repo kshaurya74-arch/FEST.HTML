@@ -56,22 +56,13 @@
             --dc-blue: #0476F2;
             --ai-cyan: #00f0ff;
         }
-        body { background-color: #080808; color: white; overflow-x: hidden; padding-bottom: 40px; cursor: none; }
 
-        /* CUSTOM STARK CURSOR */
-        #custom-cursor {
-            position: fixed; top: 0; left: 0; width: 30px; height: 30px;
-            border: 2px solid var(--ai-cyan); border-radius: 50%;
-            pointer-events: none; transform: translate(-50%, -50%);
-            z-index: 99999; transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+        /* --- USER UPLOADED ANIMATED CURSOR INJECTED GLOBALLY --- */
+        * {
+            cursor: url("Marvel Intro Animated--cursor--SweezyCursors. (1).ani"), auto !important;
         }
-        #custom-cursor::after {
-            content: ''; width: 6px; height: 6px; background: var(--marvel-red);
-            border-radius: 50%; box-shadow: 0 0 10px var(--marvel-red);
-        }
-        .cursor-hover { width: 45px !important; height: 45px !important; background-color: rgba(237, 29, 36, 0.1); border-color: var(--marvel-gold) !important; }
+
+        body { background-color: #080808; color: white; overflow-x: hidden; padding-bottom: 40px; }
 
         /* HUD SCANLINES */
         .scanlines {
@@ -100,7 +91,6 @@
             50% { transform: translateY(-8px) skew(-2deg); }
         }
         .animate-float { animation: subtleFloat 5s ease-in-out infinite; }
-        .animate-spin-slow { animation: spin 4s linear infinite; }
 
         .halftone-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -149,6 +139,27 @@
         }
         @keyframes rotateFire { 100% { transform: rotate(360deg); } }
 
+        /* HUD VIDEO CORNERS */
+        .hud-corners { position: absolute; inset: 0; pointer-events: none; z-index: 25; }
+        .hud-corners::before, .hud-corners::after {
+            content: ''; position: absolute; width: 60px; height: 60px;
+            border-style: solid; border-color: var(--marvel-red);
+            box-shadow: 0 0 20px var(--marvel-red), inset 0 0 20px var(--marvel-red);
+            animation: pulseHud 2s infinite alternate;
+        }
+        .hud-corners::before { top: 0; left: 0; border-width: 6px 0 0 6px; border-top-left-radius: 4px; }
+        .hud-corners::after { bottom: 0; right: 0; border-width: 0 6px 6px 0; border-bottom-right-radius: 4px; }
+        
+        .hud-corners-dc::before, .hud-corners-dc::after {
+            border-color: var(--dc-blue);
+            box-shadow: 0 0 20px var(--dc-blue), inset 0 0 20px var(--dc-blue);
+        }
+        
+        @keyframes pulseHud {
+            0% { opacity: 0.4; filter: brightness(1); }
+            100% { opacity: 1; filter: brightness(1.5); }
+        }
+
         .ai-hex-bg {
             background-color: #050505;
             background-image: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.1) 0%, transparent 60%), 
@@ -156,12 +167,6 @@
                               repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(0, 240, 255, 0.05) 20px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
-        .ai-scanner-line {
-            position: absolute; left: 0; width: 100%; height: 3px; 
-            background: var(--ai-cyan); box-shadow: 0 0 20px var(--ai-cyan), 0 0 40px var(--ai-cyan);
-            animation: scanline 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; z-index: 25; pointer-events: none;
-        }
-        @keyframes scanline { 0% { top: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
 
         #bg-video-wrapper { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -184,7 +189,7 @@
         }
         
         #start-screen-content { z-index: 20; text-align: center; width: 100%; }
-        .start-trigger-container { cursor: none; transition: all 0.5s ease; }
+        .start-trigger-container { transition: all 0.5s ease; }
         .start-trigger-container:hover { transform: scale(1.02); }
         
         .start-logo-glow-blue { box-shadow: 0 0 40px var(--ai-cyan), inset 0 0 20px var(--dc-blue); animation: pulse-glow-blue 3s infinite; border-color: var(--ai-cyan) !important; }
@@ -199,9 +204,39 @@
         }
 
         nav { 
-            backdrop-filter: blur(20px); background: rgba(8, 8, 8, 0.9); border-bottom: 4px solid var(--marvel-red); z-index: 100; cursor: none; animation: navGlow 4s infinite alternate;
+            backdrop-filter: blur(20px); background: rgba(8, 8, 8, 0.9); border-bottom: 4px solid var(--marvel-red); z-index: 100; animation: navGlow 4s infinite alternate;
         }
-        nav a, button, select, input { cursor: none !important; }
+
+        /* NAV FLOWING LIGHTS & LASER SWEEP */
+        .flow-light-text {
+            background: linear-gradient(90deg, #fff, var(--marvel-gold), var(--marvel-red), #fff);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: flowLight 4s linear infinite;
+        }
+        @keyframes flowLight {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        .nav-item-sweep {
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-item-sweep::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--ai-cyan), transparent);
+            animation: laserSweep 3s infinite;
+            z-index: 10;
+        }
+        @keyframes laserSweep {
+            0% { left: -100%; }
+            50%, 100% { left: 200%; }
+        }
 
         .hero-card { 
             background: #111; border: 4px solid #000; transition: all 0.3s ease; position: relative; transform: skew(-2deg); box-shadow: 8px 8px 0px #000;
@@ -215,12 +250,18 @@
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .countdown-intro-text { font-family: 'Bangers', cursive; font-size: 2rem; color: var(--marvel-gold); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1rem; text-shadow: 2px 2px 0 #000; }
-        .countdown-box { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; border: 4px solid #333; padding: 1.5rem; transform: skew(-10deg); min-width: 120px; margin: 10px; transition: all 0.3s ease; box-shadow: 6px 6px 0px var(--marvel-red); }
-        .countdown-box:nth-child(even) { box-shadow: 6px 6px 0px var(--marvel-gold); }
-        .countdown-box:hover { border-color: white; transform: skew(-10deg) translateY(-5px); }
-        .countdown-box span { font-family: 'Bangers', cursive; font-size: 4.5rem; color: white; line-height: 1; text-shadow: 3px 3px 0px #000; transform: skew(10deg); }
-        .countdown-box label { font-family: 'Oswald', sans-serif; font-size: 1.2rem; color: var(--marvel-gold); letter-spacing: 2px; margin-top: 0.5rem; transform: skew(10deg); font-weight: bold; }
+        /* --- EXCITING COUNTDOWN CSS UPGRADES --- */
+        .countdown-intro-text { font-family: 'Bangers', cursive; font-size: 2.5rem; color: #fff; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1rem; text-shadow: 0 0 15px var(--marvel-red); }
+        .countdown-box { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(10,0,0,0.8); border: 4px solid var(--marvel-red); padding: 1.5rem; transform: skew(-10deg); min-width: 120px; margin: 10px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .countdown-box::before { content: ''; position: absolute; top:-50%; left:-50%; width:200%; height:200%; background: radial-gradient(circle, rgba(237,29,36,0.2) 0%, transparent 60%); animation: throb 1s infinite alternate; z-index: 0; }
+        @keyframes throb { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
+        
+        .countdown-box span { font-family: 'Bangers', cursive; font-size: 5.5rem; color: var(--marvel-gold); line-height: 1; text-shadow: 4px 4px 0px #000, 0 0 20px var(--marvel-red); transform: skew(10deg); position: relative; z-index: 1; animation: textFlicker 0.1s infinite alternate; }
+        @keyframes textFlicker { 0% { opacity: 0.9; } 100% { opacity: 1; text-shadow: 4px 4px 0px #000, 0 0 30px var(--marvel-gold); } }
+        
+        .countdown-box label { font-family: 'Oswald', sans-serif; font-size: 1.4rem; color: white; letter-spacing: 4px; margin-top: 0.5rem; transform: skew(10deg); font-weight: bold; position: relative; z-index: 1; }
+        .critical-glow { animation: criticalPulse 1s infinite; }
+        @keyframes criticalPulse { 0% { box-shadow: 0 0 10px var(--marvel-red); } 50% { box-shadow: 0 0 40px var(--marvel-red), inset 0 0 20px var(--marvel-red); border-color: white; } 100% { box-shadow: 0 0 10px var(--marvel-red); } }
 
         .marquee-container {
             position: fixed; bottom: 0; left: 0; width: 100vw; background: var(--marvel-gold); color: #000; border-top: 4px solid #000; overflow: hidden; white-space: nowrap; z-index: 1000; display: flex; align-items: center; height: 40px; box-shadow: 0 -5px 15px rgba(237, 29, 36, 0.5);
@@ -232,6 +273,29 @@
 
         #schedule { position: relative; overflow: hidden; }
         #schedule::before { content: ''; position: absolute; top: 0; left: 50%; width: 8px; height: 100%; background: linear-gradient(to bottom, var(--marvel-red) 0%, var(--marvel-gold) 50%, var(--marvel-red) 100%); transform: translateX(-50%); z-index: 0; border: 2px solid #000; }
+        
+        /* TIMELINE ENERGY DROP */
+        #schedule::after {
+            content: ''; 
+            position: absolute; 
+            top: -100px; 
+            left: 50%; 
+            width: 12px; 
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--ai-cyan), transparent);
+            transform: translateX(-50%); 
+            z-index: 1;
+            box-shadow: 0 0 20px var(--ai-cyan), 0 0 40px #fff;
+            animation: timelineLightDrop 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            border-radius: 50%;
+        }
+        @keyframes timelineLightDrop {
+            0% { top: -10%; opacity: 0;}
+            10% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { top: 110%; opacity: 0; }
+        }
+
         .timeline-day-header { position: relative; z-index: 20; text-align: center; margin: 5rem 0; }
         .timeline-day-header span { display: inline-block; padding: 1rem 3rem; background: var(--marvel-gold); border: 4px solid #000; color: #000; font-family: 'Bangers'; font-size: 2.5rem; letter-spacing: 3px; box-shadow: 8px 8px 0px #000; transform: rotate(-3deg); }
         .timeline-item { position: relative; width: 100%; margin-bottom: 4rem; z-index: 10; display: flex; justify-content: center; align-items: center; }
@@ -243,18 +307,6 @@
         .timeline-left-align:hover { border-color: var(--marvel-gold); box-shadow: 12px 12px 0px var(--marvel-gold); }
         .timeline-right-align { margin-left: auto; margin-right: 0; border-right: 10px solid var(--marvel-red); text-align: right; }
         .timeline-right-align:hover { border-color: var(--marvel-red); box-shadow: -12px 12px 0px var(--marvel-red); }
-
-        .club-logo-frame { width: 110px; height: 110px; overflow: hidden; margin: 0 auto 15px; border: 4px solid var(--domain-color); box-shadow: 8px 8px 0px #000; background: #000; transform: rotate(5deg); transition: 0.3s; }
-        .club-logo-frame:hover { transform: rotate(0deg) scale(1.15); border-color: white; }
-        .club-logo-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) contrast(1.2); }
-        .club-tab-btn { font-family: 'Bangers'; font-size: 1.8rem; letter-spacing: 2px; padding: 0.5rem 2rem; transform: skew(-5deg); transition: 0.3s; border: 4px solid transparent; background: #111; color: #666; white-space: nowrap; flex-shrink: 0; }
-        .club-tab-btn.active { border-color: #000; transform: skew(-5deg) translateY(-5px); }
-        .btn-music.active { background: var(--marvel-red); box-shadow: 6px 6px 0px #000; color: white; }
-        .btn-robotics.active { background: var(--marvel-gold); box-shadow: 6px 6px 0px #000; color: black; }
-        .btn-coding.active { background: var(--gamma-green); box-shadow: 6px 6px 0px #000; color: black; }
-        .btn-design.active { background: #fff; box-shadow: 6px 6px 0px #000; color: black; }
-        .domain-container { display: none; opacity: 0; transform: scale(0.95); transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
-        .domain-container.active { display: block; opacity: 1; transform: scale(1); }
 
         .masonry-col { column-count: 1; column-gap: 2rem; }
         @media (min-width: 640px) { .masonry-col { column-count: 2; } }
@@ -271,6 +323,29 @@
         .polaroid:hover { transform: scale(1.08) rotate(0deg) !important; z-index: 50; box-shadow: 0 0 30px #fff, 0 0 50px #fff !important; }
         .polaroid img { width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2); border: 2px solid #000; }
         .handwriting { font-family: 'Marker Felt', 'Permanent Marker', cursive; color: #fff; font-size: 1.5rem; text-align: center; margin-top: 15px; text-shadow: 2px 2px 0px #000; }
+
+        /* GALLERY TECH TAPE & S.H.I.E.L.D DATA */
+        .tech-tape {
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%) rotate(-2deg);
+            width: 100px; height: 25px;
+            background: rgba(0, 240, 255, 0.1);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0, 240, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            z-index: 10;
+        }
+        .tech-tape::before {
+            content: 'EVIDENCE //'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-family: 'Courier New', monospace; font-size: 10px; color: var(--ai-cyan); letter-spacing: 2px;
+        }
+        .polaroid-data {
+            position: absolute; bottom: 25px; right: -15px;
+            background: #000; border: 1px solid var(--marvel-gold);
+            color: var(--marvel-gold); font-family: 'Courier New', monospace; font-size: 12px;
+            padding: 2px 5px; transform: rotate(90deg); transform-origin: left bottom;
+            box-shadow: 0 0 10px rgba(252, 209, 22, 0.5);
+            letter-spacing: 1px; font-weight: bold;
+        }
 
         .btn-primary { display: inline-block; padding: 1.2rem 2.5rem; font-family: 'Bangers'; font-size: 1.8rem; letter-spacing: 3px; background: var(--marvel-red); color: white; border: 4px solid #000; transform: skew(-10deg); transition: 0.2s; box-shadow: 6px 6px 0px var(--marvel-gold); }
         .btn-primary:hover { background: var(--marvel-gold); color: #000; box-shadow: 8px 8px 0px var(--marvel-red); transform: skew(-10deg) translateY(-4px); }
@@ -296,7 +371,6 @@
 </head>
 <body class="font-body selection:bg-accent selection:text-black" id="main-body">
 
-    <div id="custom-cursor"></div>
     <div id="lightning-overlay"></div>
     <div class="scanlines"></div>
 
@@ -309,7 +383,7 @@
     <div class="halftone-bg"></div>
 
     <div class="fixed top-32 left-6 z-[90] group hidden md:block animate-float">
-        <button onclick="startVibeCheck()" class="relative w-16 h-16 flex items-center justify-center bg-[#050505] border-2 border-aicyan rounded-full shadow-[0_0_20px_rgba(0,240,255,0.6)] group-hover:shadow-[0_0_30px_rgba(177,0,255,0.9)] group-hover:border-aipurple transition-all duration-500 cursor-none">
+        <button onclick="startVibeCheck()" class="relative w-16 h-16 flex items-center justify-center bg-[#050505] border-2 border-aicyan rounded-full shadow-[0_0_20px_rgba(0,240,255,0.6)] group-hover:shadow-[0_0_30px_rgba(177,0,255,0.9)] group-hover:border-aipurple transition-all duration-500">
             <span class="absolute inset-0 rounded-full border-2 border-aicyan animate-[ping_2s_ease-out_infinite] opacity-40 group-hover:border-aipurple"></span>
             <span class="absolute inset-0 rounded-full border-2 border-marvel animate-[ping_3s_ease-out_infinite] opacity-20 delay-75"></span>
             <i class="fas fa-brain text-aicyan text-2xl group-hover:text-white group-hover:animate-pulse drop-shadow-[0_0_10px_#00f0ff] transition-colors relative z-10"></i>
@@ -329,6 +403,10 @@
     <div id="particles-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
     <div id="intro-overlay">
+        <video id="pre-intro-video" class="intro-vid-fullscreen" playsinline preload="auto" width="3840" height="2160">
+            <source src="Robo_Soccer_Event_Video_Creation.mp4" type="video/mp4">
+        </video>
+
         <video id="intro-video" class="intro-vid-fullscreen" playsinline preload="auto" width="3840" height="2160">
             <source src="Video_Enhancement_and_Logo_Addition.mp4" type="video/mp4">
         </video>
@@ -337,7 +415,7 @@
             <div class="start-trigger-container flex flex-col items-center group" onclick="startExperience()">
                 
                 <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-8">
-                    <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" onclick="event.stopPropagation();" style="cursor: none;" class="z-[50]">
+                    <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" onclick="event.stopPropagation();" class="z-[50]">
                         <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-full p-1 bg-black border-[3px] border-aicyan shadow-[0_0_25px_#00f0ff] start-logo-glow-blue hover:scale-110 transition duration-300" alt="CICR Logo">
                     </a>
                     
@@ -359,7 +437,7 @@
             </div>
         </div>
 
-        <button id="skip-intro-btn" onclick="skipIntro()" class="absolute bottom-10 right-10 z-50 bg-marvel text-white font-bangers text-2xl px-6 py-2 border-4 border-black shadow-[6px_6px_0px_#FCD116] transform -skew-x-6 hover:bg-comic-gold hover:text-black transition hidden tracking-widest cursor-none">
+        <button id="skip-intro-btn" onclick="skipIntro()" class="absolute bottom-10 right-10 z-50 bg-marvel text-white font-bangers text-2xl px-6 py-2 border-4 border-black shadow-[6px_6px_0px_#FCD116] transform -skew-x-6 hover:bg-comic-gold hover:text-black transition hidden tracking-widest">
             SKIP INTRO <i class="fas fa-forward ml-2"></i>
         </button>
     </div>
@@ -367,26 +445,26 @@
     <nav class="fixed top-0 w-full transition-all duration-300 z-[100]">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3" style="text-shadow: 3px 3px 0 var(--marvel-red), 5px 5px 0 #000;">
-                <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" style="cursor: none;">
+                <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank">
                     <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-12 h-12 rounded-full border-2 border-aicyan shadow-[0_0_10px_#00f0ff] bg-black object-contain p-1 hover:scale-110 transition" alt="CICR Logo">
                 </a>
                 <a href="#home" class="flex items-baseline gap-2 cursor-pointer hover:scale-105 transition">
                     <span class="font-russo text-3xl md:text-4xl text-white tracking-widest uppercase">CICR</span>
                     <span class="font-bangers text-gray-400 text-2xl">X</span>
-                    <span class="font-bebas text-3xl md:text-4xl text-white tracking-widest">CONVERGE<span class="text-accent">26</span></span>
+                    <span class="font-bebas text-3xl md:text-4xl tracking-widest flow-light-text">CONVERGE <span class="text-accent">'26</span></span>
                 </a>
             </div>
             
             <ul class="hidden md:flex gap-8 font-bangers text-xl tracking-widest text-gray-300 uppercase">
-                <li><a href="#home" class="hover:text-marvel hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#ED1D24]">HQ</a></li>
-                <li><a href="#shows" class="hover:text-comic-gold hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#FCD116]">Shows</a></li>
-                <li><a href="#fest-pass" class="hover:text-marvel hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#ED1D24]">Pass</a></li>
-                <li><a href="#event-reg" class="hover:text-comic-gold hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#FCD116]">Register</a></li>
-                <li><a href="#predictions" class="hover:text-marvel hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#ED1D24]">Nexus</a></li>
-                <li><a href="#schedule" class="hover:text-comic-gold hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#FCD116]">Timeline</a></li>
-                <li><a href="#contact" class="hover:text-marvel hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#ED1D24]">Contact</a></li>
+                <li class="nav-item-sweep"><a href="#home" class="hover:text-marvel hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#ED1D24]">HQ</a></li>
+                <li class="nav-item-sweep"><a href="#shows" class="hover:text-comic-gold hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#FCD116]">Shows</a></li>
+                <li class="nav-item-sweep"><a href="#fest-pass" class="hover:text-marvel hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#ED1D24]">Pass</a></li>
+                <li class="nav-item-sweep"><a href="#event-reg" class="hover:text-comic-gold hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#FCD116]">Register</a></li>
+                <li class="nav-item-sweep"><a href="#predictions" class="hover:text-marvel hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#ED1D24]">Nexus</a></li>
+                <li class="nav-item-sweep"><a href="#schedule" class="hover:text-comic-gold hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#FCD116]">Timeline</a></li>
+                <li class="nav-item-sweep"><a href="#contact" class="hover:text-marvel hover:scale-110 inline-block transition hover:drop-shadow-[0_0_10px_#ED1D24]">Contact</a></li>
             </ul>
-            <a href="#fest-pass" class="hidden md:block bg-white text-black font-bangers text-xl border-4 border-black py-2 px-6 shadow-[4px_4px_0px_#ED1D24] hover:bg-accent hover:text-black transition transform -skew-x-6 cursor-none">MY BADGE</a>
+            <a href="#fest-pass" class="hidden md:block bg-white text-black font-bangers text-xl border-4 border-black py-2 px-6 shadow-[4px_4px_0px_#ED1D24] hover:bg-accent hover:text-black transition transform -skew-x-6">MY BADGE</a>
         </div>
     </nav>
 
@@ -401,28 +479,42 @@
             <div class="flex flex-wrap justify-center items-baseline gap-3 text-4xl md:text-6xl">
                 <span class="font-russo text-white comic-text-shadow-dc tracking-widest drop-shadow-[0_0_15px_rgba(0,240,255,0.9)]">CICR</span>
                 <span class="font-bangers text-gray-400 text-2xl md:text-4xl self-center">X</span>
-                <div class="font-bebas text-white comic-text-shadow tracking-widest">CONVERGE <span class="text-accent">'26</span></div>
+                <div class="font-bebas text-white comic-text-shadow tracking-widest flow-light-text">CONVERGE <span class="text-accent">'26</span></div>
             </div>
         </h1>
         
-        <p class="text-white text-xl md:text-3xl max-w-3xl mx-auto mb-8 font-bangers uppercase tracking-widest reveal bg-black p-6 border-4 border-black shadow-[8px_8px_0px_#FCD116]">
-            The ultimate Techno-Cultural crossover event.<br><span class="text-marvel">Sector 128</span>
+        <p class="text-white text-xl md:text-3xl max-w-3xl mx-auto mb-10 font-bangers uppercase tracking-widest reveal bg-black p-6 border-4 border-black shadow-[8px_8px_0px_#FCD116]">
+            The ultimate Techno-Cultural crossover event.<br><span class="text-marvel">Sector 128 S.H.I.E.L.D. HQ</span>
         </p>
 
-        <div class="inline-block bg-marvel text-accent font-bangers text-4xl md:text-6xl px-10 py-3 transform -skew-x-6 mb-10 border-4 border-black shadow-[8px_8px_0px_#FCD116] reveal tracking-widest hover:scale-105 transition-transform duration-300" style="text-shadow: 4px 4px 0 #000;">
-            MARCH 14<span class="text-white" style="text-shadow: 2px 2px 0 #000;">TH</span> - 15<span class="text-white" style="text-shadow: 2px 2px 0 #000;">TH</span> 2026
+        <div class="relative reveal mt-4 mb-16 w-full max-w-4xl flex flex-col items-center justify-center p-2">
+            
+            <div class="absolute inset-0 bg-marvel blur-[80px] opacity-20 animate-pulse pointer-events-none"></div>
+            
+            <div class="border-4 border-marvel bg-[#0a0000] p-6 md:p-10 shadow-[0_0_40px_rgba(237,29,36,0.6)] relative overflow-hidden group hover:border-white transition-colors duration-500">
+                <div class="absolute top-0 left-0 w-full h-1 bg-marvel animate-[laserSweep_2.5s_infinite]"></div>
+                
+                <div class="inline-block bg-marvel text-white font-bangers text-3xl md:text-5xl px-8 py-2 transform -skew-x-6 mb-8 border-4 border-black shadow-[4px_4px_0px_#FCD116] tracking-widest group-hover:scale-105 transition-transform duration-300 relative overflow-hidden" style="text-shadow: 2px 2px 0 #000;">
+                    <div class="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(0,0,0,0.2)_10px,rgba(0,0,0,0.2)_20px)] opacity-50"></div>
+                    <span class="relative z-10">MARCH 14TH - 15TH 2026</span>
+                </div>
+
+                <h3 class="countdown-intro-text flex items-center justify-center gap-4 mt-2">
+                    <i class="fas fa-exclamation-triangle text-marvel animate-ping"></i>
+                    PORTAL BREACH CRITICAL:
+                    <i class="fas fa-exclamation-triangle text-marvel animate-ping"></i>
+                </h3>
+
+                <div id="hero-countdown" class="flex flex-wrap justify-center gap-4 md:gap-6 mt-4">
+                    <div class="countdown-box critical-glow"><span id="d-days">00</span><label>DAYS</label></div>
+                    <div class="countdown-box critical-glow" style="animation-delay: 0.2s;"><span id="d-hours">00</span><label>HRS</label></div>
+                    <div class="countdown-box critical-glow" style="animation-delay: 0.4s;"><span id="d-mins">00</span><label>MIN</label></div>
+                    <div class="countdown-box critical-glow" style="animation-delay: 0.6s;"><span id="d-secs">00</span><label>SEC</label></div>
+                </div>
+            </div>
         </div>
 
-        <h3 class="countdown-intro-text reveal">THE TESSERACT ACTIVATES IN:</h3>
-
-        <div id="hero-countdown" class="flex flex-wrap justify-center gap-4 md:gap-6 mb-16 reveal">
-            <div class="countdown-box"><span id="d-days">00</span><label>DAYS</label></div>
-            <div class="countdown-box"><span id="d-hours">00</span><label>HRS</label></div>
-            <div class="countdown-box"><span id="d-mins">00</span><label>MIN</label></div>
-            <div class="countdown-box"><span id="d-secs">00</span><label>SEC</label></div>
-        </div>
-
-        <div class="flex gap-8 reveal flex-wrap justify-center mt-6">
+        <div class="flex gap-8 reveal flex-wrap justify-center mt-2 relative z-20">
             <a href="#shows" class="btn-primary"><i class="fas fa-eye mr-3"></i>STARK SPECTACLES</a>
             <a href="#fest-pass" class="btn-secondary"><i class="fas fa-id-card mr-3"></i>S.H.I.E.L.D. PASS</a>
         </div>
@@ -436,52 +528,59 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto relative z-10 text-left">
                 
                 <div class="fire-border-wrapper p-2 transition-all duration-500 transform relative group">
-                    <div class="relative overflow-hidden h-full rounded-sm bg-[#050505]">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20 z-10 pointer-events-none"></div>
+                    <div class="flex flex-col h-full bg-[#050505] rounded-sm">
                         
-                        <button onclick="toggleVideoAudio('evorush-vid', 'evorush-audio-icon', 'evorush-audio-btn', 'bg-[#0476F2]')" id="evorush-audio-btn" class="absolute top-4 right-4 z-30 bg-black/80 text-white p-3 rounded-full border-2 border-[#0476F2] hover:scale-110 hover:bg-[#0476F2] transition shadow-[0_0_10px_rgba(4,118,242,0.8)] cursor-none">
-                            <i id="evorush-audio-icon" class="fas fa-volume-mute text-lg"></i>
-                        </button>
+                        <div class="relative overflow-hidden h-[300px] md:h-[350px] flex-shrink-0">
+                            <div class="hud-corners hud-corners-dc"></div>
+                            <button onclick="toggleVideoAudio('evorush-vid', 'evorush-audio-icon', 'evorush-audio-btn', 'bg-[#0476F2]')" id="evorush-audio-btn" class="absolute top-4 right-4 z-30 bg-black/80 text-white p-3 rounded-full border-2 border-[#0476F2] hover:scale-110 hover:bg-[#0476F2] transition shadow-[0_0_10px_rgba(4,118,242,0.8)]">
+                                <i id="evorush-audio-icon" class="fas fa-volume-mute text-lg"></i>
+                            </button>
+                            <video id="evorush-vid" autoplay loop muted playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
+                                <source src="College_Fest_Trailer_Generation.mp4" type="video/mp4">
+                            </video>
+                        </div>
 
-                        <video id="evorush-vid" autoplay loop muted playsinline class="w-full h-[350px] md:h-[400px] object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
-                            <source src="College_Fest_Trailer_Generation.mp4" type="video/mp4">
-                        </video>
-                        
-                        <div class="absolute bottom-5 left-[-10px] md:left-5 z-20 bg-[#0d0d0d] border-2 border-[#1a1a1a] p-4 md:p-5 transform skew-x-[-6deg] shadow-[6px_6px_0px_rgba(0,0,0,0.9)] transition-all duration-400 group-hover:-translate-y-2">
-                            <div class="absolute left-[-2px] top-[-2px] bottom-[-2px] w-[8px] bg-[#0476F2]"></div>
-                            <h3 class="font-bangers text-[1.6rem] md:text-[2.2rem] italic tracking-widest whitespace-nowrap ml-3 leading-tight"><span class="text-white drop-shadow-md">EVO</span><span class="text-[#0476F2] relative inline-block z-10 ml-1" style="text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 2px -1px 0 #fff, 4px 4px 0 #000;">RUSH</span></h3>
-                            <div class="mt-2 font-oswald font-bold tracking-wide space-y-1 ml-3">
-                                <p class="flex items-center text-white text-[0.95rem]"><i class="fas fa-flag-checkered mr-2 text-gray-100"></i> RACE <span class="mx-2 text-gray-500">|</span> <i class="fas fa-microchip mr-2 text-gray-100"></i> <span class="text-[#0476F2]">TECH</span></p>
+                        <div class="p-4 md:p-5 bg-[#0d0d0d] border-t-2 border-[#1a1a1a] flex-grow relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-[6px] bg-[#0476F2]"></div>
+                            <h3 class="font-bangers text-[1.6rem] md:text-[2.2rem] italic tracking-widest ml-3 leading-tight">
+                                <span class="text-white">EVO</span><span class="text-[#0476F2] ml-1">RUSH</span>
+                            </h3>
+                            <div class="mt-3 font-oswald font-bold tracking-wide space-y-1 ml-3">
+                                <p class="flex items-center text-white text-[0.95rem]"><i class="fas fa-flag-checkered mr-2 text-gray-400"></i> RACE <span class="mx-2 text-gray-600">|</span> <i class="fas fa-microchip mr-2 text-gray-400"></i> <span class="text-[#0476F2]">TECH</span></p>
                                 <p class="flex items-center text-gray-400 uppercase text-[0.8rem] tracking-widest mt-1"><i class="fas fa-bolt text-[#00ff41] mr-2"></i> SEASON 1 | 8 EPISODES</p>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
                 <div class="fire-border-wrapper p-2 transition-all duration-500 transform relative group">
-                    <div class="relative overflow-hidden h-full rounded-sm bg-[#050505]">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20 z-10 pointer-events-none"></div>
-                        
-                        <div class="absolute top-4 left-4 z-30 bg-marvel text-white px-3 py-1 font-bangers tracking-widest border-2 border-black transform skew-x-[-6deg] shadow-[4px_4px_0px_#000] animate-pulse">
-                            <i class="fas fa-circle text-[10px] mr-1"></i> LIVE
+                    <div class="flex flex-col h-full bg-[#050505] rounded-sm">
+
+                        <div class="relative overflow-hidden h-[300px] md:h-[350px] flex-shrink-0">
+                            <div class="hud-corners"></div>
+                            <div class="absolute top-4 left-4 z-30 bg-marvel text-white px-3 py-1 font-bangers tracking-widest border-2 border-black transform skew-x-[-6deg] shadow-[4px_4px_0px_#000] animate-pulse">
+                                <i class="fas fa-circle text-[10px] mr-1"></i> LIVE
+                            </div>
+                            <button onclick="toggleVideoAudio('robo-vid', 'robo-audio-icon', 'robo-audio-btn', 'bg-marvel')" id="robo-audio-btn" class="absolute top-4 right-4 z-30 bg-black/80 text-white p-3 rounded-full border-2 border-marvel hover:scale-110 hover:bg-marvel transition shadow-[0_0_10px_rgba(237,29,36,0.8)]">
+                                <i id="robo-audio-icon" class="fas fa-volume-mute text-lg"></i>
+                            </button>
+                            <video id="robo-vid" autoplay loop muted playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
+                                <source src="Robo_Soccer_Event_Video_Creation.mp4#t=1" type="video/mp4">
+                            </video>
                         </div>
-
-                        <button onclick="toggleVideoAudio('robo-vid', 'robo-audio-icon', 'robo-audio-btn', 'bg-marvel')" id="robo-audio-btn" class="absolute top-4 right-4 z-30 bg-black/80 text-white p-3 rounded-full border-2 border-marvel hover:scale-110 hover:bg-marvel transition shadow-[0_0_10px_rgba(237,29,36,0.8)] cursor-none">
-                            <i id="robo-audio-icon" class="fas fa-volume-mute text-lg"></i>
-                        </button>
-
-                        <video id="robo-vid" autoplay loop muted playsinline class="w-full h-[350px] md:h-[400px] object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
-                            <source src="Robo_Soccer_Fest_Trailer_Generation (1).mp4" type="video/mp4">
-                        </video>
                         
-                        <div class="absolute bottom-5 left-[-10px] md:left-5 z-20 bg-[#0d0d0d] border-2 border-[#1a1a1a] p-4 md:p-5 transform skew-x-[-6deg] shadow-[6px_6px_0px_rgba(0,0,0,0.9)] transition-all duration-400 group-hover:-translate-y-2">
-                            <div class="absolute left-[-2px] top-[-2px] bottom-[-2px] w-[8px] bg-marvel"></div>
-                            <h3 class="font-bangers text-[1.6rem] md:text-[2.2rem] italic tracking-widest whitespace-nowrap ml-3 leading-tight"><span class="text-white drop-shadow-md">ROBO</span> <span class="text-marvel relative inline-block z-10 ml-1" style="text-shadow: 2px 2px 0 #ED1D24, -1px -1px 0 #ED1D24, 2px -1px 0 #ED1D24, 4px 4px 0 #000;">SOCCER</span></h3>
-                            <div class="mt-2 font-oswald font-bold tracking-wide space-y-1 ml-3">
-                                <p class="flex items-center text-white text-[0.95rem]"><i class="fas fa-cogs mr-2 text-gray-100"></i> ENGINEERING <span class="mx-2 text-gray-500">|</span> <i class="fas fa-trophy mr-2 text-gray-100"></i> <span class="text-marvel">COMPETITION</span></p>
+                        <div class="p-4 md:p-5 bg-[#0d0d0d] border-t-2 border-[#1a1a1a] flex-grow relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-[6px] bg-marvel"></div>
+                            <h3 class="font-bangers text-[1.6rem] md:text-[2.2rem] italic tracking-widest ml-3 leading-tight">
+                                <span class="text-white">ROBO</span> <span class="text-marvel ml-1">SOCCER</span>
+                            </h3>
+                            <div class="mt-3 font-oswald font-bold tracking-wide space-y-1 ml-3">
+                                <p class="flex items-center text-white text-[0.95rem]"><i class="fas fa-cogs mr-2 text-gray-400"></i> ENGINEERING <span class="mx-2 text-gray-600">|</span> <i class="fas fa-trophy mr-2 text-gray-400"></i> <span class="text-marvel">COMPETITION</span></p>
                                 <p class="flex items-center text-gray-400 uppercase text-[0.8rem] tracking-widest mt-1"><i class="fas fa-play text-accent mr-2"></i> WATCH NOW | 12 COMPETITIONS</p>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -514,7 +613,7 @@
                     </div>
                 </div>
                 <div class="pt-6">
-                    <button type="submit" class="w-full py-5 bg-accent text-black border-4 border-black font-bangers text-3xl hover:bg-marvel hover:text-white transition transform skew-x-[-2deg] shadow-[8px_8px_0px_#000] cursor-none">MINT S.H.I.E.L.D. QR CODE</button>
+                    <button type="submit" class="w-full py-5 bg-accent text-black border-4 border-black font-bangers text-3xl hover:bg-marvel hover:text-white transition transform skew-x-[-2deg] shadow-[8px_8px_0px_#000]">MINT S.H.I.E.L.D. QR CODE</button>
                 </div>
             </form>
         </div>
@@ -549,7 +648,7 @@
                     <h3 class="text-5xl font-bangers text-white tracking-widest comic-text-shadow mb-4">ROBO SOCCER</h3>
                     <p class="text-gray-400 font-oswald text-lg uppercase tracking-widest mb-8">Engineering meets the pitch. Build, battle, score.</p>
                 </div>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeo-2zoDv1f9a9lLKhV6SbaSbY7S97g0pdKUD42fyGB0mQTPQ/viewform?usp=publish-editor" target="_blank" class="w-full py-5 bg-marvel text-white border-4 border-black font-bangers text-3xl hover:bg-white hover:text-black transition transform skew-x-[-2deg] shadow-[8px_8px_0px_#000] cursor-none block">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeo-2zoDv1f9a9lLKhV6SbaSbY7S97g0pdKUD42fyGB0mQTPQ/viewform?usp=publish-editor" target="_blank" class="w-full py-5 bg-marvel text-white border-4 border-black font-bangers text-3xl hover:bg-white hover:text-black transition transform skew-x-[-2deg] shadow-[8px_8px_0px_#000] block">
                     REGISTER NOW <i class="fas fa-external-link-alt ml-2 text-xl"></i>
                 </a>
             </div>
@@ -562,7 +661,7 @@
                     <h3 class="text-5xl font-bangers text-white tracking-widest comic-text-shadow-dc mb-4">EVORUSH</h3>
                     <p class="text-gray-400 font-oswald text-lg uppercase tracking-widest mb-8">High-energy tech festival. Race, react, dominate.</p>
                 </div>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXSfOczCGnzkmwnZsA-P8qlJwh7CtpCz4yhctFtzc3oqbSTg/viewform?usp=publish-editor" target="_blank" class="w-full py-5 bg-[#0476F2] text-white border-4 border-black font-bangers text-3xl hover:bg-white hover:text-black transition transform skew-x-[-2deg] shadow-[8px_8px_0px_#000] cursor-none block">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXSfOczCGnzkmwnZsA-P8qlJwh7CtpCz4yhctFtzc3oqbSTg/viewform?usp=publish-editor" target="_blank" class="w-full py-5 bg-[#0476F2] text-white border-4 border-black font-bangers text-3xl hover:bg-white hover:text-black transition transform skew-x-[-2deg] shadow-[8px_8px_0px_#000] block">
                     REGISTER NOW <i class="fas fa-external-link-alt ml-2 text-xl"></i>
                 </a>
             </div>
@@ -604,14 +703,14 @@
                 <h3 class="text-4xl font-bangers text-villain-green mb-8 tracking-widest">INFINITY GAUNTLET CALIBRATION</h3>
                 <div class="space-y-6 font-oswald text-xl">
                     <input type="text" id="oracle-enroll" placeholder="AGENT ID (Enrollment No.)" class="comic-input border-gamma-green">
-                    <select id="oracle-choice" class="comic-input border-gamma-green cursor-none">
+                    <select id="oracle-choice" class="comic-input border-gamma-green">
                         <option value="" disabled selected>Who claims the Hackathon Gauntlet?</option>
                         <option value="Avengers">Earth's Mightiest (Avengers)</option>
                         <option value="X-Men">Mutant Brotherhood (X-Men)</option>
                         <option value="Fantastic Four">Fantastic Four</option>
                         <option value="Guardians">Guardians of the Galaxy</option>
                     </select>
-                    <button onclick="savePrediction()" class="w-full py-5 bg-villain-green text-black border-4 border-black font-bangers text-3xl hover:bg-white transition transform skew-x-[-2deg] shadow-[6px_6px_0px_#000] cursor-none">SEAL PREDICTION</button>
+                    <button onclick="savePrediction()" class="w-full py-5 bg-villain-green text-black border-4 border-black font-bangers text-3xl hover:bg-white transition transform skew-x-[-2deg] shadow-[6px_6px_0px_#000]">SEAL PREDICTION</button>
                 </div>
                 <div id="prediction-result" class="mt-8 p-6 border-4 border-dashed border-villain-green hidden bg-[#000] transform skew-x-[-2deg]">
                     <h4 class="text-accent font-bangers text-2xl mb-2 tracking-widest">TIMELINE LOCKED</h4>
@@ -657,11 +756,12 @@
             </div>
             
             <div class="max-w-5xl mx-auto p-10 bg-black/40 backdrop-blur-md border-4 border-marvel shadow-[15px_15px_0px_#FCD116] text-center reveal">
+                
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="flex flex-col items-center">
                         <div class="w-20 h-20 bg-marvel text-white flex items-center justify-center text-4xl border-4 border-black shadow-[4px_4px_0px_#fff] mb-4 transform rotate-3 hover:scale-110 transition"><i class="fas fa-envelope"></i></div>
                         <h4 class="text-2xl font-bangers text-white tracking-widest mb-2">EMAIL</h4>
-                        <a href="mailto:contact@cicr.in" class="text-accent font-oswald text-lg hover:underline cursor-none">contact@cicr.in</a>
+                        <a href="mailto:contact@cicr.in" class="text-accent font-oswald text-lg hover:underline">contact@cicr.in</a>
                     </div>
                     <div class="flex flex-col items-center">
                         <div class="w-20 h-20 bg-accent text-black flex items-center justify-center text-4xl border-4 border-black shadow-[4px_4px_0px_#fff] mb-4 transform -rotate-3 hover:scale-110 transition"><i class="fas fa-phone"></i></div>
@@ -673,11 +773,29 @@
                             <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
                         </div>
                         <h4 class="text-2xl font-bangers text-white tracking-widest mb-2">BASE OF OPERATIONS</h4>
-                        <p class="text-white font-oswald text-md leading-tight">Jaypee Institute of Information Technology<br>Sector-128, Jaypee Wish Town Village, Sultanpur, Noida-201 304, U.P., India.</p>
+                        <p class="text-white font-oswald text-md leading-tight text-center">Jaypee Institute of Information Technology<br>Sector-128, Noida-201304</p>
                     </div>
                 </div>
 
-                <div class="mt-16 bg-black/60 border-4 border-marvel p-6 md:p-8 flex flex-col md:flex-row items-center justify-between shadow-[8px_8px_0px_#FCD116] transform skew-x-[-2deg]">
+                <div class="mt-12 border-4 border-[#333] bg-[#050505] p-2 relative group shadow-[10px_10px_0px_#000] hover:shadow-[10px_10px_0px_var(--marvel-red)] transition-shadow duration-500 transform -skew-x-2">
+                    <div class="absolute top-6 left-6 z-20 flex items-center gap-3 bg-black/90 p-2 pr-6 border-l-4 border-marvel shadow-[0_0_15px_rgba(237,29,36,0.4)] transform skew-x-2">
+                        <div class="w-10 h-10 bg-white rounded-md overflow-hidden flex items-center justify-center p-1 border-2 border-black">
+                            <img src="https://thumbs.dreamstime.com/b/google-maps-apk-icon-vector-design-mobile-app-brand-trademark-logo-118453129.jpg" class="w-full h-full object-contain">
+                        </div>
+                        <div class="text-left">
+                            <p class="text-[10px] font-code text-marvel tracking-widest leading-none mb-1">HQ SECURE LOCATION</p>
+                            <p class="text-white font-bangers text-xl tracking-widest leading-none">TARGET: SECTOR 128</p>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full h-[400px] border-2 border-[#1a1a1a] overflow-hidden group-hover:border-marvel transition-colors duration-500 skew-x-2">
+                        <div class="hud-corners"></div>
+                        <a href="https://maps.app.goo.gl/3Xp5fK7yUvjJmB9x9" target="_blank" class="absolute inset-0 z-30"></a>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3505.21557874797!2d77.3698715752391!3d28.53323567571871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5f81804f7cf%3A0xc3b6920f6660fb1e!2sJaypee%20Institute%20of%20Information%20Technology%20(JIIT)%20Sector-128!5e0!3m2!1sen!2sin!4v1709462828192!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" class="w-full h-full absolute inset-0 z-10 pointer-events-none"></iframe>
+                    </div>
+                </div>
+
+                <div class="mt-12 bg-black/60 border-4 border-marvel p-6 md:p-8 flex flex-col md:flex-row items-center justify-between shadow-[8px_8px_0px_#FCD116] transform skew-x-[-2deg]">
                     <div class="flex items-center gap-6 mb-6 md:mb-0 text-left">
                         <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white bg-black p-1 shadow-[0_0_15px_#fff]" alt="CICR Logo">
                         <div>
@@ -685,10 +803,25 @@
                             <p class="text-comic-gold font-oswald text-lg uppercase tracking-widest text-accent">JIIT Sector 128</p>
                         </div>
                     </div>
-                    <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" class="group flex items-center gap-4 bg-white text-black px-6 py-4 border-4 border-black hover:bg-marvel hover:text-white transition shadow-[6px_6px_0px_#ED1D24] cursor-none transform hover:-translate-y-1">
-                        <i class="fab fa-instagram text-5xl md:text-6xl group-hover:animate-[pulse_1s_infinite] transition-colors"></i>
-                        <span class="font-bangers text-2xl md:text-3xl tracking-widest">FOLLOW HQ</span>
-                    </a>
+                    
+                    <div class="inline-block relative group skew-x-2">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] blur-md opacity-30 group-hover:opacity-80 transition duration-500"></div>
+                        <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" class="relative flex items-center gap-4 bg-[#0a0a0a] border-2 border-[#333] group-hover:border-[#ee2a7b] p-2 pr-6 shadow-[6px_6px_0px_#000] transition-all duration-300 transform group-hover:-translate-y-1">
+                            
+                            <div class="flex items-center justify-center w-14 h-14 border-2 border-[#333] bg-black shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] overflow-hidden rounded-[10px]">
+                                <img src="https://png.pngtree.com/element_our/sm/20180630/sm_5b37de3263964.jpg" class="w-[145%] h-[145%] object-cover max-w-none mix-blend-screen" alt="Instagram">
+                            </div>
+                            
+                            <div class="text-left">
+                                <p class="text-[11px] font-code tracking-widest mb-0.5 leading-none bg-clip-text text-transparent bg-gradient-to-r from-[#f9ce34] to-[#ee2a7b]">SECURE COMMS // S.H.I.E.L.D.</p>
+                                <p class="text-white font-bangers text-2xl tracking-widest leading-none group-hover:text-white transition-colors">FOLLOW HQ</p>
+                            </div>
+                            <div class="absolute right-2 top-2">
+                                <i class="fas fa-satellite-dish text-[#ee2a7b] text-[10px] animate-pulse"></i>
+                            </div>
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -696,11 +829,11 @@
 
     <footer class="bg-black pt-10 pb-16 relative z-10 text-center border-t-[16px] border-marvel flex flex-col items-center justify-center w-full mt-32">
         <h2 class="text-6xl font-bangers mb-8 text-white tracking-widest comic-text-shadow">CONVERGE '26</h2>
-        <p id="admin-trigger" class="text-gray-500 font-oswald text-lg cursor-none select-none uppercase tracking-widest hover:text-white transition mb-6" onclick="handleSecretClick()">S.H.I.E.L.D. SECURE COMMS | © 2026 STUDENT COUNCIL</p>
+        <p id="admin-trigger" class="text-gray-500 font-oswald text-lg select-none uppercase tracking-widest hover:text-white transition mb-6" onclick="handleSecretClick()">S.H.I.E.L.D. SECURE COMMS | © 2026 STUDENT COUNCIL</p>
         
-        <div class="mt-4 inline-block relative group cursor-none">
+        <div class="mt-4 inline-block relative group">
             <div class="absolute inset-0 bg-[#0077b5] blur-md opacity-20 group-hover:opacity-60 transition duration-500"></div>
-            <a href="https://www.linkedin.com/in/kumar-shaurya-31aa582a0" target="_blank" class="relative flex items-center gap-4 bg-[#0a0a0a] border-2 border-[#333] group-hover:border-[#0077b5] p-2 pr-6 shadow-[4px_4px_0px_#000] transition-all duration-300 transform group-hover:-translate-y-1 cursor-none">
+            <a href="https://www.linkedin.com/in/kumar-shaurya-31aa582a0" target="_blank" class="relative flex items-center gap-4 bg-[#0a0a0a] border-2 border-[#333] group-hover:border-[#0077b5] p-2 pr-6 shadow-[4px_4px_0px_#000] transition-all duration-300 transform group-hover:-translate-y-1">
                 <div class="bg-[#0077b5] flex items-center justify-center w-12 h-12 border-2 border-black shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]">
                     <i class="fab fa-linkedin-in text-white text-2xl"></i>
                 </div>
@@ -739,12 +872,12 @@
             <source src="A_long_visually_hypnotic_sequ.mp4" type="video/mp4">
         </video>
         
-        <button id="close-vibe-btn" onclick="closeVibeCheck()" class="absolute top-10 right-10 z-30 text-white hover:text-aicyan text-6xl font-bangers drop-shadow-[0_0_15px_#00f0ff] hidden cursor-none">&times;</button>
+        <button id="close-vibe-btn" onclick="closeVibeCheck()" class="absolute top-10 right-10 z-30 text-white hover:text-aicyan text-6xl font-bangers drop-shadow-[0_0_15px_#00f0ff] hidden">×</button>
     </div>
 
     <div id="details-modal" class="fixed inset-0 bg-black/95 z-[400] hidden items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-[#111] border-4 border-white p-8 max-w-4xl w-full shadow-[0_0_40px_rgba(255,255,255,0.2)] relative overflow-y-auto max-h-[90vh] custom-scrollbar transform -skew-x-2">
-            <button onclick="closeDetailsModal()" class="absolute top-2 right-6 text-gray-400 hover:text-marvel text-6xl font-bangers transition cursor-none">&times;</button>
+            <button onclick="closeDetailsModal()" class="absolute top-2 right-6 text-gray-400 hover:text-marvel text-6xl font-bangers transition">×</button>
             <div id="details-modal-title" class="text-5xl font-bangers text-white tracking-widest comic-text-shadow mb-6 border-b-4 border-[#333] pb-4 flex items-center gap-4">
                 <i class="fas fa-folder-open text-accent"></i> EVENT DOSSIER
             </div>
@@ -753,10 +886,10 @@
         </div>
     </div>
 
-    <div id="image-modal" class="fixed inset-0 bg-black/90 z-[300] hidden items-center justify-center p-4 backdrop-blur-sm cursor-none" onclick="closeImageModal()">
+    <div id="image-modal" class="fixed inset-0 bg-black/90 z-[300] hidden items-center justify-center p-4 backdrop-blur-sm" onclick="closeImageModal()">
         <div class="relative max-w-5xl w-full h-full flex items-center justify-center">
             <img id="modal-img" src="" class="max-h-[90vh] max-w-[90vw] object-contain border-8 border-white shadow-[0_0_50px_var(--marvel-gold)] transform scale-95 transition-transform duration-300 rounded-sm">
-            <button onclick="closeImageModal()" class="absolute top-4 right-8 text-white hover:text-marvel text-6xl font-bangers z-50 drop-shadow-[0_0_10px_#ED1D24] cursor-none">&times;</button>
+            <button onclick="closeImageModal()" class="absolute top-4 right-8 text-white hover:text-marvel text-6xl font-bangers z-50 drop-shadow-[0_0_10px_#ED1D24]">×</button>
         </div>
     </div>
 
@@ -764,7 +897,7 @@
         <div class="bg-[#111] border-4 border-marvel p-10 max-w-2xl w-full shadow-[15px_15px_0px_#FCD116] relative overflow-y-auto max-h-[90vh] transform -skew-x-2">
             <div class="flex justify-between items-center mb-10 border-b-4 border-[#333] pb-6">
                 <h2 class="text-5xl font-bangers text-marvel tracking-widest comic-text-shadow">DIRECTOR'S TERMINAL</h2>
-                <button onclick="toggleAdmin()" class="text-white hover:text-marvel text-3xl font-bangers cursor-none">✕</button>
+                <button onclick="toggleAdmin()" class="text-white hover:text-marvel text-3xl font-bangers">✕</button>
             </div>
             <div class="mb-4 font-oswald">
                 <h3 class="text-white text-2xl mb-6 uppercase tracking-widest text-villain-green font-bangers">REWRITE HISTORY (TIMELINE)</h3>
@@ -773,8 +906,8 @@
                     <input type="text" id="sched-time" placeholder="Time (e.g., 14:00 HRS)" class="w-full bg-black border-4 border-[#333] p-4 text-white focus:border-villain-green outline-none text-lg">
                     <input type="text" id="sched-title" placeholder="Mission Title" class="w-full bg-black border-4 border-[#333] p-4 text-white focus:border-villain-green outline-none text-lg">
                     <textarea id="sched-desc" placeholder="Mission Briefing..." class="w-full bg-black border-4 border-[#333] p-4 text-white h-24 focus:border-villain-green outline-none text-lg"></textarea>
-                    <button onclick="addScheduleEvent()" class="w-full py-4 bg-accent text-black font-bangers text-3xl border-4 border-black hover:bg-white transition shadow-[6px_6px_0px_#000] mt-4 cursor-none">UPDATE TIMELINE</button>
-                    <button onclick="resetSchedule()" class="w-full text-md text-gray-500 hover:text-marvel uppercase mt-4 tracking-widest transition font-bold cursor-none">Clear All Events (Wipe Reality)</button>
+                    <button onclick="addScheduleEvent()" class="w-full py-4 bg-accent text-black font-bangers text-3xl border-4 border-black hover:bg-white transition shadow-[6px_6px_0px_#000] mt-4">UPDATE TIMELINE</button>
+                    <button onclick="resetSchedule()" class="w-full text-md text-gray-500 hover:text-marvel uppercase mt-4 tracking-widest transition font-bold">Clear All Events (Wipe Reality)</button>
                 </div>
             </div>
         </div>
@@ -783,23 +916,8 @@
     <script>
         // --- CUSTOM UI LOGIC & CRAZY AI EFFECTS ---
 
-        // 1. Custom Cursor Tracker
-        const cursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-        document.addEventListener('mousedown', () => cursor.style.transform = 'translate(-50%, -50%) scale(0.7)');
-        document.addEventListener('mouseup', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
-
-        document.querySelectorAll('a, button, input, select').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
-        });
-
-        // 2. Cold Wave AI Pulse on Click
+        // 1. Cold Wave AI Pulse on Click
         document.addEventListener('click', function(e) {
-            // Don't trigger if clicking buttons to avoid messy UI overlaps
             if(e.target.closest('button') || e.target.closest('a') || e.target.closest('input')) return;
             
             let wave = document.createElement('div');
@@ -808,28 +926,21 @@
             wave.style.top = e.clientY + 'px';
             document.body.appendChild(wave);
             
-            setTimeout(() => {
-                wave.remove();
-            }, 800);
+            setTimeout(() => { wave.remove(); }, 800);
         });
 
-        // 3. Marvel Lightning Background Flashes
+        // 2. Marvel Lightning Background Flashes
         function triggerRandomLightning() {
             const overlay = document.getElementById('lightning-overlay');
             overlay.classList.add('flash-active');
-            setTimeout(() => {
-                overlay.classList.remove('flash-active');
-            }, 400); // matches animation duration
+            setTimeout(() => { overlay.classList.remove('flash-active'); }, 400);
             
-            // Randomize next lightning strike between 3s to 12s
             const nextStrike = Math.random() * 9000 + 3000;
             setTimeout(triggerRandomLightning, nextStrike);
         }
-        
-        // Start Lightning
         setTimeout(triggerRandomLightning, 2000);
 
-        // 4. Generate Ambient Particles
+        // 3. Generate Ambient Particles
         function generateParticles() {
             const container = document.getElementById('particles-container');
             for(let i=0; i<30; i++) {
@@ -926,25 +1037,39 @@
             }, 3500); 
         }
 
-        // --- Loader & Initialization ---
+        // --- Loader & Initialization (Instant Hard Cut to Intro) ---
         function startExperience() {
             const startContent = document.getElementById('start-screen-content');
+            const preIntroVid = document.getElementById('pre-intro-video');
             const introVid = document.getElementById('intro-video');
             const skipBtn = document.getElementById('skip-intro-btn');
             
             startContent.style.display = 'none';
-            introVid.style.display = 'block';
-            skipBtn.classList.remove('hidden'); 
+            preIntroVid.style.display = 'block';
             
-            introVid.play().catch(e => console.log("Video autoplay failed:", e));
+            preIntroVid.play().catch(e => console.log("Pre-intro autoplay failed:", e));
             
-            introVid.onended = () => {
-                endIntro();
-            };
+            // Wait precisely 1 second and then immediately hard-cut to the main intro video
+            setTimeout(() => {
+                preIntroVid.pause();
+                preIntroVid.style.display = 'none';
+                
+                introVid.style.display = 'block';
+                skipBtn.classList.remove('hidden'); 
+                
+                introVid.play().catch(e => console.log("Video autoplay failed:", e));
+                
+                introVid.onended = () => {
+                    endIntro();
+                };
+
+            }, 1000); // 1-second mark exact
         }
 
         function skipIntro() {
+            const preIntroVid = document.getElementById('pre-intro-video');
             const introVid = document.getElementById('intro-video');
+            preIntroVid.pause();
             introVid.pause();
             endIntro();
         }
@@ -964,7 +1089,6 @@
         function enterSite() {
             document.getElementById('bg-video-wrapper').style.opacity = "1";
             
-            // FORCE VIDEO TO START AT 1 MINUTE MARK
             const bgVideo = document.getElementById('bg-video');
             bgVideo.currentTime = 60; 
             bgVideo.play();
@@ -995,26 +1119,19 @@
             }, 1000);
         }
 
-        // --- QR ENTRY PASS LOGIC ---
         function generateEntryPass(e) {
             e.preventDefault();
             const name = document.getElementById('pass-name').value.trim();
             const batch = document.getElementById('pass-batch').value.trim();
             const enroll = document.getElementById('pass-enroll').value.trim();
 
-            if(!name || !batch || !enroll) {
-                alert("Fill all fields!");
-                return;
-            }
+            if(!name || !batch || !enroll) { alert("Fill all fields!"); return; }
 
             const passData = `CONVERGE26|${name}|${enroll}|${batch}`;
             const qrContainer = document.getElementById('qrcode-display');
             qrContainer.innerHTML = "";
 
-            if(typeof QRCode === "undefined") {
-                alert("QR library not loaded!");
-                return;
-            }
+            if(typeof QRCode === "undefined") { alert("QR library not loaded!"); return; }
 
             new QRCode(qrContainer, passData);
 
@@ -1027,7 +1144,6 @@
             document.getElementById('ticket-batch').innerText = batch;
         }
 
-        // --- GENERIC VIDEO AUDIO TOGGLE ---
         function toggleVideoAudio(vidId, iconId, btnId, activeColorClass) {
             const vid = document.getElementById(vidId);
             const icon = document.getElementById(iconId);
@@ -1048,7 +1164,6 @@
             }
         }
 
-        // --- Dynamic Schedule & Admin ---
         let clickCount = 0;
         function handleSecretClick() {
             clickCount++;
@@ -1069,124 +1184,19 @@
                 day: "ISSUE #1 // MARCH 15", 
                 time: "13:00 IST", 
                 title: "ROBO SOCCER", 
-                desc: "A competitive robotics event where teams design and program small custom-built robots to play a soccer-style match on a miniature field. Instead of humans kicking the ball, robots use wheels, motors, sensors, and flippers or kick mechanisms to control and strike the ball.", 
+                desc: "A competitive robotics event where teams design and program small custom-built robots to play a soccer-style match on a miniature field.", 
                 color: "text-marvel",
                 image: "ChatGPT Image Feb 28, 2026, 11_59_38 PM.jpg",
-                detailsHtml: `
-                    <div class='bg-black/50 p-6 border-2 border-[#333] mb-4'>
-                        <h4 class='text-3xl text-marvel font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>1. Introduction</h4>
-                        <p class='text-gray-300 font-oswald text-lg'>Welcome to Robo Soccer, organized by the CICR Team at JIIT Noida. This competition brings together innovation, autonomous robotics, and strategic gameplay. Teams will design autonomous robots capable of navigating the field, controlling the ball, and scoring goals.</p>
-                    </div>
-                    
-                    <div class='bg-black/50 p-6 border-2 border-[#333] mb-4'>
-                        <h4 class='text-3xl text-marvel font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>2. Participation Rules</h4>
-                        <ul class='list-disc pl-6 text-gray-300 font-oswald text-lg space-y-1'>
-                            <li>Maximum 3 members per team.</li>
-                            <li>All robots must be fully autonomous.</li>
-                            <li>No remote control allowed during matches.</li>
-                            <li>Batteries only as power source.</li>
-                            <li>Teams must report by 8:30 AM for inspection.</li>
-                        </ul>
-                    </div>
-
-                    <div class='bg-black/50 p-6 border-2 border-[#333] mb-4'>
-                        <h4 class='text-3xl text-marvel font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>3. Robot Specifications</h4>
-                        <table class='w-full text-left border-collapse border border-gray-600 mt-2 font-oswald text-lg'>
-                            <tr class='bg-[#222]'><th class='border border-gray-600 p-3'>Specification</th><th class='border border-gray-600 p-3 text-marvel'>Limit</th></tr>
-                            <tr><td class='border border-gray-600 p-3'>Maximum Height</td><td class='border border-gray-600 p-3'>250 mm</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3'>Maximum Width</td><td class='border border-gray-600 p-3'>300 mm</td></tr>
-                            <tr><td class='border border-gray-600 p-3'>Maximum Weight</td><td class='border border-gray-600 p-3'>3 kg</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3'>Power Source</td><td class='border border-gray-600 p-3'>Battery Only</td></tr>
-                            <tr><td class='border border-gray-600 p-3'>Control</td><td class='border border-gray-600 p-3'>Fully Autonomous</td></tr>
-                        </table>
-                    </div>
-
-                    <div class='bg-black/50 p-6 border-2 border-[#333] mb-4'>
-                        <h4 class='text-3xl text-marvel font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>4. Match Format & Scoring</h4>
-                        <ul class='list-disc pl-6 text-gray-300 font-oswald text-lg space-y-1'>
-                            <li>Match Duration: 6 minutes (3 minutes each half).</li>
-                            <li>1 goal = 1 point.</li>
-                            <li>Win = 3 points, Draw = 1 point, Loss = 0 points.</li>
-                            <li>Aggressive behavior leads to penalties or disqualification.</li>
-                            <li>Judges' decision will be final.</li>
-                        </ul>
-                    </div>
-
-                    <div class='bg-black/50 p-6 border-2 border-[#333]'>
-                        <h4 class='text-3xl text-marvel font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>5. Event Day Timeline</h4>
-                        <table class='w-full text-left border-collapse border border-gray-600 mt-2 font-oswald text-lg'>
-                            <tr class='bg-[#222]'><th class='border border-gray-600 p-3'>Time</th><th class='border border-gray-600 p-3 text-marvel'>Activity</th></tr>
-                            <tr><td class='border border-gray-600 p-3 font-bold'>08:00 AM</td><td class='border border-gray-600 p-3'>Registration</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3 font-bold'>08:30 AM</td><td class='border border-gray-600 p-3'>Robot Inspection</td></tr>
-                            <tr><td class='border border-gray-600 p-3 font-bold'>09:00 AM</td><td class='border border-gray-600 p-3'>Opening Ceremony</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3 font-bold'>09:30 AM</td><td class='border border-gray-600 p-3'>Group Matches Begin</td></tr>
-                            <tr><td class='border border-gray-600 p-3 font-bold'>12:30 PM</td><td class='border border-gray-600 p-3'>Lunch Break</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3 font-bold text-accent'>03:30 PM</td><td class='border border-gray-600 p-3'>Semi Finals</td></tr>
-                            <tr><td class='border border-gray-600 p-3 font-bold text-marvel'>04:30 PM</td><td class='border border-gray-600 p-3'>Final Match</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3 font-bold text-gamma-green'>05:15 PM</td><td class='border border-gray-600 p-3'>Awards & Closing</td></tr>
-                        </table>
-                    </div>
-                `
+                detailsHtml: `<div class='bg-black/50 p-6 border-2 border-[#333] mb-4'><h4 class='text-3xl text-marvel font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>1. Introduction</h4><p class='text-gray-300 font-oswald text-lg'>Welcome to Robo Soccer, organized by the CICR Team at JIIT Noida. This competition brings together innovation, autonomous robotics, and strategic gameplay. Teams will design autonomous robots capable of navigating the field, controlling the ball, and scoring goals.</p></div>`
             },
             { 
                 day: "ISSUE #2 // MARCH 16", 
                 time: "13:00 PM", 
                 title: "EVORUSH", 
-                desc: "EVORUSH is a high-energy college tech festival that blends innovation, competition, and entertainment into one electrifying experience. It’s a space where technology meets adrenaline — featuring interactive games, futuristic challenges, VR experiences, robotics, and rapid-fire competitions that test skill, reflexes, and creativity.", 
+                desc: "EVORUSH is a high-energy college tech festival that blends innovation, competition, and entertainment into one electrifying experience.", 
                 color: "text-accent",
                 image: "ChatGPT Image Feb 28, 2026, 11_59_27 PM.jpg",
-                detailsHtml: `
-                    <div class='bg-black/50 p-6 border-2 border-[#333] mb-4'>
-                        <h4 class='text-3xl text-accent font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>1. Event Introduction</h4>
-                        <p class='text-gray-300 font-oswald text-lg'>EVORUSH is a high-energy gaming and interactive tech event designed to combine competitive gaming, immersive VR experiences, neon-themed challenges, and innovation showcases. Participants compete in skill-based digital challenges and live arcade-style competitions.</p>
-                    </div>
-                    
-                    <div class='bg-black/50 p-6 border-2 border-[#333] mb-4'>
-                        <h4 class='text-3xl text-accent font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>2. Participation Rules</h4>
-                        <ul class='list-disc pl-6 text-gray-300 font-oswald text-lg space-y-1'>
-                            <li>Individual and team participation allowed (Max 3 per team).</li>
-                            <li>Registration mandatory before event start.</li>
-                            <li>Fair play policy strictly enforced.</li>
-                            <li>Any misconduct leads to disqualification.</li>
-                            <li>Judges' decisions will be final.</li>
-                        </ul>
-                    </div>
-
-                    <div class='bg-black/50 p-6 border-2 border-[#333] mb-4'>
-                        <h4 class='text-3xl text-accent font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>3. Competition Format</h4>
-                        <ul class='list-disc pl-6 text-gray-300 font-oswald text-lg space-y-1'>
-                            <li>Round 1: Arcade Speed Challenge.</li>
-                            <li>Round 2: VR Reaction Arena.</li>
-                            <li>Round 3: Strategy & Reflex Battle.</li>
-                            <li class='text-marvel font-bold'>Final Round: Head-to-Head Grand Showdown.</li>
-                        </ul>
-                    </div>
-
-                    <div class='bg-black/50 p-6 border-2 border-[#333] mb-4'>
-                        <h4 class='text-3xl text-accent font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>4. Scoring Criteria</h4>
-                        <table class='w-full text-left border-collapse border border-gray-600 mt-2 font-oswald text-lg'>
-                            <tr class='bg-[#222]'><th class='border border-gray-600 p-3'>Criteria</th><th class='border border-gray-600 p-3 text-accent'>Weightage</th></tr>
-                            <tr><td class='border border-gray-600 p-3'>Speed & Accuracy</td><td class='border border-gray-600 p-3 text-aicyan'>30%</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3'>Strategy & Adaptability</td><td class='border border-gray-600 p-3 text-aicyan'>25%</td></tr>
-                            <tr><td class='border border-gray-600 p-3'>Reaction Time</td><td class='border border-gray-600 p-3 text-aicyan'>25%</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3'>Consistency</td><td class='border border-gray-600 p-3 text-aicyan'>20%</td></tr>
-                        </table>
-                    </div>
-
-                    <div class='bg-black/50 p-6 border-2 border-[#333]'>
-                        <h4 class='text-3xl text-accent font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>5. Event Day Timeline</h4>
-                        <table class='w-full text-left border-collapse border border-gray-600 mt-2 font-oswald text-lg'>
-                            <tr class='bg-[#222]'><th class='border border-gray-600 p-3'>Time</th><th class='border border-gray-600 p-3 text-accent'>Activity</th></tr>
-                            <tr><td class='border border-gray-600 p-3 font-bold'>09:00 AM</td><td class='border border-gray-600 p-3'>Registration & Setup</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3 font-bold'>10:00 AM</td><td class='border border-gray-600 p-3'>Opening Announcement</td></tr>
-                            <tr><td class='border border-gray-600 p-3 font-bold'>10:30 AM</td><td class='border border-gray-600 p-3'>Round 1 Begins</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3 font-bold'>12:30 PM</td><td class='border border-gray-600 p-3'>Break</td></tr>
-                            <tr><td class='border border-gray-600 p-3 font-bold'>01:30 PM</td><td class='border border-gray-600 p-3'>Round 2 & 3</td></tr>
-                            <tr class='bg-[#1a1a1a]'><td class='border border-gray-600 p-3 font-bold text-marvel'>04:00 PM</td><td class='border border-gray-600 p-3'>Grand Finale</td></tr>
-                            <tr><td class='border border-gray-600 p-3 font-bold text-gamma-green'>05:00 PM</td><td class='border border-gray-600 p-3'>Prize Distribution</td></tr>
-                        </table>
-                    </div>
-                `
+                detailsHtml: `<div class='bg-black/50 p-6 border-2 border-[#333] mb-4'><h4 class='text-3xl text-accent font-bangers tracking-widest mb-2 border-b-2 border-[#222] pb-2'>1. Event Introduction</h4><p class='text-gray-300 font-oswald text-lg'>EVORUSH is a high-energy gaming and interactive tech event designed to combine competitive gaming, immersive VR experiences, neon-themed challenges, and innovation showcases. Participants compete in skill-based digital challenges and live arcade-style competitions.</p></div>`
             }
         ];
 
@@ -1218,7 +1228,7 @@
                 let detailsBtn = "";
                 if(event.detailsHtml) {
                     detailsBtn = `
-                    <button onclick="openDetailsModal(${index})" class="mt-6 font-bangers tracking-widest px-6 py-2 border-4 transition shadow-[6px_6px_0px_#000] flex items-center justify-center gap-2 text-xl ${btnColorClass} group-hover:shadow-[6px_6px_0px_#fff] cursor-none">
+                    <button onclick="openDetailsModal(${index})" class="mt-6 font-bangers tracking-widest px-6 py-2 border-4 transition shadow-[6px_6px_0px_#000] flex items-center justify-center gap-2 text-xl ${btnColorClass} group-hover:shadow-[6px_6px_0px_#fff]">
                         <i class="fas fa-file-pdf"></i> VIEW EVENT DOSSIER
                     </button>`;
                 }
@@ -1280,7 +1290,6 @@
             } 
         }
 
-        // --- Oracle Predictions ---
         function savePrediction() {
             const enroll = document.getElementById('oracle-enroll').value;
             const choice = document.getElementById('oracle-choice').value;
@@ -1289,7 +1298,6 @@
             document.getElementById('pred-text').innerText = `Agent ${enroll}, your alignment with ${choice} is recorded in the Nexus.`;
         }
 
-        // --- Memories Grid & Lightbox ---
         function loadMemories() {
             const memImgs = [
                 "https://i.pinimg.com/736x/96/bd/3c/96bd3c65a9d6faf1763d556b845246b2.jpg", "https://i.pinimg.com/736x/e8/7a/9e/e87a9eaa3e464442f113364103f9bdc3.jpg",
@@ -1301,7 +1309,13 @@
             const memGrid = document.getElementById('photo-grid');
             memImgs.forEach((url, index) => {
                 const rot = Math.floor(Math.random() * 10) - 5;
-                memGrid.innerHTML += `<div class="polaroid reveal" style="transform: rotate(${rot}deg)" onclick="openImageModal('${url}')"><img src="${url}" loading="lazy"><div class="handwriting">Vol ${index+1}</div></div>`;
+                memGrid.innerHTML += `
+                <div class="polaroid reveal" style="transform: rotate(${rot}deg)" onclick="openImageModal('${url}')">
+                    <div class="tech-tape"></div>
+                    <img src="${url}" loading="lazy">
+                    <div class="handwriting">Vol ${index+1}</div>
+                    <div class="polaroid-data">FILE: 616-${index+1}</div>
+                </div>`;
             });
         }
         
@@ -1322,7 +1336,6 @@
             setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 200); 
         }
 
-        // --- Clock & Observer ---
         setInterval(() => {
             const clockEl = document.getElementById('live-clock');
             if(clockEl) clockEl.innerText = new Date().toLocaleTimeString('en-US', {hour12:false});
@@ -1334,12 +1347,7 @@
 
         const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); }); });
 
-        // IMPORTANT INITIALIZATION
-        window.onload = () => {
-            // We do not immediately call enterSite() here because we want the Intro Video overlay to display.
-            // When the user clicks "ENTER THE MULTIVERSE", startExperience() is called, which triggers the video,
-            // and on video end, enterSite() runs.
-        };
+        window.onload = () => {};
     </script>
 </body>
 </html>
