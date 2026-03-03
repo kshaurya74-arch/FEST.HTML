@@ -536,61 +536,37 @@
     <section id="event-reg" class="py-24 container mx-auto px-6 z-10 relative">
         <div class="text-center mb-16 reveal">
             <h2 class="text-6xl md:text-8xl font-bangers text-white comic-text-shadow-gold transform -rotate-2 inline-block">AVENGERS ASSEMBLE</h2>
-            <p class="text-black font-bangers bg-marvel inline-block px-4 py-1 border-2 border-black tracking-widest text-2xl mt-6 uppercase shadow-[6px_6px_0px_#FCD116] text-white">Sign Up For The Gauntlet / Activities</p>
+            <p class="text-white font-bangers bg-marvel inline-block px-4 py-1 border-2 border-black tracking-widest text-2xl mt-6 uppercase shadow-[6px_6px_0px_#FCD116]">Choose Your Gauntlet</p>
         </div>
 
-        <div class="max-w-4xl mx-auto hero-card p-10 border-4 border-black bg-[#111] shadow-[15px_15px_0px_#FCD116] reveal animate-float">
-            <form id="prefill-form" onsubmit="prefillGoogleForm(event)" class="space-y-6">
-                <div>
-                    <label class="font-bangers text-xl text-marvel tracking-widest block mb-2">HERO ALIAS (FULL NAME) *</label>
-                    <input type="text" id="reg-name" required placeholder="e.g. Tony Stark" class="comic-input">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto reveal">
+            
+            <div class="hero-card p-10 border-4 border-black bg-[#111] shadow-[12px_12px_0px_#ED1D24] flex flex-col items-center justify-between text-center min-h-[350px] animate-float" style="animation-delay: 0s;">
+                <div class="w-full">
+                    <div class="w-24 h-24 mx-auto bg-marvel border-4 border-black shadow-[6px_6px_0px_#FCD116] rounded-full flex items-center justify-center mb-6 transform rotate-3">
+                        <i class="fas fa-robot text-5xl text-white"></i>
+                    </div>
+                    <h3 class="text-5xl font-bangers text-white tracking-widest comic-text-shadow mb-4">ROBO SOCCER</h3>
+                    <p class="text-gray-400 font-oswald text-lg uppercase tracking-widest mb-8">Engineering meets the pitch. Build, battle, score.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="font-bangers text-xl text-white tracking-widest block mb-2">COMMS LINK (EMAIL) *</label>
-                        <input type="email" id="reg-email" required placeholder="hero@jiit.ac.in" class="comic-input">
-                    </div>
-                    <div>
-                        <label class="font-bangers text-xl text-gamma-green tracking-widest block mb-2">AGENT ID (ENROLLMENT NO) *</label>
-                        <input type="text" id="reg-enroll" required placeholder="e.g. 99123456" class="comic-input">
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                        <label class="font-bangers text-xl text-comic-gold tracking-widest block mb-2">YEAR *</label>
-                        <select id="reg-year" required class="comic-input cursor-none focus:border-comic-gold">
-                            <option value="" disabled selected>Select Year...</option>
-                            <option value="1st Year">1st Year</option>
-                            <option value="2nd Year">2nd Year</option>
-                            <option value="3rd Year">3rd Year</option>
-                            <option value="4th Year">4th Year</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="font-bangers text-xl text-marvel tracking-widest block mb-2">EVENT *</label>
-                        <select id="reg-event" required class="comic-input cursor-none focus:border-marvel">
-                            <option value="" disabled selected>Select Event...</option>
-                            <option value="Robo Soccer">Robo Soccer</option>
-                            <option value="EVORUSH">EVORUSH</option>
-                            <option value="Both">Both</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="font-bangers text-xl text-[#0476F2] tracking-widest block mb-2">DAYS *</label>
-                        <select id="reg-days" required class="comic-input cursor-none focus:border-[#0476F2]">
-                            <option value="" disabled selected>Select Days...</option>
-                            <option value="Day 1">Day 1</option>
-                            <option value="Day 2">Day 2</option>
-                            <option value="Day 1 & Day 2">Day 1 & Day 2</option>
-                        </select>
-                    </div>
-                </div>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeo-2zoDv1f9a9lLKhV6SbaSbY7S97g0pdKUD42fyGB0mQTPQ/viewform?usp=publish-editor" target="_blank" class="w-full py-5 bg-marvel text-white border-4 border-black font-bangers text-3xl hover:bg-white hover:text-black transition transform skew-x-[-2deg] shadow-[8px_8px_0px_#000] cursor-none block">
+                    REGISTER NOW <i class="fas fa-external-link-alt ml-2 text-xl"></i>
+                </a>
+            </div>
 
-                <div class="pt-6">
-                    <button type="submit" class="w-full py-5 bg-marvel text-white border-4 border-black font-bangers text-3xl hover:bg-comic-gold hover:text-black transition transform skew-x-[-2deg] shadow-[8px_8px_0px_#000] cursor-none">OPEN EVENT REGISTRATION <i class="fas fa-external-link-alt ml-2 text-lg"></i></button>
+            <div class="hero-card gold-style p-10 border-4 border-black bg-[#111] shadow-[12px_12px_0px_#0476F2] flex flex-col items-center justify-between text-center min-h-[350px] animate-float" style="animation-delay: 1.5s;">
+                <div class="w-full">
+                    <div class="w-24 h-24 mx-auto bg-[#0476F2] border-4 border-black shadow-[6px_6px_0px_#00f0ff] rounded-full flex items-center justify-center mb-6 transform -rotate-3">
+                        <i class="fas fa-gamepad text-5xl text-white"></i>
+                    </div>
+                    <h3 class="text-5xl font-bangers text-white tracking-widest comic-text-shadow-dc mb-4">EVORUSH</h3>
+                    <p class="text-gray-400 font-oswald text-lg uppercase tracking-widest mb-8">High-energy tech festival. Race, react, dominate.</p>
                 </div>
-            </form>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXSfOczCGnzkmwnZsA-P8qlJwh7CtpCz4yhctFtzc3oqbSTg/viewform?usp=publish-editor" target="_blank" class="w-full py-5 bg-[#0476F2] text-white border-4 border-black font-bangers text-3xl hover:bg-white hover:text-black transition transform skew-x-[-2deg] shadow-[8px_8px_0px_#000] cursor-none block">
+                    REGISTER NOW <i class="fas fa-external-link-alt ml-2 text-xl"></i>
+                </a>
+            </div>
+
         </div>
     </section>
 
@@ -1049,29 +1025,6 @@
             document.getElementById('ticket-name').innerText = name;
             document.getElementById('ticket-enroll').innerText = enroll;
             document.getElementById('ticket-batch').innerText = batch;
-        }
-
-        // --- GOOGLE FORM REDIRECT LOGIC ---
-        function prefillGoogleForm(e) {
-            e.preventDefault(); 
-            
-            const name = encodeURIComponent(document.getElementById('reg-name').value);
-            const email = encodeURIComponent(document.getElementById('reg-email').value);
-            const enroll = encodeURIComponent(document.getElementById('reg-enroll').value);
-            const year = encodeURIComponent(document.getElementById('reg-year').value);
-            const eventChoice = encodeURIComponent(document.getElementById('reg-event').value);
-            const days = encodeURIComponent(document.getElementById('reg-days').value);
-
-            // Updated Google Form Base URL
-            const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSf3WeUzs_lDogLNms7lthl-lczalHwccus_l9B28OFjbYi5KQ/viewform";
-            
-            // IMPORTANT: You must replace '111111', '222222', etc., with your actual Google Form Entry IDs.
-            const prefillUrl = `${formBaseUrl}?usp=pp_url&entry.111111=${name}&entry.222222=${email}&entry.333333=${enroll}&entry.444444=${year}&entry.555555=${eventChoice}&entry.666666=${days}`;
-
-            alert(`Thanks, ${decodeURIComponent(name)}! Redirecting to the official S.H.I.E.L.D. Registration Form to complete your entry...`);
-            
-            window.open(prefillUrl, '_blank');
-            document.getElementById('prefill-form').reset();
         }
 
         // --- GENERIC VIDEO AUDIO TOGGLE ---
