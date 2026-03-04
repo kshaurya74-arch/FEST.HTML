@@ -445,8 +445,7 @@
             footer { padding-top: 1.5rem !important; padding-bottom: 2rem !important; margin-top: 3rem !important; border-top-width: 4px !important; }
             footer h2 { font-size: 2rem !important; margin-bottom: 0.5rem !important; }
             
-            /* Mobile Video Menu Adjustment */
-            #mobile-menu a { font-size: 1.8rem !important; }
+            /* Mobile Menu Link overrides are handled below directly */
         }
     </style>
 </head>
@@ -464,7 +463,7 @@
 
     <div class="halftone-bg"></div>
 
-    <div class="fixed top-32 left-6 z-[90] group hidden md:block animate-float">
+    <div class="fixed top-32 left-6 z-[90] group hidden lg:block animate-float">
         <button onclick="startVibeCheck()" class="relative w-14 h-14 flex items-center justify-center bg-[#050505] border-2 border-aicyan rounded-full shadow-[0_0_20px_rgba(0,240,255,0.6)] group-hover:shadow-[0_0_30px_rgba(177,0,255,0.9)] transition-all cursor-none">
             <span class="absolute inset-0 rounded-full border-2 border-aicyan animate-[ping_2s_ease-out_infinite] opacity-40"></span>
             <i class="fas fa-brain text-aicyan text-xl group-hover:text-white group-hover:animate-pulse relative z-10"></i>
@@ -522,18 +521,19 @@
 
     <nav class="fixed top-0 w-full transition-all duration-300 z-[100] cursor-none">
         <div class="container mx-auto px-4 py-2 md:py-3 flex justify-between items-center cursor-none">
-            <div class="flex items-center gap-2 cursor-none min-w-0" style="text-shadow: 2px 2px 0 var(--marvel-red), 3px 3px 0 #000;">
+            
+            <div class="flex items-center gap-2 cursor-none min-w-0 whitespace-nowrap" style="text-shadow: 2px 2px 0 var(--marvel-red), 3px 3px 0 #000;">
                 <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" class="shrink-0">
                     <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-8 h-8 rounded-full border border-aicyan shadow-[0_0_5px_#00f0ff] bg-black p-0.5 hover:scale-110 transition" alt="CICR Logo">
                 </a>
                 <a href="#home" class="flex items-baseline gap-1 hover:scale-105 transition truncate">
-                    <span class="font-russo text-lg md:text-2xl text-white tracking-widest uppercase">CICR</span>
-                    <span class="font-bangers text-gray-400 text-sm md:text-lg">X</span>
-                    <span class="font-bebas text-lg md:text-2xl tracking-widest flow-light-text">CONVERGE <span class="text-accent">'26</span></span>
+                    <span class="font-russo text-lg md:text-xl lg:text-2xl text-white tracking-widest uppercase">CICR</span>
+                    <span class="font-bangers text-gray-400 text-sm md:text-md lg:text-lg">X</span>
+                    <span class="font-bebas text-lg md:text-xl lg:text-2xl tracking-widest flow-light-text">CONVERGE <span class="text-accent">'26</span></span>
                 </a>
             </div>
             
-            <ul class="hidden md:flex gap-6 font-bangers text-lg tracking-widest text-gray-300 uppercase cursor-none shrink-0">
+            <ul class="hidden lg:flex gap-4 xl:gap-6 font-bangers text-sm lg:text-lg tracking-widest text-gray-300 uppercase cursor-none shrink-0">
                 <li class="nav-item-sweep"><a href="#home" class="hover:text-marvel hover:scale-110 inline-block transition">HQ</a></li>
                 <li class="nav-item-sweep"><a href="#shows" class="hover:text-comic-gold hover:scale-110 inline-block transition">Shows</a></li>
                 <li class="nav-item-sweep"><a href="#fest-pass" class="hover:text-marvel hover:scale-110 inline-block transition">Pass</a></li>
@@ -542,23 +542,28 @@
                 <li class="nav-item-sweep"><a href="#schedule" class="hover:text-comic-gold hover:scale-110 inline-block transition">Timeline</a></li>
             </ul>
 
-            <button onclick="toggleMobileMenu()" class="md:hidden text-white text-xl hover:text-marvel transition focus:outline-none z-[120] shrink-0 ml-2">
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-white text-2xl hover:text-marvel transition focus:outline-none z-[120] shrink-0 ml-2">
                 <i class="fas fa-bars"></i>
             </button>
 
-            <a href="#fest-pass" class="hidden md:block shrink-0 bg-white text-black font-bangers text-md border-2 border-black py-1 px-4 shadow-[2px_2px_0px_#ED1D24] hover:bg-accent transition transform -skew-x-6">MY BADGE</a>
+            <a href="#fest-pass" class="hidden lg:block shrink-0 bg-white text-black font-bangers text-sm border-2 border-black py-1 px-3 shadow-[2px_2px_0px_#ED1D24] hover:bg-accent transition transform -skew-x-6">MY BADGE</a>
         </div>
     </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-[#080808] z-[9999] flex flex-col items-center justify-center space-y-6 transform -translate-y-full transition-transform duration-300 ease-in-out border-b-4 border-marvel">
-        <button onclick="toggleMobileMenu()" class="absolute top-4 right-4 text-white text-4xl hover:text-marvel font-bangers z-50">×</button>
-        <a href="#home" onclick="toggleMobileMenu()" class="font-bangers text-3xl text-white hover:text-marvel tracking-widest relative z-10">HQ</a>
-        <a href="#shows" onclick="toggleMobileMenu()" class="font-bangers text-3xl text-white hover:text-comic-gold tracking-widest relative z-10">SHOWS</a>
-        <a href="#fest-pass" onclick="toggleMobileMenu()" class="font-bangers text-3xl text-white hover:text-marvel tracking-widest relative z-10">S.H.I.E.L.D. PASS</a>
-        <a href="#event-reg" onclick="toggleMobileMenu()" class="font-bangers text-3xl text-white hover:text-comic-gold tracking-widest relative z-10">REGISTER</a>
-        <a href="#predictions" onclick="toggleMobileMenu()" class="font-bangers text-3xl text-white hover:text-marvel tracking-widest relative z-10">THE NEXUS</a>
-        <a href="#schedule" onclick="toggleMobileMenu()" class="font-bangers text-3xl text-white hover:text-comic-gold tracking-widest relative z-10">TIMELINE</a>
-        <a href="#contact" onclick="toggleMobileMenu()" class="font-bangers text-3xl text-white hover:text-marvel tracking-widest relative z-10">CONTACT</a>
+    <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[9999] flex flex-col items-center justify-center space-y-6 transform -translate-y-full transition-transform duration-500 ease-in-out border-b-8 border-marvel overflow-hidden shadow-[0_0_50px_rgba(237,29,36,0.6)]">
+        
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(0,240,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,240,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-30"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000_100%)] pointer-events-none"></div>
+        
+        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-5xl hover:text-marvel font-bangers z-50 drop-shadow-[0_0_15px_#ED1D24] transition-all hover:rotate-90">×</button>
+        
+        <a href="#home" onclick="toggleMobileMenu()" class="font-bangers text-4xl md:text-5xl text-white hover:text-marvel tracking-[0.2em] relative z-10 transition-all hover:scale-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">HQ</a>
+        <a href="#shows" onclick="toggleMobileMenu()" class="font-bangers text-4xl md:text-5xl text-white hover:text-comic-gold tracking-[0.2em] relative z-10 transition-all hover:scale-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">SHOWS</a>
+        <a href="#fest-pass" onclick="toggleMobileMenu()" class="font-bangers text-4xl md:text-5xl text-white hover:text-marvel tracking-[0.2em] relative z-10 transition-all hover:scale-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">PASS</a>
+        <a href="#event-reg" onclick="toggleMobileMenu()" class="font-bangers text-4xl md:text-5xl text-white hover:text-comic-gold tracking-[0.2em] relative z-10 transition-all hover:scale-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">REGISTER</a>
+        <a href="#predictions" onclick="toggleMobileMenu()" class="font-bangers text-4xl md:text-5xl text-white hover:text-marvel tracking-[0.2em] relative z-10 transition-all hover:scale-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">NEXUS</a>
+        <a href="#schedule" onclick="toggleMobileMenu()" class="font-bangers text-4xl md:text-5xl text-white hover:text-comic-gold tracking-[0.2em] relative z-10 transition-all hover:scale-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">TIMELINE</a>
+        <a href="#contact" onclick="toggleMobileMenu()" class="font-bangers text-4xl md:text-5xl text-white hover:text-marvel tracking-[0.2em] relative z-10 transition-all hover:scale-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">CONTACT</a>
     </div>
 
     <section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-4 pt-24 md:pt-32 pb-10 z-10">
@@ -1009,6 +1014,7 @@
     </div>
 
     <script>
+        // Scroll Progress Bar Logic
         window.addEventListener('scroll', () => {
             let scrollDistance = document.documentElement.scrollTop || document.body.scrollTop;
             let totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1016,10 +1022,48 @@
             document.getElementById('scroll-progress').style.width = progress + '%';
         });
 
+        // Custom S.H.I.E.L.D. Tracker logic
         const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
+
+            if (Math.random() < 0.4) {
+                let spark = document.createElement('div');
+                spark.className = 'lightning-spark';
+                spark.style.left = (e.clientX + (Math.random() * 20 - 10)) + 'px';
+                spark.style.top = (e.clientY + (Math.random() * 20 - 10)) + 'px';
+                
+                let rot = (Math.random() * 360) + 'deg';
+                let drift = (Math.random() * 40 - 20) + 'px';
+                
+                spark.style.setProperty('--rot', rot);
+                spark.style.setProperty('--drift', drift);
+                
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 400); 
+            }
+        });
+
+        document.addEventListener('mousedown', () => cursor.style.transform = 'translate(-50%, -50%) scale(0.7)');
+        document.addEventListener('mouseup', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
+
+        document.querySelectorAll('a, button, input, select, [onclick]').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+
+        // Cold Wave AI Pulse on Click
+        document.addEventListener('click', function(e) {
+            if(e.target.closest('button') || e.target.closest('a') || e.target.closest('input')) return;
+            
+            let wave = document.createElement('div');
+            wave.className = 'cold-wave';
+            wave.style.left = e.clientX + 'px';
+            wave.style.top = e.clientY + 'px';
+            document.body.appendChild(wave);
+            
+            setTimeout(() => { wave.remove(); }, 800);
         });
 
         function toggleMobileMenu() {
@@ -1069,6 +1113,40 @@
             overlay.classList.add('hidden'); overlay.classList.remove('flex');
         }
 
+        // DRONE PATROL LOGIC
+        function startDronePatrol() {
+            const section = document.getElementById('shows');
+            if(!section) return;
+
+            setInterval(() => {
+                const drone = document.createElement('div');
+                drone.innerHTML = `
+                    <div class="relative flex items-center justify-center">
+                        <i class="fas fa-crosshairs text-aicyan opacity-50 absolute text-4xl animate-[spin_3s_linear_infinite] drop-shadow-[0_0_10px_#00f0ff]"></i>
+                        <i class="fas fa-fighter-jet text-white text-2xl shadow-[0_0_15px_#ED1D24] relative z-10"></i>
+                    </div>`;
+                
+                drone.className = 'absolute pointer-events-none z-[5] transition-all duration-[7000ms] ease-linear opacity-0 scale-50';
+                
+                const startY = Math.random() * 80 + 10;
+                const endY = Math.random() * 80 + 10;
+                
+                drone.style.top = `${startY}%`;
+                drone.style.left = '-10%';
+                section.appendChild(drone);
+                void drone.offsetWidth;
+                
+                const angle = Math.atan2(endY - startY, 110) * (180 / Math.PI) + 45; 
+                
+                drone.style.opacity = '0.7';
+                drone.style.transform = `scale(1.2) rotate(${angle}deg)`; 
+                drone.style.left = '110%';
+                drone.style.top = `${endY}%`;
+
+                setTimeout(() => drone.remove(), 7000);
+            }, 3500); 
+        }
+
         function startExperience() {
             const startContent = document.getElementById('start-screen-content');
             const preIntroVid = document.getElementById('pre-intro-video');
@@ -1102,7 +1180,7 @@
             document.getElementById('bg-video-wrapper').style.opacity = "1";
             document.getElementById('bg-video').play().catch(e => console.log(e));
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-            startHeroCountdown(); loadMemories(); renderSchedule(); generateParticles();
+            startHeroCountdown(); loadMemories(); renderSchedule(); generateParticles(); startDronePatrol();
         }
 
         function startHeroCountdown() {
@@ -1180,7 +1258,7 @@
             }
         ];
 
-        function getSchedule() { return JSON.parse(localStorage.getItem('imp_schedule_v8')) || defaultSchedule; }
+        function getSchedule() { return JSON.parse(localStorage.getItem('imp_schedule_v9')) || defaultSchedule; }
 
         function renderSchedule() {
             const schedule = getSchedule();
@@ -1216,7 +1294,22 @@
             document.getElementById('details-modal').classList.remove('hidden'); document.getElementById('details-modal').classList.add('flex');
         }
         function closeDetailsModal() { document.getElementById('details-modal').classList.add('hidden'); document.getElementById('details-modal').classList.remove('flex'); }
-        function addScheduleEvent() { /* Kept short for space */ renderSchedule(); alert("Updated!"); }
+        
+        function addScheduleEvent() {
+            const day = document.getElementById('sched-day').value; const time = document.getElementById('sched-time').value; const title = document.getElementById('sched-title').value; const desc = document.getElementById('sched-desc').value;
+            if(!day || !time || !title) return alert("Fill required fields!");
+            const schedule = getSchedule(); const colorClass = schedule.length % 2 === 0 ? 'text-marvel' : 'text-accent';
+            schedule.push({ day, time, title, desc, color: colorClass }); localStorage.setItem('imp_schedule_v9', JSON.stringify(schedule));
+            renderSchedule(); alert("Timeline Updated!");
+        }
+
+        function resetSchedule() { 
+            if(confirm("Wipe the entire timeline and restore defaults?")) { 
+                localStorage.removeItem('imp_schedule_v9'); 
+                renderSchedule(); 
+            } 
+        }
+
         function savePrediction() { document.getElementById('prediction-result').classList.remove('hidden'); document.getElementById('pred-text').innerText = `Locked.`; }
 
         function loadMemories() {
