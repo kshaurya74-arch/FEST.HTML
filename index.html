@@ -390,25 +390,20 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #111; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--marvel-red); }
 
-        /* --- AGGRESSIVE MOBILE COMPRESSION (Parallel 2-Col layouts) --- */
+        /* --- AGGRESSIVE MOBILE COMPRESSION (Parallel 2-Col layouts & Fixes) --- */
         @media (max-width: 768px) {
             body, nav, a, button, select, input, [onclick], .cursor-none { cursor: auto !important; }
             #custom-cursor, .lightning-spark { display: none !important; }
 
-            /* Navbar */
             nav .container { padding-left: 0.5rem; padding-right: 0.5rem; }
-            .font-russo, .font-bebas { font-size: 1.2rem !important; }
             
-            /* Tighter Sections */
             section { padding-top: 3rem !important; padding-bottom: 2.5rem !important; }
             section#home { padding-top: 6rem !important; padding-bottom: 2rem !important; min-height: auto !important; }
             
-            /* Typography Scaling */
             h2.glitch-hover { font-size: 2rem !important; line-height: 1.1; margin-bottom: 0.5rem !important; }
             .text-5xl { font-size: 1.8rem !important; }
             .text-lg { font-size: 0.8rem !important; }
             
-            /* Compact Hero Countdown */
             .countdown-intro-text { font-size: 1rem !important; margin-bottom: 0.3rem !important; }
             #hero-countdown { gap: 0.2rem !important; margin-top: 0.2rem !important; }
             .countdown-box { min-width: 40px !important; padding: 0.3rem 0.1rem !important; margin: 1px !important; border-width: 1px !important; }
@@ -416,18 +411,21 @@
             .countdown-box label { font-size: 0.5rem !important; letter-spacing: 0px !important; margin-top: 0 !important; }
             .hero-card, .stark-scanner-content { padding: 0.8rem !important; border-width: 2px !important; }
             
-            /* Compress Media Containers for parallel layouts */
-            .fire-border-wrapper .overflow-hidden.h-\\[250px\\] { height: 120px !important; } /* Shrink main videos massively */
-            .fire-border-wrapper .overflow-hidden.h-\\[180px\\] { height: 90px !important; } /* Shrink mini games */
+            /* FORCE CINEMATIC ASPECT RATIO FOR SHOWS ON MOBILE SO THEY DON'T GET CUT OFF */
+            .fire-border-wrapper .overflow-hidden.h-\\[250px\\],
+            .fire-border-wrapper .overflow-hidden.h-\\[350px\\],
+            .fire-border-wrapper .overflow-hidden.h-\\[180px\\] { 
+                height: auto !important; 
+                aspect-ratio: 16 / 9 !important; 
+            }
+            
             iframe { height: 200px !important; }
             
-            /* Tighter Grid Gaps */
             .gap-10 { gap: 0.5rem !important; }
             .gap-8 { gap: 0.5rem !important; }
             .gap-6 { gap: 0.5rem !important; }
             .mb-16 { margin-bottom: 1.5rem !important; }
             
-            /* Compact Timeline Layout */
             .timeline-card { width: 88% !important; margin-left: 12% !important; padding: 0.8rem !important; text-align: left !important; border-left: 4px solid var(--marvel-gold) !important; border-right: 2px solid #000 !important; margin-bottom: 0 !important; }
             .timeline-item { margin-bottom: 1rem !important; }
             #schedule::before, #schedule::after { left: 10px !important; }
@@ -435,15 +433,16 @@
             .timeline-day-header { margin: 1.5rem 0 1rem 0 !important; }
             .timeline-day-header span { font-size: 1.2rem !important; padding: 0.3rem 0.8rem !important; }
             
-            /* Photos Masonry adjustments */
             .polaroid { padding: 4px 4px 15px 4px !important; border-width: 1px !important; }
             .handwriting { font-size: 0.8rem !important; margin-top: 5px !important; }
             .tech-tape { width: 40px !important; height: 10px !important; top: -5px !important; }
             .tech-tape::before { font-size: 5px !important; }
             
-            /* Footer */
             footer { padding-top: 1.5rem !important; padding-bottom: 2rem !important; margin-top: 3rem !important; border-top-width: 4px !important; }
             footer h2 { font-size: 2rem !important; margin-bottom: 0.5rem !important; }
+            
+            /* FORCE INTRO VIDEO TO CONTAIN (LETTERBOX) ON MOBILE SO SIDES AREN'T CUT OFF */
+            .intro-vid-fullscreen { object-fit: contain !important; background-color: #000; }
         }
     </style>
 </head>
@@ -553,7 +552,7 @@
         <div class="absolute inset-0 bg-[linear-gradient(rgba(0,240,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,240,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-30"></div>
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000_100%)] pointer-events-none"></div>
         
-        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-5xl hover:text-marvel font-bangers z-50 drop-shadow-[0_0_15px_#ED1D24] transition-all hover:rotate-90 cursor-none">×</button>
+        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-5xl hover:text-marvel font-bangers z-50 drop-shadow-[0_0_15px_#ED1D24] transition-all hover:rotate-90">×</button>
         
         <div class="relative z-10 w-full max-w-lg grid grid-cols-2 gap-4 mt-8 cursor-none">
             <a href="#home" onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center py-6 border-2 border-[#333] bg-[#0a0a0a]/80 shadow-[0_0_15px_rgba(237,29,36,0.2)] hover:shadow-[0_0_25px_rgba(252,209,22,0.6)] hover:border-marvel text-white hover:text-marvel font-bangers text-2xl md:text-4xl tracking-widest transition-all transform hover:scale-105 cursor-none rounded-lg"><i class="fas fa-home mb-2 text-marvel text-3xl"></i> HQ</a>
@@ -624,8 +623,8 @@
                     <div class="flex flex-col h-full bg-[#050505] cursor-none">
                         <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
                             <div class="hud-corners hud-corners-dc"></div>
-                            <button onclick="toggleVideoAudio('evorush-vid', 'evorush-audio-icon', 'evorush-audio-btn', 'bg-[#0476F2]')" id="evorush-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-2 rounded-full border border-[#0476F2] hover:scale-110 hover:bg-[#0476F2] transition shadow-[0_0_5px_rgba(4,118,242,0.8)] cursor-none">
-                                <i id="evorush-audio-icon" class="fas fa-volume-mute text-xs md:text-lg cursor-none"></i>
+                            <button onclick="toggleVideoAudio('evorush-vid', 'evorush-audio-icon', 'evorush-audio-btn', 'bg-[#0476F2]')" id="evorush-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#0476F2] hover:scale-110 hover:bg-[#0476F2] transition shadow-[0_0_5px_rgba(4,118,242,0.8)] cursor-none">
+                                <i id="evorush-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
                             </button>
                             <video id="evorush-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="College_Fest_Trailer_Generation.mp4" type="video/mp4">
@@ -634,12 +633,12 @@
 
                         <div class="p-2 md:p-5 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative overflow-hidden cursor-none">
                             <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#0476F2] cursor-none"></div>
-                            <h3 class="font-bangers text-sm md:text-[2.2rem] italic tracking-widest ml-2 leading-tight cursor-none">
+                            <h3 class="font-bangers text-lg md:text-[2.2rem] italic tracking-widest ml-2 leading-tight cursor-none">
                                 <span class="text-white cursor-none">EVO</span><span class="text-[#0476F2] ml-1 cursor-none">RUSH</span>
                             </h3>
                             <div class="mt-1 font-oswald font-bold tracking-wide space-y-1 ml-2 cursor-none">
-                                <p class="flex items-center text-white text-[8px] md:text-[0.95rem] cursor-none"><i class="fas fa-flag-checkered mr-1 text-gray-400 hidden md:inline"></i> RACE <span class="mx-1 text-gray-600">|</span> <span class="text-[#0476F2] cursor-none">TECH</span></p>
-                                <p class="flex items-center text-gray-400 uppercase text-[8px] md:text-[0.8rem] tracking-widest mt-1 cursor-none"><i class="fas fa-bolt text-[#00ff41] mr-1 hidden md:inline"></i> SEASON 1</p>
+                                <p class="flex items-center text-white text-xs md:text-[0.95rem] cursor-none"><i class="fas fa-flag-checkered mr-1 text-gray-400"></i> RACE <span class="mx-1 text-gray-600">|</span> <span class="text-[#0476F2] cursor-none">TECH</span></p>
+                                <p class="flex items-center text-gray-400 uppercase text-[10px] md:text-[0.8rem] tracking-widest mt-1 cursor-none"><i class="fas fa-bolt text-[#00ff41] mr-1"></i> SEASON 1</p>
                             </div>
                         </div>
 
@@ -650,11 +649,11 @@
                     <div class="flex flex-col h-full bg-[#050505] cursor-none">
                         <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
                             <div class="hud-corners"></div>
-                            <div class="absolute top-2 left-2 z-30 bg-marvel text-white px-2 py-0.5 font-bangers text-[8px] md:text-sm tracking-widest border border-black transform skew-x-[-6deg] animate-pulse cursor-none">
+                            <div class="absolute top-2 left-2 z-30 bg-marvel text-white px-2 py-0.5 font-bangers text-[10px] md:text-sm tracking-widest border border-black transform skew-x-[-6deg] animate-pulse cursor-none">
                                 LIVE
                             </div>
-                            <button onclick="toggleVideoAudio('robo-vid', 'robo-audio-icon', 'robo-audio-btn', 'bg-marvel')" id="robo-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-2 rounded-full border border-marvel hover:scale-110 hover:bg-marvel transition shadow-[0_0_5px_rgba(237,29,36,0.8)] cursor-none">
-                                <i id="robo-audio-icon" class="fas fa-volume-mute text-xs md:text-lg cursor-none"></i>
+                            <button onclick="toggleVideoAudio('robo-vid', 'robo-audio-icon', 'robo-audio-btn', 'bg-marvel')" id="robo-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-marvel hover:scale-110 hover:bg-marvel transition shadow-[0_0_5px_rgba(237,29,36,0.8)] cursor-none">
+                                <i id="robo-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
                             </button>
                             <video id="robo-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="Robo_Soccer_Event_Video_Creation.mp4#t=1" type="video/mp4">
@@ -663,12 +662,12 @@
                         
                         <div class="p-2 md:p-5 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative overflow-hidden cursor-none">
                             <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-marvel cursor-none"></div>
-                            <h3 class="font-bangers text-sm md:text-[2.2rem] italic tracking-widest ml-2 leading-tight cursor-none">
+                            <h3 class="font-bangers text-lg md:text-[2.2rem] italic tracking-widest ml-2 leading-tight cursor-none">
                                 <span class="text-white cursor-none">ROBO</span> <span class="text-marvel ml-1 cursor-none">SOCCER</span>
                             </h3>
                             <div class="mt-1 font-oswald font-bold tracking-wide space-y-1 ml-2 cursor-none">
-                                <p class="flex items-center text-white text-[8px] md:text-[0.95rem] cursor-none"><i class="fas fa-cogs mr-1 text-gray-400 hidden md:inline"></i> ENGINEERING <span class="mx-1 text-gray-600">|</span> <span class="text-marvel cursor-none">COMP</span></p>
-                                <p class="flex items-center text-gray-400 uppercase text-[8px] md:text-[0.8rem] tracking-widest mt-1 cursor-none"><i class="fas fa-play text-accent mr-1 hidden md:inline"></i> WATCH</p>
+                                <p class="flex items-center text-white text-xs md:text-[0.95rem] cursor-none"><i class="fas fa-cogs mr-1 text-gray-400"></i> ENGINEERING <span class="mx-1 text-gray-600">|</span> <span class="text-marvel cursor-none">COMP</span></p>
+                                <p class="flex items-center text-gray-400 uppercase text-[10px] md:text-[0.8rem] tracking-widest mt-1 cursor-none"><i class="fas fa-play text-accent mr-1"></i> WATCH</p>
                             </div>
                         </div>
 
@@ -691,8 +690,8 @@
                         </div>
                         <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
                             <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#FCD116] cursor-none"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none"><span class="text-white">1. STARK</span><span class="text-[#FCD116] ml-1">EXPO</span></h3>
-                            <p class="font-oswald text-[8px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-lightbulb text-gray-500 hidden md:inline"></i> INNOVATION | <span class="text-[#FCD116]">TECH</span></p>
+                            <h3 class="font-bangers text-sm md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none"><span class="text-white">1. STARK</span><span class="text-[#FCD116] ml-1">EXPO</span></h3>
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-lightbulb text-gray-500"></i> INNOVATION | <span class="text-[#FCD116]">TECH</span></p>
                         </div>
                     </div>
                 </div>
@@ -705,8 +704,8 @@
                         </div>
                         <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
                             <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#00f0ff] cursor-none"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none"><span class="text-white">2. J.A.R.V.I.S.</span></h3>
-                            <p class="font-oswald text-[8px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-code text-gray-500 hidden md:inline"></i> ALGORITHM | <span class="text-[#00f0ff]">LOGIC</span></p>
+                            <h3 class="font-bangers text-sm md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none"><span class="text-white">2. J.A.R.V.I.S.</span></h3>
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-code text-gray-500"></i> ALGORITHM | <span class="text-[#00f0ff]">LOGIC</span></p>
                         </div>
                     </div>
                 </div>
@@ -719,15 +718,15 @@
                         </div>
                         <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
                             <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#a855f7] cursor-none"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none"><span class="text-white">3. THOR'S</span><span class="text-[#a855f7] ml-1">TRIAL</span></h3>
-                            <p class="font-oswald text-[8px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-hammer text-gray-500 hidden md:inline"></i> STRENGTH | <span class="text-[#a855f7]">ARCADE</span></p>
+                            <h3 class="font-bangers text-sm md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none"><span class="text-white">3. THOR'S</span><span class="text-[#a855f7] ml-1">TRIAL</span></h3>
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-hammer text-gray-500"></i> STRENGTH | <span class="text-[#a855f7]">ARCADE</span></p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="fire-border-wrapper relative group cursor-none">
                     <div class="flex flex-col h-full bg-[#050505] cursor-none overflow-hidden">
-                        <div class="absolute -right-8 top-4 bg-marvel text-white font-bangers text-[8px] md:text-sm px-8 py-0.5 transform rotate-45 z-40 border-y border-black shadow-[0_0_10px_rgba(237,29,36,0.8)] tracking-widest cursor-none">
+                        <div class="absolute -right-8 top-4 bg-marvel text-white font-bangers text-[10px] md:text-sm px-8 py-0.5 transform rotate-45 z-40 border-y border-black shadow-[0_0_10px_rgba(237,29,36,0.8)] tracking-widest cursor-none">
                             CLASSIFIED
                         </div>
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center opacity-80 group-hover:opacity-100 transition-all bg-[#020202]">
@@ -738,8 +737,8 @@
                         </div>
                         <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
                             <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#FCD116] cursor-none"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-[#FCD116]">4. ENCRYPTED</h3>
-                            <p class="font-oswald text-[8px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-fingerprint text-accent hidden md:inline"></i> CLEARANCE | <span class="text-[#FCD116]">LVL 7</span></p>
+                            <h3 class="font-bangers text-sm md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-[#FCD116]">4. ENCRYPTED</h3>
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-fingerprint text-accent"></i> CLEARANCE | <span class="text-[#FCD116]">LVL 7</span></p>
                         </div>
                     </div>
                 </div>
@@ -811,20 +810,20 @@
         <div class="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-10 max-w-5xl mx-auto reveal cursor-none relative z-10">
             <div class="hero-card p-3 md:p-8 border-2 border-black bg-[#111] shadow-[4px_4px_0px_#ED1D24] flex flex-col items-center justify-between text-center min-h-[160px] animate-float cursor-none">
                 <div class="w-full cursor-none">
-                    <div class="w-10 h-10 md:w-20 md:h-20 mx-auto bg-marvel border-2 border-black shadow-[0_0_10px_#ED1D24,3px_3px_0px_#FCD116] rounded-full flex items-center justify-center mb-2 transform rotate-3 transition-transform cursor-none"><i class="fas fa-robot text-lg md:text-4xl text-white cursor-none"></i></div>
-                    <h3 class="text-sm md:text-4xl font-bangers text-white tracking-widest comic-text-shadow mb-1 cursor-none leading-tight">ROBO SOCCER</h3>
-                    <p class="text-gray-400 font-oswald text-[8px] md:text-sm uppercase tracking-widest mb-3 cursor-none">Build, battle, score.</p>
+                    <div class="w-10 h-10 md:w-20 md:h-20 mx-auto bg-marvel border-2 border-black shadow-[0_0_10px_#ED1D24,3px_3px_0px_#FCD116] rounded-full flex items-center justify-center mb-2 transform rotate-3 transition-transform cursor-none"><i class="fas fa-robot text-md md:text-4xl text-white cursor-none"></i></div>
+                    <h3 class="text-md md:text-4xl font-bangers text-white tracking-widest comic-text-shadow mb-1 cursor-none leading-tight">ROBO SOCCER</h3>
+                    <p class="text-gray-400 font-oswald text-[10px] md:text-sm uppercase tracking-widest mb-3 cursor-none">Build, battle, score.</p>
                 </div>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeo-2zoDv1f9a9lLKhV6SbaSbY7S97g0pdKUD42fyGB0mQTPQ/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-marvel text-white border-2 border-black font-bangers text-[10px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeo-2zoDv1f9a9lLKhV6SbaSbY7S97g0pdKUD42fyGB0mQTPQ/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-marvel text-white border-2 border-black font-bangers text-[12px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
             </div>
 
             <div class="hero-card gold-style p-3 md:p-8 border-2 border-black bg-[#111] shadow-[4px_4px_0px_#0476F2] flex flex-col items-center justify-between text-center min-h-[160px] animate-float cursor-none" style="animation-delay: 1s;">
                 <div class="w-full cursor-none">
-                    <div class="w-10 h-10 md:w-20 md:h-20 mx-auto bg-[#0476F2] border-2 border-black shadow-[0_0_10px_#0476F2,3px_3px_0px_#00f0ff] rounded-full flex items-center justify-center mb-2 transform -rotate-3 transition-transform cursor-none"><i class="fas fa-gamepad text-lg md:text-4xl text-white cursor-none"></i></div>
-                    <h3 class="text-sm md:text-4xl font-bangers text-white tracking-widest comic-text-shadow-dc mb-1 cursor-none leading-tight">EVORUSH</h3>
-                    <p class="text-gray-400 font-oswald text-[8px] md:text-sm uppercase tracking-widest mb-3 cursor-none">Race, react, dominate.</p>
+                    <div class="w-10 h-10 md:w-20 md:h-20 mx-auto bg-[#0476F2] border-2 border-black shadow-[0_0_10px_#0476F2,3px_3px_0px_#00f0ff] rounded-full flex items-center justify-center mb-2 transform -rotate-3 transition-transform cursor-none"><i class="fas fa-gamepad text-md md:text-4xl text-white cursor-none"></i></div>
+                    <h3 class="text-md md:text-4xl font-bangers text-white tracking-widest comic-text-shadow-dc mb-1 cursor-none leading-tight">EVORUSH</h3>
+                    <p class="text-gray-400 font-oswald text-[10px] md:text-sm uppercase tracking-widest mb-3 cursor-none">Race, react, dominate.</p>
                 </div>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXSfOczCGnzkmwnZsA-P8qlJwh7CtpCz4yhctFtzc3oqbSTg/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-[#0476F2] text-white border-2 border-black font-bangers text-[10px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXSfOczCGnzkmwnZsA-P8qlJwh7CtpCz4yhctFtzc3oqbSTg/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-[#0476F2] text-white border-2 border-black font-bangers text-[12px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
             </div>
         </div>
     </section>
@@ -1104,7 +1103,8 @@
                     percent = 100; clearInterval(interval);
                     progress.style.width = '100%'; percentage.innerText = '100%';
                     setTimeout(() => {
-                        loader.style.display = 'none'; video.style.display = 'block';
+                        loader.style.display = 'none';
+                        video.style.display = 'block';
                         video.muted = false; video.play().catch(e => console.log(e));
                         closeBtn.classList.remove('hidden');
                     }, 500);
@@ -1267,7 +1267,7 @@
             }
         ];
 
-        function getSchedule() { return JSON.parse(localStorage.getItem('imp_schedule_v9')) || defaultSchedule; }
+        function getSchedule() { return JSON.parse(localStorage.getItem('imp_schedule_v10')) || defaultSchedule; }
 
         function renderSchedule() {
             const schedule = getSchedule();
@@ -1308,13 +1308,13 @@
             const day = document.getElementById('sched-day').value; const time = document.getElementById('sched-time').value; const title = document.getElementById('sched-title').value; const desc = document.getElementById('sched-desc').value;
             if(!day || !time || !title) return alert("Fill required fields!");
             const schedule = getSchedule(); const colorClass = schedule.length % 2 === 0 ? 'text-marvel' : 'text-accent';
-            schedule.push({ day, time, title, desc, color: colorClass }); localStorage.setItem('imp_schedule_v9', JSON.stringify(schedule));
+            schedule.push({ day, time, title, desc, color: colorClass }); localStorage.setItem('imp_schedule_v10', JSON.stringify(schedule));
             renderSchedule(); alert("Timeline Updated!");
         }
 
         function resetSchedule() { 
             if(confirm("Wipe the entire timeline and restore defaults?")) { 
-                localStorage.removeItem('imp_schedule_v9'); 
+                localStorage.removeItem('imp_schedule_v10'); 
                 renderSchedule(); 
             } 
         }
