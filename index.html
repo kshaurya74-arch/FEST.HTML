@@ -179,43 +179,43 @@
             100% { width: 400px; height: 400px; opacity: 0; border-width: 1px; }
         }
 
-        .fire-border-wrapper {
-            position: relative; padding: 4px; border-radius: 4px; background: #000; overflow: hidden; z-index: 1;
+        /* CLASSY VIDEO BORDER */
+        .classy-video-border {
+            position: relative; background: rgba(8, 8, 8, 0.7); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05); padding: 5px; border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease; overflow: hidden; z-index: 1;
         }
-        .fire-border-wrapper::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(from 0deg, transparent 0%, #ED1D24 20%, #FCD116 40%, #ff5a00 60%, transparent 80%);
-            animation: rotateFire 3s linear infinite; z-index: -1;
+        .classy-video-border::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--ai-cyan), transparent);
+            animation: laserSweep 4s infinite; z-index: 10;
         }
-        .fire-border-wrapper::after {
-            content: ''; position: absolute; inset: 3px; background: #050505; z-index: -1; border-radius: 2px;
+        .classy-video-border:hover {
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.15), inset 0 0 20px rgba(0, 240, 255, 0.05);
+            transform: translateY(-4px);
         }
-        @keyframes rotateFire { 100% { transform: rotate(360deg); } }
 
-        /* HUD VIDEO CORNERS */
-        .hud-corners { position: absolute; inset: 0; pointer-events: none; z-index: 25; }
-        .hud-corners::before, .hud-corners::after {
-            content: ''; position: absolute; width: 40px; height: 40px;
-            border-style: solid; border-color: var(--marvel-red);
-            box-shadow: 0 0 15px var(--marvel-red), inset 0 0 15px var(--marvel-red);
-            animation: pulseHud 2s infinite alternate;
+        /* SHARP HUD CORNERS */
+        .classy-hud-corners { position: absolute; inset: 0; pointer-events: none; z-index: 25; }
+        .classy-hud-corners::before, .classy-hud-corners::after {
+            content: ''; position: absolute; width: 25px; height: 25px; border-style: solid; transition: all 0.4s ease; opacity: 0.6;
         }
-        .hud-corners::before { top: 0; left: 0; border-width: 4px 0 0 4px; border-top-left-radius: 2px; }
-        .hud-corners::after { bottom: 0; right: 0; border-width: 0 4px 4px 0; border-bottom-right-radius: 2px; }
+        .classy-hud-corners::before { top: 0; left: 0; border-width: 2px 0 0 2px; border-color: var(--ai-cyan); }
+        .classy-hud-corners::after { bottom: 0; right: 0; border-width: 0 2px 2px 0; border-color: var(--marvel-red); }
+        .classy-video-border:hover .classy-hud-corners::before { width: 40px; height: 40px; opacity: 1; box-shadow: -4px -4px 15px rgba(0, 240, 255, 0.4); }
+        .classy-video-border:hover .classy-hud-corners::after { width: 40px; height: 40px; opacity: 1; box-shadow: 4px 4px 15px rgba(237, 29, 36, 0.4); }
         
-        .hud-corners-dc::before, .hud-corners-dc::after {
-            border-color: var(--dc-blue); box-shadow: 0 0 15px var(--dc-blue), inset 0 0 15px var(--dc-blue);
-        }
-        .hud-corners-cyan::before, .hud-corners-cyan::after {
-            border-color: var(--ai-cyan); box-shadow: 0 0 15px var(--ai-cyan), inset 0 0 15px var(--ai-cyan);
-        }
-        .hud-corners-purple::before, .hud-corners-purple::after {
-            border-color: var(--hawkeye-purple); box-shadow: 0 0 15px var(--hawkeye-purple), inset 0 0 15px var(--hawkeye-purple);
-        }
-        .hud-corners-gold::before, .hud-corners-gold::after {
-            border-color: var(--marvel-gold); box-shadow: 0 0 15px var(--marvel-gold), inset 0 0 15px var(--marvel-gold);
-        }
+        .classy-hud-dc::before { border-color: var(--dc-blue); }
+        .classy-video-border:hover .classy-hud-dc::before { box-shadow: -4px -4px 15px rgba(4, 118, 242, 0.4); }
         
+        .classy-hud-purple::before { border-color: var(--hawkeye-purple); }
+        .classy-video-border:hover .classy-hud-purple::before { box-shadow: -4px -4px 15px rgba(168, 85, 247, 0.4); }
+
+        .classy-hud-gold::before { border-color: var(--marvel-gold); }
+        .classy-video-border:hover .classy-hud-gold::before { box-shadow: -4px -4px 15px rgba(252, 209, 22, 0.4); }
+
         @keyframes pulseHud {
             0% { opacity: 0.4; filter: brightness(1); }
             100% { opacity: 1; filter: brightness(1.5); }
@@ -356,9 +356,7 @@
         @media (min-width: 640px) { .masonry-col { column-count: 2; column-gap: 1rem; } }
         @media (min-width: 1024px) { .masonry-col { column-count: 4; column-gap: 2rem; } }
         
-        .polaroid { 
-            background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(5px); padding: 8px 8px 25px 8px; transition: all 0.3s ease; margin-bottom: 15px; break-inside: avoid; border: 1px solid #fff; position: relative;
-        }
+        .polaroid { background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(5px); padding: 8px 8px 25px 8px; transition: all 0.3s ease; margin-bottom: 15px; break-inside: avoid; border: 1px solid #fff; position: relative; }
         .polaroid:nth-child(odd) { box-shadow: 0 0 10px var(--marvel-red), inset 0 0 5px var(--marvel-red); }
         .polaroid:nth-child(even) { box-shadow: 0 0 10px var(--marvel-gold), inset 0 0 5px var(--marvel-gold); }
         .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 50; box-shadow: 0 0 20px #fff, 0 0 30px #fff !important; }
@@ -379,9 +377,7 @@
         .comic-text-shadow-gold { text-shadow: 2px 2px 0px #000, 4px 4px 0px var(--marvel-gold); }
         .comic-text-shadow-dc { text-shadow: 2px 2px 0px #000, 4px 4px 0px var(--dc-blue); }
 
-        .comic-input {
-            width: 100%; border: 2px solid #333; padding: 0.8rem; color: white; font-family: 'Oswald', sans-serif; font-size: 1rem; outline: none; transform: skew-x(-2deg); transition: 0.3s; background: #000;
-        }
+        .comic-input { width: 100%; border: 2px solid #333; padding: 0.8rem; color: white; font-family: 'Oswald', sans-serif; font-size: 1rem; outline: none; transform: skew-x(-2deg); transition: 0.3s; background: #000; }
         .comic-input:focus { border-color: var(--marvel-gold); box-shadow: 2px 2px 0px var(--marvel-red); }
 
         #qrcode-display img { margin: 0 auto; border: 4px solid var(--marvel-red); padding: 5px; background: var(--marvel-gold); box-shadow: 0 0 15px rgba(237, 29, 36, 0.8); width: 150px; height: 150px; }
@@ -411,10 +407,10 @@
             .countdown-box label { font-size: 0.5rem !important; letter-spacing: 0px !important; margin-top: 0 !important; }
             .hero-card, .stark-scanner-content { padding: 0.8rem !important; border-width: 2px !important; }
             
-            /* FORCE CINEMATIC ASPECT RATIO FOR SHOWS ON MOBILE SO THEY DON'T GET CUT OFF */
-            .fire-border-wrapper .overflow-hidden.h-\\[250px\\],
-            .fire-border-wrapper .overflow-hidden.h-\\[350px\\],
-            .fire-border-wrapper .overflow-hidden.h-\\[180px\\] { 
+            /* CLASSY BORDERS ON MOBILE (Preserve Aspect Ratio) */
+            .classy-video-border .overflow-hidden.h-\\[250px\\],
+            .classy-video-border .overflow-hidden.h-\\[350px\\],
+            .classy-video-border .overflow-hidden.h-\\[180px\\] { 
                 height: auto !important; 
                 aspect-ratio: 16 / 9 !important; 
             }
@@ -441,7 +437,7 @@
             footer { padding-top: 1.5rem !important; padding-bottom: 2rem !important; margin-top: 3rem !important; border-top-width: 4px !important; }
             footer h2 { font-size: 2rem !important; margin-bottom: 0.5rem !important; }
             
-            /* FORCE INTRO VIDEO TO CONTAIN (LETTERBOX) ON MOBILE SO SIDES AREN'T CUT OFF */
+            /* INTRO VIDEO LETTERBOX FIX */
             .intro-vid-fullscreen { object-fit: contain !important; background-color: #000; }
         }
     </style>
@@ -547,21 +543,72 @@
         </div>
     </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[9999] flex flex-col items-center justify-center p-6 transform -translate-y-full transition-transform duration-500 ease-in-out border-b-8 border-marvel overflow-hidden shadow-[0_0_50px_rgba(237,29,36,0.6)]">
+    <div id="mobile-menu" class="fixed inset-0 bg-[#050505]/95 backdrop-blur-2xl z-[9999] flex flex-col items-center justify-start pt-16 px-4 transform -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border-b-4 border-aicyan overflow-hidden">
         
-        <div class="absolute inset-0 bg-[linear-gradient(rgba(0,240,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,240,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-30"></div>
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000_100%)] pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(0,240,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,240,255,0.05)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
+        <div class="scanlines"></div>
         
-        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-5xl hover:text-marvel font-bangers z-50 drop-shadow-[0_0_15px_#ED1D24] transition-all hover:rotate-90">×</button>
+        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-3xl font-code font-bold z-50 drop-shadow-[0_0_10px_#00f0ff] transition-all hover:rotate-90 hover:text-aicyan cursor-none">[X]</button>
         
-        <div class="relative z-10 w-full max-w-lg grid grid-cols-2 gap-4 mt-8 cursor-none">
-            <a href="#home" onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center py-6 border-2 border-[#333] bg-[#0a0a0a]/80 shadow-[0_0_15px_rgba(237,29,36,0.2)] hover:shadow-[0_0_25px_rgba(252,209,22,0.6)] hover:border-marvel text-white hover:text-marvel font-bangers text-2xl md:text-4xl tracking-widest transition-all transform hover:scale-105 cursor-none rounded-lg"><i class="fas fa-home mb-2 text-marvel text-3xl"></i> HQ</a>
-            <a href="#shows" onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center py-6 border-2 border-[#333] bg-[#0a0a0a]/80 shadow-[0_0_15px_rgba(4,118,242,0.2)] hover:shadow-[0_0_25px_rgba(4,118,242,0.6)] hover:border-[#0476F2] text-white hover:text-[#0476F2] font-bangers text-2xl md:text-4xl tracking-widest transition-all transform hover:scale-105 cursor-none rounded-lg"><i class="fas fa-eye mb-2 text-[#0476F2] text-3xl"></i> SHOWS</a>
-            <a href="#fest-pass" onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center py-6 border-2 border-[#333] bg-[#0a0a0a]/80 shadow-[0_0_15px_rgba(252,209,22,0.2)] hover:shadow-[0_0_25px_rgba(252,209,22,0.6)] hover:border-accent text-white hover:text-accent font-bangers text-2xl md:text-4xl tracking-widest transition-all transform hover:scale-105 cursor-none rounded-lg"><i class="fas fa-id-card mb-2 text-accent text-3xl"></i> PASS</a>
-            <a href="#event-reg" onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center py-6 border-2 border-[#333] bg-[#0a0a0a]/80 shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] hover:border-[#00f0ff] text-white hover:text-[#00f0ff] font-bangers text-2xl md:text-4xl tracking-widest transition-all transform hover:scale-105 cursor-none rounded-lg"><i class="fas fa-user-plus mb-2 text-[#00f0ff] text-3xl"></i> REGISTER</a>
-            <a href="#predictions" onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center py-6 border-2 border-[#333] bg-[#0a0a0a]/80 shadow-[0_0_15px_rgba(68,182,28,0.2)] hover:shadow-[0_0_25px_rgba(68,182,28,0.6)] hover:border-[#44b61c] text-white hover:text-[#44b61c] font-bangers text-2xl md:text-4xl tracking-widest transition-all transform hover:scale-105 cursor-none rounded-lg"><i class="fas fa-gem mb-2 text-[#44b61c] text-3xl"></i> NEXUS</a>
-            <a href="#schedule" onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center py-6 border-2 border-[#333] bg-[#0a0a0a]/80 shadow-[0_0_15px_rgba(168,85,247,0.2)] hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] hover:border-[#a855f7] text-white hover:text-[#a855f7] font-bangers text-2xl md:text-4xl tracking-widest transition-all transform hover:scale-105 cursor-none rounded-lg"><i class="far fa-clock mb-2 text-[#a855f7] text-3xl"></i> TIMELINE</a>
-            <a href="#contact" onclick="toggleMobileMenu()" class="col-span-2 flex flex-col items-center justify-center py-4 border-2 border-[#333] bg-[#0a0a0a]/80 shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.6)] hover:border-white text-white hover:text-white font-bangers text-2xl md:text-4xl tracking-widest transition-all transform hover:scale-105 cursor-none rounded-lg"><i class="fas fa-envelope mb-2 text-3xl"></i> CONTACT HQ</a>
+        <div class="relative w-20 h-20 mb-6 flex items-center justify-center mt-4">
+            <div class="absolute inset-0 border border-dashed border-aicyan rounded-full animate-[spin_10s_linear_infinite] opacity-50"></div>
+            <div class="absolute inset-2 border border-marvel rounded-full animate-[spin_8s_linear_infinite_reverse] opacity-70"></div>
+            <i class="fas fa-brain text-3xl text-aicyan animate-pulse drop-shadow-[0_0_15px_#00f0ff]"></i>
+            <div class="absolute -bottom-5 font-code text-[10px] text-aicyan tracking-widest animate-pulse w-max">SYS.OVERRIDE</div>
+        </div>
+
+        <div class="w-full max-w-sm grid grid-cols-2 gap-3 relative z-10 font-bangers">
+            
+            <a href="#home" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-marvel hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-marvel opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-marvel">>_ 01</div>
+                <i class="fas fa-satellite-dish text-gray-500 text-2xl mb-2 group-hover:text-marvel group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(237,29,36,0)] group-hover:drop-shadow-[0_0_10px_#ED1D24]"></i>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-marvel transition-colors">HQ</span>
+            </a>
+
+            <a href="#shows" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-dcblue hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-dcblue opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-dcblue">>_ 02</div>
+                <i class="fas fa-eye text-gray-500 text-2xl mb-2 group-hover:text-dcblue group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(4,118,242,0)] group-hover:drop-shadow-[0_0_10px_#0476F2]"></i>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-dcblue transition-colors">SHOWS</span>
+            </a>
+
+            <a href="#fest-pass" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-accent hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-accent opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-accent">>_ 03</div>
+                <i class="fas fa-id-card text-gray-500 text-2xl mb-2 group-hover:text-accent group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(252,209,22,0)] group-hover:drop-shadow-[0_0_10px_#FCD116]"></i>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-accent transition-colors">PASS</span>
+            </a>
+
+            <a href="#event-reg" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-aicyan hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-aicyan opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-aicyan">>_ 04</div>
+                <i class="fas fa-user-plus text-gray-500 text-2xl mb-2 group-hover:text-aicyan group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(0,240,255,0)] group-hover:drop-shadow-[0_0_10px_#00f0ff]"></i>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-aicyan transition-colors">REGISTER</span>
+            </a>
+
+            <a href="#predictions" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-[var(--gamma-green)] hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-[var(--gamma-green)] opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-[var(--gamma-green)]">>_ 05</div>
+                <i class="fas fa-gem text-gray-500 text-2xl mb-2 group-hover:text-[var(--gamma-green)] group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(68,182,28,0)] group-hover:drop-shadow-[0_0_10px_#44b61c]"></i>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-[var(--gamma-green)] transition-colors">NEXUS</span>
+            </a>
+
+            <a href="#schedule" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-hawkeye hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-hawkeye opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-hawkeye">>_ 06</div>
+                <i class="far fa-clock text-gray-500 text-2xl mb-2 group-hover:text-hawkeye group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(168,85,247,0)] group-hover:drop-shadow-[0_0_10px_#a855f7]"></i>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-hawkeye transition-colors">TIMELINE</span>
+            </a>
+
+            <a href="#contact" onclick="toggleMobileMenu()" class="col-span-2 group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-white hover:bg-[#111] transition-all h-20 cursor-none rounded-sm">
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-white opacity-0 group-hover:opacity-100 animate-[laserSweep_2.5s_infinite]"></div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-white">>_ 07</div>
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-envelope text-gray-500 text-xl group-hover:text-white group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(255,255,255,0)] group-hover:drop-shadow-[0_0_10px_#fff]"></i>
+                    <span class="text-xl tracking-[0.2em] text-white group-hover:text-white transition-colors">CONTACT HQ</span>
+                </div>
+            </a>
         </div>
     </div>
 
@@ -619,10 +666,10 @@
             
             <div class="grid grid-cols-2 lg:grid-cols-2 gap-2 md:gap-10 max-w-7xl mx-auto relative z-10 text-left">
                 
-                <div class="fire-border-wrapper relative group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none">
+                <div class="classy-video-border group cursor-none">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
-                            <div class="hud-corners hud-corners-dc"></div>
+                            <div class="classy-hud-corners classy-hud-dc"></div>
                             <button onclick="toggleVideoAudio('evorush-vid', 'evorush-audio-icon', 'evorush-audio-btn', 'bg-[#0476F2]')" id="evorush-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#0476F2] hover:scale-110 hover:bg-[#0476F2] transition shadow-[0_0_5px_rgba(4,118,242,0.8)] cursor-none">
                                 <i id="evorush-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
                             </button>
@@ -632,8 +679,8 @@
                         </div>
 
                         <div class="p-2 md:p-5 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative overflow-hidden cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#0476F2] cursor-none"></div>
-                            <h3 class="font-bangers text-lg md:text-[2.2rem] italic tracking-widest ml-2 leading-tight cursor-none">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#0476F2] cursor-none shadow-[0_0_10px_#0476F2]"></div>
+                            <h3 class="font-bangers text-sm md:text-[2.2rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(4,118,242,0.5)]">
                                 <span class="text-white cursor-none">EVO</span><span class="text-[#0476F2] ml-1 cursor-none">RUSH</span>
                             </h3>
                             <div class="mt-1 font-oswald font-bold tracking-wide space-y-1 ml-2 cursor-none">
@@ -645,10 +692,10 @@
                     </div>
                 </div>
 
-                <div class="fire-border-wrapper relative group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none">
+                <div class="classy-video-border group cursor-none">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
-                            <div class="hud-corners"></div>
+                            <div class="classy-hud-corners"></div>
                             <div class="absolute top-2 left-2 z-30 bg-marvel text-white px-2 py-0.5 font-bangers text-[10px] md:text-sm tracking-widest border border-black transform skew-x-[-6deg] animate-pulse cursor-none">
                                 LIVE
                             </div>
@@ -661,8 +708,8 @@
                         </div>
                         
                         <div class="p-2 md:p-5 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative overflow-hidden cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-marvel cursor-none"></div>
-                            <h3 class="font-bangers text-lg md:text-[2.2rem] italic tracking-widest ml-2 leading-tight cursor-none">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-marvel cursor-none shadow-[0_0_10px_#ED1D24]"></div>
+                            <h3 class="font-bangers text-sm md:text-[2.2rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(237,29,36,0.5)]">
                                 <span class="text-white cursor-none">ROBO</span> <span class="text-marvel ml-1 cursor-none">SOCCER</span>
                             </h3>
                             <div class="mt-1 font-oswald font-bold tracking-wide space-y-1 ml-2 cursor-none">
@@ -682,62 +729,77 @@
                     </div>
                 </div>
 
-                <div class="fire-border-wrapper relative group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none">
+                <div class="classy-video-border group cursor-none">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
-                            <div class="hud-corners hud-corners-dc"></div>
-                            <img src="https://i.pinimg.com/736x/92/55/a0/9255a03a77427bbffd7add9f37d7a400.jpg" class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none" alt="Stark Expo">
+                            <div class="classy-hud-corners classy-hud-dc"></div>
+                            <button onclick="toggleVideoAudio('stark-vid', 'stark-audio-icon', 'stark-audio-btn', 'bg-[#FCD116]', 'text-black')" id="stark-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#FCD116] hover:scale-110 hover:bg-[#FCD116] hover:text-black transition shadow-[0_0_5px_rgba(252,209,22,0.8)] cursor-none">
+                                <i id="stark-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
+                            </button>
+                            <video id="stark-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
+                                <source src="Stark_Expo_Video_Generation_Request.mp4" type="video/mp4">
+                            </video>
                         </div>
                         <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#FCD116] cursor-none"></div>
-                            <h3 class="font-bangers text-sm md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none"><span class="text-white">1. STARK</span><span class="text-[#FCD116] ml-1">EXPO</span></h3>
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#FCD116] cursor-none shadow-[0_0_10px_#FCD116]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(252,209,22,0.5)]"><span class="text-white">1. STARK</span><span class="text-[#FCD116] ml-1">EXPO</span></h3>
                             <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-lightbulb text-gray-500"></i> INNOVATION | <span class="text-[#FCD116]">TECH</span></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="fire-border-wrapper relative group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none">
+                <div class="classy-video-border group cursor-none">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
-                            <div class="hud-corners hud-corners-cyan"></div>
-                            <img src="https://i.pinimg.com/1200x/eb/38/20/eb3820c095f400fda305491933032b2f.jpg" class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none" alt="J.A.R.V.I.S.">
+                            <div class="classy-hud-corners classy-hud-cyan"></div>
+                            <button onclick="toggleVideoAudio('jarvis-vid', 'jarvis-audio-icon', 'jarvis-audio-btn', 'bg-[#00f0ff]', 'text-black')" id="jarvis-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#00f0ff] hover:scale-110 hover:bg-[#00f0ff] hover:text-black transition shadow-[0_0_5px_rgba(0,240,255,0.8)] cursor-none">
+                                <i id="jarvis-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
+                            </button>
+                            <video id="jarvis-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
+                                <source src="JARVIS_Protocol_Video_Generation.mp4" type="video/mp4">
+                            </video>
                         </div>
                         <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#00f0ff] cursor-none"></div>
-                            <h3 class="font-bangers text-sm md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none"><span class="text-white">2. J.A.R.V.I.S.</span></h3>
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#00f0ff] cursor-none shadow-[0_0_10px_#00f0ff]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]"><span class="text-white">2. J.A.R.V.I.S.</span></h3>
                             <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-code text-gray-500"></i> ALGORITHM | <span class="text-[#00f0ff]">LOGIC</span></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="fire-border-wrapper relative group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none">
+                <div class="classy-video-border group cursor-none">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
-                            <div class="hud-corners hud-corners-purple"></div>
-                            <img src="https://i.pinimg.com/736x/e3/7c/f0/e37cf0b5192840611140e97414c896ca.jpg" class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none" alt="Thor's Trial">
+                            <div class="classy-hud-corners classy-hud-purple"></div>
+                            <button onclick="toggleVideoAudio('thor-vid', 'thor-audio-icon', 'thor-audio-btn', 'bg-[#a855f7]')" id="thor-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#a855f7] hover:scale-110 hover:bg-[#a855f7] transition shadow-[0_0_5px_rgba(168,85,247,0.8)] cursor-none">
+                                <i id="thor-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
+                            </button>
+                            <video id="thor-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
+                                <source src="Buzz_Wire_Video_Generation_Request.mp4" type="video/mp4">
+                            </video>
                         </div>
                         <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#a855f7] cursor-none"></div>
-                            <h3 class="font-bangers text-sm md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none"><span class="text-white">3. THOR'S</span><span class="text-[#a855f7] ml-1">TRIAL</span></h3>
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#a855f7] cursor-none shadow-[0_0_10px_#a855f7]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]"><span class="text-white">3. THOR'S</span><span class="text-[#a855f7] ml-1">TRIAL</span></h3>
                             <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-hammer text-gray-500"></i> STRENGTH | <span class="text-[#a855f7]">ARCADE</span></p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="fire-border-wrapper relative group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none overflow-hidden">
+                <div class="classy-video-border group cursor-none">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none overflow-hidden relative z-10">
                         <div class="absolute -right-8 top-4 bg-marvel text-white font-bangers text-[10px] md:text-sm px-8 py-0.5 transform rotate-45 z-40 border-y border-black shadow-[0_0_10px_rgba(237,29,36,0.8)] tracking-widest cursor-none">
                             CLASSIFIED
                         </div>
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center opacity-80 group-hover:opacity-100 transition-all bg-[#020202]">
-                            <div class="hud-corners hud-corners-gold"></div>
+                            <div class="classy-hud-corners classy-hud-gold"></div>
                             <div class="relative z-10 bg-black p-3 md:p-6 rounded-full border border-accent shadow-[0_0_15px_rgba(252,209,22,0.4)]">
                                 <i class="fas fa-user-secret text-2xl md:text-5xl text-accent animate-pulse cursor-none"></i>
                             </div>
                         </div>
                         <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#FCD116] cursor-none"></div>
-                            <h3 class="font-bangers text-sm md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-[#FCD116]">4. ENCRYPTED</h3>
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#FCD116] cursor-none shadow-[0_0_10px_#FCD116]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-[#FCD116] drop-shadow-[0_0_5px_rgba(252,209,22,0.5)]">4. ENCRYPTED</h3>
                             <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-fingerprint text-accent"></i> CLEARANCE | <span class="text-[#FCD116]">LVL 7</span></p>
                         </div>
                     </div>
@@ -811,7 +873,7 @@
             <div class="hero-card p-3 md:p-8 border-2 border-black bg-[#111] shadow-[4px_4px_0px_#ED1D24] flex flex-col items-center justify-between text-center min-h-[160px] animate-float cursor-none">
                 <div class="w-full cursor-none">
                     <div class="w-10 h-10 md:w-20 md:h-20 mx-auto bg-marvel border-2 border-black shadow-[0_0_10px_#ED1D24,3px_3px_0px_#FCD116] rounded-full flex items-center justify-center mb-2 transform rotate-3 transition-transform cursor-none"><i class="fas fa-robot text-md md:text-4xl text-white cursor-none"></i></div>
-                    <h3 class="text-md md:text-4xl font-bangers text-white tracking-widest comic-text-shadow mb-1 cursor-none leading-tight">ROBO SOCCER</h3>
+                    <h3 class="text-sm md:text-4xl font-bangers text-white tracking-widest comic-text-shadow mb-1 cursor-none leading-tight">ROBO SOCCER</h3>
                     <p class="text-gray-400 font-oswald text-[10px] md:text-sm uppercase tracking-widest mb-3 cursor-none">Build, battle, score.</p>
                 </div>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeo-2zoDv1f9a9lLKhV6SbaSbY7S97g0pdKUD42fyGB0mQTPQ/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-marvel text-white border-2 border-black font-bangers text-[12px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
@@ -820,7 +882,7 @@
             <div class="hero-card gold-style p-3 md:p-8 border-2 border-black bg-[#111] shadow-[4px_4px_0px_#0476F2] flex flex-col items-center justify-between text-center min-h-[160px] animate-float cursor-none" style="animation-delay: 1s;">
                 <div class="w-full cursor-none">
                     <div class="w-10 h-10 md:w-20 md:h-20 mx-auto bg-[#0476F2] border-2 border-black shadow-[0_0_10px_#0476F2,3px_3px_0px_#00f0ff] rounded-full flex items-center justify-center mb-2 transform -rotate-3 transition-transform cursor-none"><i class="fas fa-gamepad text-md md:text-4xl text-white cursor-none"></i></div>
-                    <h3 class="text-md md:text-4xl font-bangers text-white tracking-widest comic-text-shadow-dc mb-1 cursor-none leading-tight">EVORUSH</h3>
+                    <h3 class="text-sm md:text-4xl font-bangers text-white tracking-widest comic-text-shadow-dc mb-1 cursor-none leading-tight">EVORUSH</h3>
                     <p class="text-gray-400 font-oswald text-[10px] md:text-sm uppercase tracking-widest mb-3 cursor-none">Race, react, dominate.</p>
                 </div>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXSfOczCGnzkmwnZsA-P8qlJwh7CtpCz4yhctFtzc3oqbSTg/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-[#0476F2] text-white border-2 border-black font-bangers text-[12px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
@@ -1222,14 +1284,19 @@
             document.getElementById('ticket-batch').innerText = batch;
         }
 
-        function toggleVideoAudio(vidId, iconId, btnId, activeColorClass) {
+        function toggleVideoAudio(vidId, iconId, btnId, activeColorClass, textColorClass = 'text-white') {
             const vid = document.getElementById(vidId); const icon = document.getElementById(iconId); const btn = document.getElementById(btnId);
+            const classes = activeColorClass ? activeColorClass.split(' ') : [];
             if(vid.muted) {
                 vid.muted = false; icon.classList.remove('fa-volume-mute'); icon.classList.add('fa-volume-up');
-                btn.classList.add(activeColorClass); btn.classList.remove('bg-black/80');
+                if(classes.length) classes.forEach(c => btn.classList.add(c)); 
+                btn.classList.remove('bg-black/80');
+                if(textColorClass !== 'text-white') { btn.classList.remove('text-white'); btn.classList.add(textColorClass); }
             } else {
                 vid.muted = true; icon.classList.remove('fa-volume-up'); icon.classList.add('fa-volume-mute');
-                btn.classList.add('bg-black/80'); btn.classList.remove(activeColorClass);
+                btn.classList.add('bg-black/80'); 
+                if(classes.length) classes.forEach(c => btn.classList.remove(c));
+                if(textColorClass !== 'text-white') { btn.classList.remove(textColorClass); btn.classList.add('text-white'); }
             }
         }
 
