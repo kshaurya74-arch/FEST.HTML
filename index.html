@@ -282,12 +282,48 @@
             100% { background-position: -100% 0; }
         }
 
-        .nav-item-sweep { position: relative; overflow: hidden; }
-        .nav-item-sweep::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--ai-cyan), transparent);
-            animation: laserSweep 3s infinite; z-index: 10;
+        /* EPIC MARVEL NAV BAR STYLES */
+        .nav-marvel-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.3rem 1.2rem;
+            color: #fff;
+            font-family: 'Bangers', cursive;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transform: skew(-15deg);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            border: 2px solid transparent;
+            z-index: 1;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
         }
+
+        .nav-marvel-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--marvel-red);
+            border: 2px solid #000;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: -1;
+            box-shadow: 4px 4px 0px var(--marvel-gold);
+        }
+
+        .nav-marvel-link:hover {
+            color: var(--marvel-gold);
+            transform: skew(-15deg) translateY(-3px);
+            text-shadow: 2px 2px 0px #000, 0 0 10px rgba(252, 209, 22, 0.5);
+        }
+
+        .nav-marvel-link:hover::before {
+            transform: scaleY(1);
+        }
+
         @keyframes laserSweep { 0% { left: -100%; } 50%, 100% { left: 200%; } }
 
         .hero-card { 
@@ -302,16 +338,31 @@
         .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- EXCITING COUNTDOWN CSS UPGRADES --- */
+        /* EXCITING COUNTDOWN CSS UPGRADES & FIXES */
         .countdown-intro-text { font-family: 'Bangers', cursive; color: #fff; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px var(--marvel-red); }
-        .countdown-box { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(10,0,0,0.8); border: 2px solid var(--marvel-red); transform: skew(-10deg); position: relative; overflow: hidden; }
+        
+        .countdown-box { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            background: rgba(10,0,0,0.9); border: 2px solid var(--marvel-red); 
+            transform: skew(-10deg); position: relative; 
+            min-width: 75px; padding: 0.8rem 0.5rem; box-shadow: 4px 4px 0px #000;
+        }
+        
         .countdown-box::before { content: ''; position: absolute; top:-50%; left:-50%; width:200%; height:200%; background: radial-gradient(circle, rgba(237,29,36,0.2) 0%, transparent 60%); animation: throb 1s infinite alternate; z-index: 0; }
         @keyframes throb { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
         
-        .countdown-box span { font-family: 'Bangers', cursive; color: var(--marvel-gold); line-height: 1; text-shadow: 2px 2px 0px #000, 0 0 15px var(--marvel-red); transform: skew(10deg); position: relative; z-index: 1; animation: textFlicker 0.1s infinite alternate; }
+        .countdown-box span { 
+            font-family: 'Bangers', cursive; color: var(--marvel-gold); 
+            line-height: 1; font-size: 2.8rem; text-shadow: 2px 2px 0px #000, 0 0 15px var(--marvel-red); 
+            transform: skew(10deg); position: relative; z-index: 1; 
+            animation: textFlicker 0.1s infinite alternate; display: block; 
+        }
         @keyframes textFlicker { 0% { opacity: 0.9; } 100% { opacity: 1; text-shadow: 2px 2px 0px #000, 0 0 20px var(--marvel-gold); } }
         
-        .countdown-box label { font-family: 'Oswald', sans-serif; color: white; letter-spacing: 2px; margin-top: 0.2rem; transform: skew(10deg); font-weight: bold; position: relative; z-index: 1; }
+        .countdown-box label { 
+            font-family: 'Oswald', sans-serif; color: white; letter-spacing: 2px; 
+            margin-top: 0.4rem; transform: skew(10deg); font-weight: bold; position: relative; z-index: 1; 
+        }
         .critical-glow { animation: criticalPulse 1s infinite; }
         @keyframes criticalPulse { 0% { box-shadow: 0 0 5px var(--marvel-red); } 50% { box-shadow: 0 0 20px var(--marvel-red), inset 0 0 10px var(--marvel-red); border-color: white; } 100% { box-shadow: 0 0 5px var(--marvel-red); } }
 
@@ -401,10 +452,10 @@
             .text-lg { font-size: 0.8rem !important; }
             
             .countdown-intro-text { font-size: 1rem !important; margin-bottom: 0.3rem !important; }
-            #hero-countdown { gap: 0.2rem !important; margin-top: 0.2rem !important; }
-            .countdown-box { min-width: 40px !important; padding: 0.3rem 0.1rem !important; margin: 1px !important; border-width: 1px !important; }
-            .countdown-box span { font-size: 1.4rem !important; text-shadow: 1px 1px 0px #000, 0 0 5px var(--marvel-gold) !important; }
-            .countdown-box label { font-size: 0.5rem !important; letter-spacing: 0px !important; margin-top: 0 !important; }
+            #hero-countdown { gap: 0.5rem !important; margin-top: 0.2rem !important; }
+            .countdown-box { min-width: 60px !important; padding: 0.5rem 0.2rem !important; border-width: 2px !important; }
+            .countdown-box span { font-size: 2rem !important; line-height: 1 !important; }
+            .countdown-box label { font-size: 0.7rem !important; margin-top: 0.2rem !important; }
             .hero-card, .stark-scanner-content { padding: 0.8rem !important; border-width: 2px !important; }
             
             /* CLASSY BORDERS ON MOBILE (Preserve Aspect Ratio) */
@@ -526,13 +577,13 @@
                 </a>
             </div>
             
-            <ul class="hidden lg:flex gap-4 xl:gap-6 font-bangers text-sm lg:text-lg tracking-widest text-gray-300 uppercase cursor-none shrink-0">
-                <li class="nav-item-sweep"><a href="#home" class="hover:text-marvel hover:scale-110 inline-block transition">HQ</a></li>
-                <li class="nav-item-sweep"><a href="#shows" class="hover:text-comic-gold hover:scale-110 inline-block transition">Shows</a></li>
-                <li class="nav-item-sweep"><a href="#fest-pass" class="hover:text-marvel hover:scale-110 inline-block transition">Pass</a></li>
-                <li class="nav-item-sweep"><a href="#event-reg" class="hover:text-comic-gold hover:scale-110 inline-block transition">Register</a></li>
-                <li class="nav-item-sweep"><a href="#predictions" class="hover:text-marvel hover:scale-110 inline-block transition">Nexus</a></li>
-                <li class="nav-item-sweep"><a href="#schedule" class="hover:text-comic-gold hover:scale-110 inline-block transition">Timeline</a></li>
+            <ul class="hidden lg:flex gap-2 xl:gap-4 shrink-0 cursor-none">
+                <li><a href="#home" class="nav-marvel-link cursor-none">HQ</a></li>
+                <li><a href="#shows" class="nav-marvel-link cursor-none">Shows</a></li>
+                <li><a href="#fest-pass" class="nav-marvel-link cursor-none">Pass</a></li>
+                <li><a href="#event-reg" class="nav-marvel-link cursor-none">Register</a></li>
+                <li><a href="#predictions" class="nav-marvel-link cursor-none">Nexus</a></li>
+                <li><a href="#schedule" class="nav-marvel-link cursor-none">Timeline</a></li>
             </ul>
 
             <button onclick="toggleMobileMenu()" class="lg:hidden text-white text-2xl hover:text-marvel transition focus:outline-none z-[120] shrink-0 ml-2">
@@ -670,9 +721,17 @@
                     <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners classy-hud-dc"></div>
-                            <button onclick="toggleVideoAudio('evorush-vid', 'evorush-audio-icon', 'evorush-audio-btn', 'bg-[#0476F2]')" id="evorush-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#0476F2] hover:scale-110 hover:bg-[#0476F2] transition shadow-[0_0_5px_rgba(4,118,242,0.8)] cursor-none">
+                            
+                            <button onclick="event.stopPropagation(); toggleVideoAudio('evorush-vid', 'evorush-audio-icon', 'evorush-audio-btn', 'bg-[#0476F2]')" id="evorush-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#0476F2] hover:scale-110 hover:bg-[#0476F2] transition shadow-[0_0_5px_rgba(4,118,242,0.8)] cursor-none">
                                 <i id="evorush-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
                             </button>
+                            
+                            <div onclick="openVideoModal('College_Fest_Trailer_Generation.mp4', 'EVORUSH', '#0476F2')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-full bg-[#0476F2]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#0476F2]">
+                                    <i class="fas fa-expand text-white text-xl"></i>
+                                </div>
+                            </div>
+                            
                             <video id="evorush-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="College_Fest_Trailer_Generation.mp4" type="video/mp4">
                             </video>
@@ -699,9 +758,17 @@
                             <div class="absolute top-2 left-2 z-30 bg-marvel text-white px-2 py-0.5 font-bangers text-[10px] md:text-sm tracking-widest border border-black transform skew-x-[-6deg] animate-pulse cursor-none">
                                 LIVE
                             </div>
-                            <button onclick="toggleVideoAudio('robo-vid', 'robo-audio-icon', 'robo-audio-btn', 'bg-marvel')" id="robo-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-marvel hover:scale-110 hover:bg-marvel transition shadow-[0_0_5px_rgba(237,29,36,0.8)] cursor-none">
+                            
+                            <button onclick="event.stopPropagation(); toggleVideoAudio('robo-vid', 'robo-audio-icon', 'robo-audio-btn', 'bg-marvel')" id="robo-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-marvel hover:scale-110 hover:bg-marvel transition shadow-[0_0_5px_rgba(237,29,36,0.8)] cursor-none">
                                 <i id="robo-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
                             </button>
+                            
+                            <div onclick="openVideoModal('Robo_Soccer_Event_Video_Creation.mp4#t=1', 'ROBO SOCCER', '#ED1D24')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-full bg-[#ED1D24]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#ED1D24]">
+                                    <i class="fas fa-expand text-white text-xl"></i>
+                                </div>
+                            </div>
+                            
                             <video id="robo-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="Robo_Soccer_Event_Video_Creation.mp4#t=1" type="video/mp4">
                             </video>
@@ -733,9 +800,17 @@
                     <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners classy-hud-dc"></div>
-                            <button onclick="toggleVideoAudio('stark-vid', 'stark-audio-icon', 'stark-audio-btn', 'bg-[#FCD116]', 'text-black')" id="stark-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#FCD116] hover:scale-110 hover:bg-[#FCD116] hover:text-black transition shadow-[0_0_5px_rgba(252,209,22,0.8)] cursor-none">
+                            
+                            <button onclick="event.stopPropagation(); toggleVideoAudio('stark-vid', 'stark-audio-icon', 'stark-audio-btn', 'bg-[#FCD116]', 'text-black')" id="stark-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#FCD116] hover:scale-110 hover:bg-[#FCD116] hover:text-black transition shadow-[0_0_5px_rgba(252,209,22,0.8)] cursor-none">
                                 <i id="stark-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
                             </button>
+                            
+                            <div onclick="openVideoModal('Stark_Expo_Video_Generation_Request.mp4', 'STARK EXPO', '#FCD116')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-full bg-[#FCD116]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#FCD116]">
+                                    <i class="fas fa-expand text-black text-xl"></i>
+                                </div>
+                            </div>
+                            
                             <video id="stark-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="Stark_Expo_Video_Generation_Request.mp4" type="video/mp4">
                             </video>
@@ -752,9 +827,17 @@
                     <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners classy-hud-cyan"></div>
-                            <button onclick="toggleVideoAudio('jarvis-vid', 'jarvis-audio-icon', 'jarvis-audio-btn', 'bg-[#00f0ff]', 'text-black')" id="jarvis-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#00f0ff] hover:scale-110 hover:bg-[#00f0ff] hover:text-black transition shadow-[0_0_5px_rgba(0,240,255,0.8)] cursor-none">
+                            
+                            <button onclick="event.stopPropagation(); toggleVideoAudio('jarvis-vid', 'jarvis-audio-icon', 'jarvis-audio-btn', 'bg-[#00f0ff]', 'text-black')" id="jarvis-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#00f0ff] hover:scale-110 hover:bg-[#00f0ff] hover:text-black transition shadow-[0_0_5px_rgba(0,240,255,0.8)] cursor-none">
                                 <i id="jarvis-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
                             </button>
+                            
+                            <div onclick="openVideoModal('JARVIS_Protocol_Video_Generation.mp4', 'J.A.R.V.I.S.', '#00f0ff')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-full bg-[#00f0ff]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#00f0ff]">
+                                    <i class="fas fa-expand text-black text-xl"></i>
+                                </div>
+                            </div>
+                            
                             <video id="jarvis-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="JARVIS_Protocol_Video_Generation.mp4" type="video/mp4">
                             </video>
@@ -771,9 +854,17 @@
                     <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners classy-hud-purple"></div>
-                            <button onclick="toggleVideoAudio('thor-vid', 'thor-audio-icon', 'thor-audio-btn', 'bg-[#a855f7]')" id="thor-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#a855f7] hover:scale-110 hover:bg-[#a855f7] transition shadow-[0_0_5px_rgba(168,85,247,0.8)] cursor-none">
+                            
+                            <button onclick="event.stopPropagation(); toggleVideoAudio('thor-vid', 'thor-audio-icon', 'thor-audio-btn', 'bg-[#a855f7]')" id="thor-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#a855f7] hover:scale-110 hover:bg-[#a855f7] transition shadow-[0_0_5px_rgba(168,85,247,0.8)] cursor-none">
                                 <i id="thor-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
                             </button>
+                            
+                            <div onclick="openVideoModal('Buzz_Wire_Video_Generation_Request.mp4', 'THOR\'S TRIAL', '#a855f7')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-full bg-[#a855f7]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#a855f7]">
+                                    <i class="fas fa-expand text-white text-xl"></i>
+                                </div>
+                            </div>
+                            
                             <video id="thor-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="Buzz_Wire_Video_Generation_Request.mp4" type="video/mp4">
                             </video>
@@ -869,14 +960,14 @@
             <p class="text-white font-bangers bg-marvel inline-block px-3 py-0.5 border-2 border-black tracking-widest text-md md:text-xl mt-3 uppercase shadow-[3px_3px_0px_#FCD116] cursor-none">Choose Your Gauntlet</p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-10 max-w-5xl mx-auto reveal cursor-none relative z-10">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto reveal cursor-none relative z-10">
             <div class="hero-card p-3 md:p-8 border-2 border-black bg-[#111] shadow-[4px_4px_0px_#ED1D24] flex flex-col items-center justify-between text-center min-h-[160px] animate-float cursor-none">
                 <div class="w-full cursor-none">
                     <div class="w-10 h-10 md:w-20 md:h-20 mx-auto bg-marvel border-2 border-black shadow-[0_0_10px_#ED1D24,3px_3px_0px_#FCD116] rounded-full flex items-center justify-center mb-2 transform rotate-3 transition-transform cursor-none"><i class="fas fa-robot text-md md:text-4xl text-white cursor-none"></i></div>
                     <h3 class="text-sm md:text-4xl font-bangers text-white tracking-widest comic-text-shadow mb-1 cursor-none leading-tight">ROBO SOCCER</h3>
                     <p class="text-gray-400 font-oswald text-[10px] md:text-sm uppercase tracking-widest mb-3 cursor-none">Build, battle, score.</p>
                 </div>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeo-2zoDv1f9a9lLKhV6SbaSbY7S97g0pdKUD42fyGB0mQTPQ/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-marvel text-white border-2 border-black font-bangers text-[12px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeo-2zoDv1f9a9lLKhV6SbaSbY7S97g0pdKUD42fyGB0mQTPQ/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-marvel text-white border-2 border-black font-bangers text-[12px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none hover:bg-accent hover:text-black hover:shadow-[2px_2px_0px_#ED1D24]">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
             </div>
 
             <div class="hero-card gold-style p-3 md:p-8 border-2 border-black bg-[#111] shadow-[4px_4px_0px_#0476F2] flex flex-col items-center justify-between text-center min-h-[160px] animate-float cursor-none" style="animation-delay: 1s;">
@@ -885,7 +976,16 @@
                     <h3 class="text-sm md:text-4xl font-bangers text-white tracking-widest comic-text-shadow-dc mb-1 cursor-none leading-tight">EVORUSH</h3>
                     <p class="text-gray-400 font-oswald text-[10px] md:text-sm uppercase tracking-widest mb-3 cursor-none">Race, react, dominate.</p>
                 </div>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXSfOczCGnzkmwnZsA-P8qlJwh7CtpCz4yhctFtzc3oqbSTg/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-[#0476F2] text-white border-2 border-black font-bangers text-[12px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXSfOczCGnzkmwnZsA-P8qlJwh7CtpCz4yhctFtzc3oqbSTg/viewform?usp=publish-editor" target="_blank" class="w-full py-1.5 md:py-3 bg-[#0476F2] text-white border-2 border-black font-bangers text-[12px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none hover:bg-white hover:text-[#0476F2] hover:shadow-[2px_2px_0px_#00f0ff]">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
+            </div>
+
+            <div class="hero-card p-3 md:p-8 border-2 border-black bg-[#111] shadow-[4px_4px_0px_#FCD116] flex flex-col items-center justify-between text-center min-h-[160px] animate-float cursor-none" style="animation-delay: 2s;">
+                <div class="w-full cursor-none">
+                    <div class="w-10 h-10 md:w-20 md:h-20 mx-auto bg-accent border-2 border-black shadow-[0_0_10px_#FCD116,3px_3px_0px_#ED1D24] rounded-full flex items-center justify-center mb-2 transform rotate-6 transition-transform cursor-none"><i class="fas fa-dice text-md md:text-4xl text-black cursor-none"></i></div>
+                    <h3 class="text-sm md:text-4xl font-bangers text-white tracking-widest comic-text-shadow-gold mb-1 cursor-none leading-tight">MINI GAMES</h3>
+                    <p class="text-gray-400 font-oswald text-[10px] md:text-sm uppercase tracking-widest mb-3 cursor-none">Play, compete, win.</p>
+                </div>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeYAOoLUhDaDSYhr02YTmesY5w7_Uu3FQ4-WR8gX7C6f7rkPQ/viewform?usp=dialog" target="_blank" class="w-full py-1.5 md:py-3 bg-accent text-black border-2 border-black font-bangers text-[12px] md:text-2xl transition-all transform skew-x-[-2deg] shadow-[2px_2px_0px_#000] block cursor-none hover:bg-white hover:shadow-[2px_2px_0px_#ED1D24]">REGISTER <i class="fas fa-link hidden md:inline ml-1"></i></a>
             </div>
         </div>
     </section>
@@ -998,24 +1098,27 @@
                     </div>
                 </div>
 
-                <div class="mt-8 bg-black/60 border-2 border-marvel p-4 md:p-8 flex flex-col md:flex-row items-center justify-between shadow-[4px_4px_0px_#FCD116] transform skew-x-[-2deg] cursor-none">
-                    <div class="flex items-center gap-4 mb-4 md:mb-0 text-left cursor-none">
-                        <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-14 h-14 md:w-24 md:h-24 rounded-full border-2 border-white bg-black p-1 cursor-none" alt="CICR Logo">
+                <div class="mt-8 bg-[#0a0000] border border-marvel p-4 md:p-8 flex flex-col md:flex-row items-center justify-between shadow-[0_0_20px_rgba(237,29,36,0.3)] transform skew-x-[-2deg] relative overflow-hidden cursor-none group hover:border-accent transition-all">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-marvel animate-[laserSweep_3s_infinite]"></div>
+                    <div class="flex items-center gap-4 mb-4 md:mb-0 text-left cursor-none relative z-10">
+                        <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-14 h-14 md:w-24 md:h-24 rounded-full border-2 border-marvel bg-black p-1 shadow-[0_0_15px_#ED1D24] group-hover:scale-110 transition duration-300 cursor-none" alt="CICR Logo">
                         <div class="cursor-none">
-                            <h3 class="text-xl md:text-4xl font-bangers text-white tracking-widest cursor-none">HOSTED BY CICR</h3>
+                            <p class="text-accent font-oswald text-xs tracking-widest mb-1 cursor-none"><i class="fas fa-satellite-dish animate-pulse"></i> INITIATIVE DIRECTOR</p>
+                            <h3 class="text-xl md:text-4xl font-bangers text-white tracking-widest comic-text-shadow cursor-none">HOSTED BY CICR</h3>
                         </div>
                     </div>
                     
-                    <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" class="relative flex items-center gap-3 bg-[#0a0a0a] border border-[#333] p-2 pr-4 shadow-[3px_3px_0px_#000] skew-x-2 cursor-none">
-                        <div class="flex items-center justify-center w-10 h-10 border border-[#333] bg-black overflow-hidden rounded-[8px] cursor-none">
-                            <img src="https://png.pngtree.com/element_our/sm/20180630/sm_5b37de3263964.jpg" class="w-[145%] h-[145%] object-cover max-w-none mix-blend-screen cursor-none">
+                    <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" class="relative flex items-center gap-3 bg-[#111] border-2 border-marvel p-2 pr-6 shadow-[4px_4px_0px_#ED1D24] skew-x-2 cursor-none hover:-translate-y-1 hover:shadow-[6px_6px_0px_#FCD116] hover:border-accent transition-all z-10">
+                        <div class="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 border-2 border-black bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] overflow-hidden rounded-[12px] shadow-[0_0_10px_#bc1888] cursor-none">
+                            <i class="fab fa-instagram text-white text-2xl md:text-3xl cursor-none"></i>
                         </div>
                         <div class="text-left cursor-none">
-                            <p class="text-[8px] md:text-[11px] font-code tracking-widest text-[#ee2a7b] leading-none cursor-none">SECURE COMMS</p>
-                            <p class="text-white font-bangers text-lg md:text-2xl tracking-widest leading-none cursor-none">FOLLOW HQ</p>
+                            <p class="text-[10px] md:text-xs font-code tracking-widest text-white leading-none mb-1 cursor-none">SECURE COMMS</p>
+                            <p class="text-marvel font-bangers text-xl md:text-3xl tracking-widest leading-none cursor-none group-hover:text-accent">FOLLOW HQ</p>
                         </div>
                     </a>
                 </div>
+
             </div>
         </div>
     </section>
@@ -1024,18 +1127,41 @@
         <h2 class="text-3xl md:text-5xl font-bangers mb-4 text-white tracking-widest comic-text-shadow cursor-none">CONVERGE '26</h2>
         <p id="admin-trigger" class="text-gray-500 font-oswald text-xs md:text-sm cursor-none select-none uppercase tracking-widest transition mb-4 cursor-none" onclick="handleSecretClick()">S.H.I.E.L.D. SECURE COMMS</p>
 
-        <div class="mt-2 inline-block relative group cursor-none">
-            <a href="https://www.linkedin.com/in/kumar-shaurya-31aa582a0" target="_blank" class="relative flex items-center gap-3 bg-[#0a0a0a] border border-[#333] p-2 pr-4 shadow-[3px_3px_0px_#000] transition-all duration-300 cursor-none">
-                <div class="bg-[#0077b5] flex items-center justify-center w-8 h-8 md:w-12 md:h-12 border border-black cursor-none">
-                    <i class="fab fa-linkedin-in text-white text-md md:text-2xl cursor-none"></i>
+        <div class="mt-8 inline-block relative group cursor-none">
+            <div class="absolute -inset-1 bg-gradient-to-r from-[#0077b5] to-aicyan blur opacity-40 group-hover:opacity-100 transition duration-500 rounded-lg"></div>
+            <a href="https://www.linkedin.com/in/kumar-shaurya-31aa582a0" target="_blank" class="relative flex items-center gap-4 bg-[#050505] border-2 border-[#0077b5] p-3 pr-8 shadow-[4px_4px_0px_#0077b5] transition-all duration-300 hover:shadow-[6px_6px_0px_#00f0ff] hover:border-aicyan hover:-translate-y-1 cursor-none transform -skew-x-2">
+                <div class="bg-[#0077b5] flex items-center justify-center w-10 h-10 md:w-14 md:h-14 border-2 border-black shadow-[0_0_10px_#0077b5] transform rotate-3 cursor-none">
+                    <i class="fab fa-linkedin-in text-white text-xl md:text-3xl cursor-none"></i>
                 </div>
-                <div class="text-left cursor-none">
-                    <p class="text-[8px] md:text-[10px] text-[#0077b5] font-code tracking-widest leading-none cursor-none">SYSTEM ARCHITECT</p>
-                    <p class="text-white font-bangers text-sm md:text-xl tracking-widest leading-none cursor-none">KUMAR SHAURYA</p>
+                <div class="text-left cursor-none transform skew-x-2">
+                    <p class="text-[10px] md:text-xs text-aicyan font-code tracking-widest leading-none mb-1 cursor-none drop-shadow-[0_0_2px_#00f0ff]">SYSTEM DEVELOPED BY</p>
+                    <p class="text-white font-bangers text-lg md:text-2xl tracking-widest leading-none comic-text-shadow-dc cursor-none">KUMAR SHAURYA</p>
                 </div>
             </a>
         </div>
     </footer>
+
+    <div id="expanded-video-modal" class="fixed inset-0 bg-black/95 z-[99999] hidden flex-col items-center justify-center p-4 backdrop-blur-xl cursor-none" onclick="closeVideoModal()">
+        <div class="relative w-full max-w-5xl aspect-video border-2 md:border-4 border-marvel shadow-[0_0_30px_rgba(237,29,36,0.5)] bg-[#050505] overflow-hidden group cursor-none transition-all duration-300" id="video-modal-border" onclick="event.stopPropagation()">
+            
+            <div class="absolute top-0 left-0 w-full h-1 bg-marvel animate-[laserSweep_3s_infinite]" id="video-modal-sweep"></div>
+            
+            <div class="absolute top-4 left-4 z-50 bg-marvel text-white px-3 py-1 font-bangers text-sm md:text-xl tracking-widest border border-black transform skew-x-[-6deg] shadow-[2px_2px_0px_#000]" id="video-modal-badge">
+                SECURE FEED
+            </div>
+
+            <button onclick="closeVideoModal()" class="absolute top-4 right-4 z-50 text-white hover:scale-110 text-3xl md:text-5xl font-bangers cursor-none drop-shadow-[0_0_5px_#000] transition-transform">×</button>
+
+            <video id="expanded-modal-video" class="w-full h-full object-cover md:object-contain relative z-40 cursor-none" controls playsinline>
+                <source src="" type="video/mp4">
+            </video>
+
+            <div class="absolute bottom-0 left-0 w-full p-4 md:p-8 bg-gradient-to-t from-black via-black/80 to-transparent z-50 pointer-events-none flex flex-col justify-end">
+                <h3 id="video-modal-title" class="font-bangers text-2xl md:text-5xl text-white tracking-widest comic-text-shadow drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] cursor-none m-0 leading-none">TITLE</h3>
+                <p class="font-code text-[10px] md:text-sm text-gray-400 cursor-none animate-pulse mt-1">S.H.I.E.L.D. DECRYPTED FEED // PLAYING IN HIGH RESOLUTION...</p>
+            </div>
+        </div>
+    </div>
 
     <div id="vibe-check-overlay" class="fixed inset-0 bg-black ai-hex-bg z-[20000] hidden flex-col items-center justify-center overflow-hidden cursor-none">
         <div id="vibe-loader-container" class="flex flex-col items-center justify-center w-full max-w-md px-4 relative z-20 p-6 bg-black/80 border border-aicyan shadow-[0_0_20px_rgba(0,240,255,0.2)] backdrop-blur-md cursor-none">
@@ -1298,6 +1424,45 @@
                 if(classes.length) classes.forEach(c => btn.classList.remove(c));
                 if(textColorClass !== 'text-white') { btn.classList.remove(textColorClass); btn.classList.add('text-white'); }
             }
+        }
+
+        // --- EXPANDED VIDEO MODAL LOGIC ---
+        function openVideoModal(videoSrc, title, themeColor) {
+            const modal = document.getElementById('expanded-video-modal');
+            const player = document.getElementById('expanded-modal-video');
+            const titleEl = document.getElementById('video-modal-title');
+            const border = document.getElementById('video-modal-border');
+            const sweep = document.getElementById('video-modal-sweep');
+            const badge = document.getElementById('video-modal-badge');
+
+            // Apply Theme Colors
+            border.style.borderColor = themeColor;
+            border.style.boxShadow = `0 0 30px ${themeColor}80`; // Appends 80 for hex opacity
+            sweep.style.backgroundColor = themeColor;
+            badge.style.backgroundColor = themeColor;
+            
+            // Set Content
+            player.src = videoSrc;
+            titleEl.innerText = title;
+            
+            // Show Modal & Play
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Slight delay allows the modal to render before the browser triggers autoplay
+            setTimeout(() => {
+                player.play().catch(e => console.log("Autoplay blocked:", e));
+            }, 100);
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('expanded-video-modal');
+            const player = document.getElementById('expanded-modal-video');
+
+            player.pause();
+            setTimeout(() => { player.src = ""; }, 300); // Clear source after animation closes
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         function handleSecretClick() {
