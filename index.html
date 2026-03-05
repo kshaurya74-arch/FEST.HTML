@@ -595,79 +595,75 @@
         </div>
     </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-[#050505]/95 backdrop-blur-2xl z-[9999] flex flex-col items-center justify-start pt-16 px-4 transform -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border-b-4 border-aicyan overflow-hidden">
+    <div id="mobile-menu" class="fixed inset-0 bg-[#050505]/95 backdrop-blur-2xl z-[9999] flex flex-col items-center justify-start pt-16 px-4 transform -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border-b-8 border-marvel overflow-hidden">
         
-        <div class="absolute inset-0 bg-[linear-gradient(rgba(0,240,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,240,255,0.05)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
-        <div class="scanlines"></div>
+        <div class="absolute inset-0 halftone-bg opacity-20 pointer-events-none"></div>
         
-        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-3xl font-code font-bold z-50 drop-shadow-[0_0_10px_#00f0ff] transition-all hover:rotate-90 hover:text-aicyan cursor-none">[X]</button>
+        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-4xl font-bangers z-50 drop-shadow-[2px_2px_0px_#ED1D24] transition-all hover:scale-110 hover:text-marvel cursor-none">✕</button>
         
-        <div class="relative w-20 h-20 mb-6 flex items-center justify-center mt-4">
-            <div class="absolute inset-0 border border-dashed border-aicyan rounded-full animate-[spin_10s_linear_infinite] opacity-50"></div>
-            <div class="absolute inset-2 border border-marvel rounded-full animate-[spin_8s_linear_infinite_reverse] opacity-70"></div>
-            <i class="fas fa-brain text-3xl text-aicyan animate-pulse drop-shadow-[0_0_15px_#00f0ff]"></i>
-            <div class="absolute -bottom-5 font-code text-[10px] text-aicyan tracking-widest animate-pulse w-max">SYS.OVERRIDE</div>
+        <div class="mb-4 text-center mt-2 relative z-10">
+            <h2 class="font-bangers text-3xl text-white comic-text-shadow tracking-widest transform -rotate-2">MULTIVERSE NAV</h2>
+            <div class="w-16 h-1 bg-marvel mx-auto mt-1 shadow-[0_0_10px_#ED1D24]"></div>
         </div>
 
-        <div class="w-full max-w-sm grid grid-cols-2 gap-3 relative z-10 font-bangers">
+        <div class="w-full max-w-sm flex flex-col gap-3 relative z-10 font-bangers pb-12 overflow-y-auto custom-scrollbar px-2" style="max-height: calc(100vh - 140px);">
             
-            <a href="#home" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-marvel hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-marvel opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-marvel">>_ 01</div>
-                <i class="fas fa-satellite-dish text-gray-500 text-2xl mb-2 group-hover:text-marvel group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(237,29,36,0)] group-hover:drop-shadow-[0_0_10px_#ED1D24]"></i>
-                <span class="text-xl tracking-[0.2em] text-white group-hover:text-marvel transition-colors">HQ</span>
-            </a>
-
-            <a href="#shows" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-dcblue hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-dcblue opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-dcblue">>_ 02</div>
-                <i class="fas fa-eye text-gray-500 text-2xl mb-2 group-hover:text-dcblue group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(4,118,242,0)] group-hover:drop-shadow-[0_0_10px_#0476F2]"></i>
-                <span class="text-xl tracking-[0.2em] text-white group-hover:text-dcblue transition-colors">SHOWS</span>
-            </a>
-
-            <a href="#campus-tour" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-[#0476F2] hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-[#0476F2] opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-[#0476F2]">>_ 03</div>
-                <i class="fas fa-map-marked-alt text-gray-500 text-2xl mb-2 group-hover:text-[#0476F2] group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(4,118,242,0)] group-hover:drop-shadow-[0_0_10px_#0476F2]"></i>
-                <span class="text-xl tracking-[0.2em] text-white group-hover:text-[#0476F2] transition-colors">TOUR</span>
-            </a>
-
-            <a href="#fest-pass" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-accent hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-accent opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-accent">>_ 04</div>
-                <i class="fas fa-id-card text-gray-500 text-2xl mb-2 group-hover:text-accent group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(252,209,22,0)] group-hover:drop-shadow-[0_0_10px_#FCD116]"></i>
-                <span class="text-xl tracking-[0.2em] text-white group-hover:text-accent transition-colors">PASS</span>
-            </a>
-
-            <a href="#event-reg" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-aicyan hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-aicyan opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-aicyan">>_ 05</div>
-                <i class="fas fa-user-plus text-gray-500 text-2xl mb-2 group-hover:text-aicyan group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(0,240,255,0)] group-hover:drop-shadow-[0_0_10px_#00f0ff]"></i>
-                <span class="text-xl tracking-[0.2em] text-white group-hover:text-aicyan transition-colors">REGISTER</span>
-            </a>
-
-            <a href="#predictions" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-[var(--gamma-green)] hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-[var(--gamma-green)] opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-[var(--gamma-green)]">>_ 06</div>
-                <i class="fas fa-gem text-gray-500 text-2xl mb-2 group-hover:text-[var(--gamma-green)] group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(68,182,28,0)] group-hover:drop-shadow-[0_0_10px_#44b61c]"></i>
-                <span class="text-xl tracking-[0.2em] text-white group-hover:text-[var(--gamma-green)] transition-colors">NEXUS</span>
-            </a>
-
-            <a href="#schedule" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-hawkeye hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-hawkeye opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-hawkeye">>_ 07</div>
-                <i class="far fa-clock text-gray-500 text-2xl mb-2 group-hover:text-hawkeye group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(168,85,247,0)] group-hover:drop-shadow-[0_0_10px_#a855f7]"></i>
-                <span class="text-xl tracking-[0.2em] text-white group-hover:text-hawkeye transition-colors">TIMELINE</span>
-            </a>
-
-            <a href="#contact" onclick="toggleMobileMenu()" class="col-span-2 group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-white hover:bg-[#111] transition-all h-20 cursor-none rounded-sm">
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-white opacity-0 group-hover:opacity-100 animate-[laserSweep_2.5s_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-white">>_ 08</div>
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-envelope text-gray-500 text-xl group-hover:text-white group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(255,255,255,0)] group-hover:drop-shadow-[0_0_10px_#fff]"></i>
-                    <span class="text-xl tracking-[0.2em] text-white group-hover:text-white transition-colors">CONTACT HQ</span>
+            <a href="#home" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-marvel p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-marvel hover:shadow-[4px_4px_0px_#FCD116]">
+                <div class="bg-black border-2 border-marvel w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
+                    <i class="fas fa-satellite-dish text-marvel group-hover:text-white text-lg drop-shadow-[0_0_5px_#ED1D24]"></i>
                 </div>
+                <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 group-hover:text-white comic-text-shadow">HQ / BASE</span>
             </a>
+
+            <a href="#shows" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-dcblue p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-dcblue hover:shadow-[4px_4px_0px_#fff]">
+                <div class="bg-black border-2 border-dcblue w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
+                    <i class="fas fa-eye text-dcblue group-hover:text-white text-lg drop-shadow-[0_0_5px_#0476F2]"></i>
+                </div>
+                <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow-dc">SHOWS</span>
+            </a>
+
+            <a href="#campus-tour" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-gray-400 p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-gray-200 hover:shadow-[4px_4px_0px_#ED1D24]">
+                <div class="bg-black border-2 border-gray-400 w-10 h-10 flex items-center justify-center group-hover:border-marvel transform skew-x-6 shrink-0">
+                    <i class="fas fa-map-marked-alt text-gray-400 group-hover:text-marvel text-lg"></i>
+                </div>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6">CAMPUS TOUR</span>
+            </a>
+
+            <a href="#fest-pass" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-accent p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-accent hover:shadow-[4px_4px_0px_#ED1D24]">
+                <div class="bg-black border-2 border-accent w-10 h-10 flex items-center justify-center group-hover:border-black transform skew-x-6 shrink-0">
+                    <i class="fas fa-id-card text-accent group-hover:text-black text-lg drop-shadow-[0_0_5px_#FCD116]"></i>
+                </div>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6 comic-text-shadow-gold group-hover:text-shadow-none">S.H.I.E.L.D. PASS</span>
+            </a>
+
+            <a href="#event-reg" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-marvel p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-marvel hover:shadow-[4px_4px_0px_#0476F2]">
+                <div class="bg-black border-2 border-marvel w-10 h-10 flex items-center justify-center group-hover:border-dcblue transform skew-x-6 shrink-0">
+                    <i class="fas fa-user-plus text-white text-lg drop-shadow-[0_0_5px_#ED1D24]"></i>
+                </div>
+                <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow">REGISTER</span>
+            </a>
+
+            <a href="#predictions" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-[var(--gamma-green)] p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-[var(--gamma-green)] hover:shadow-[4px_4px_0px_#000]">
+                <div class="bg-black border-2 border-[var(--gamma-green)] w-10 h-10 flex items-center justify-center group-hover:border-black transform skew-x-6 shrink-0">
+                    <i class="fas fa-gem text-[var(--gamma-green)] group-hover:text-black text-lg drop-shadow-[0_0_5px_#44b61c]"></i>
+                </div>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6">NEXUS</span>
+            </a>
+
+            <a href="#schedule" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-hawkeye p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-hawkeye hover:shadow-[4px_4px_0px_#FCD116]">
+                <div class="bg-black border-2 border-hawkeye w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
+                    <i class="far fa-clock text-hawkeye group-hover:text-white text-lg drop-shadow-[0_0_5px_#a855f7]"></i>
+                </div>
+                <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow">TIMELINE</span>
+            </a>
+
+            <a href="#contact" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-white p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-white hover:shadow-[4px_4px_0px_#ED1D24]">
+                <div class="bg-black border-2 border-white w-10 h-10 flex items-center justify-center group-hover:border-marvel transform skew-x-6 shrink-0">
+                    <i class="fas fa-envelope text-white group-hover:text-marvel text-lg"></i>
+                </div>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6">CONTACT HQ</span>
+            </a>
+            
         </div>
     </div>
 
