@@ -119,17 +119,6 @@
             100% { clip: rect(30px, 9999px, 80px, 0); }
         }
 
-        /* --- NEW CRAZY GLITCH FOR COMING SOON --- */
-        .crazy-glitch { animation: crazyGlitch 0.4s infinite linear alternate-reverse; display: inline-block; }
-        @keyframes crazyGlitch {
-            0% { transform: skew(0deg); text-shadow: 3px 3px 0 var(--marvel-red), -3px -3px 0 var(--ai-cyan); }
-            20% { transform: skew(-10deg); text-shadow: -5px 3px 0 var(--marvel-red), 3px -5px 0 var(--ai-cyan); filter: hue-rotate(10deg); }
-            40% { transform: skew(10deg); text-shadow: 5px -3px 0 var(--marvel-red), -3px 5px 0 var(--ai-cyan); }
-            60% { transform: skew(-5deg) scale(1.05); text-shadow: -3px 3px 0 var(--marvel-red), 3px -3px 0 var(--ai-cyan); opacity: 0.8; }
-            80% { transform: skew(5deg) scale(0.95); text-shadow: 3px -3px 0 var(--marvel-red), -3px 3px 0 var(--ai-cyan); opacity: 1; filter: hue-rotate(-10deg); }
-            100% { transform: skew(0deg); text-shadow: 3px 3px 0 var(--marvel-red), -3px -3px 0 var(--ai-cyan); }
-        }
-
         /* --- STARK TECH SCANNER BORDER --- */
         .stark-scanner-border { position: relative; overflow: hidden; border-color: transparent !important; }
         .stark-scanner-border::before {
@@ -240,14 +229,11 @@
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
 
-        /* WATERMARK CROPPING VIA SCALE */
-        .hide-veo-watermark { transform: scale(1.15) !important; object-fit: cover !important; }
-
         #bg-video-wrapper { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             z-index: -50; overflow: hidden; opacity: 0; transition: opacity 3s ease-in; 
         }
-        #bg-video { width: 100vw; height: 100vh; filter: contrast(1.3) saturate(1.2); }
+        #bg-video { width: 100vw; height: 100vh; object-fit: cover; object-position: center; filter: contrast(1.3) saturate(1.2); }
         
         .video-overlay {
             position: absolute; inset: 0; 
@@ -257,10 +243,10 @@
 
         #intro-overlay {
             position: fixed; inset: 0; background: #050505; z-index: 10000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .intro-vid-fullscreen {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: none; 
         }
         
         #start-screen-content { z-index: 20; text-align: center; width: 100%; padding: 0 1rem; }
@@ -501,6 +487,9 @@
             
             footer { padding-top: 1.5rem !important; padding-bottom: 2rem !important; margin-top: 3rem !important; border-top-width: 4px !important; }
             footer h2 { font-size: 2rem !important; margin-bottom: 0.5rem !important; }
+            
+            /* INTRO VIDEO LETTERBOX FIX */
+            .intro-vid-fullscreen { object-fit: contain !important; background-color: #000; }
         }
     </style>
 </head>
@@ -527,7 +516,7 @@
 
     <div id="bg-video-wrapper">
         <div class="video-overlay"></div>
-        <video id="bg-video" loop muted playsinline webkit-playsinline preload="auto" class="hide-veo-watermark w-full h-full">
+        <video id="bg-video" loop muted playsinline webkit-playsinline preload="auto">
             <source src="Superman vs Justice League _ Justice League (4k. HDR).mp4#t=60" type="video/mp4">
         </video>
     </div>
@@ -535,11 +524,11 @@
     <div id="particles-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
     <div id="intro-overlay">
-        <video id="pre-intro-video" class="intro-vid-fullscreen hide-veo-watermark" playsinline webkit-playsinline preload="auto">
+        <video id="pre-intro-video" class="intro-vid-fullscreen" playsinline webkit-playsinline preload="auto">
             <source src="Robo_Soccer_Event_Video_Creation.mp4" type="video/mp4">
         </video>
 
-        <video id="intro-video" class="intro-vid-fullscreen hide-veo-watermark" playsinline webkit-playsinline preload="auto">
+        <video id="intro-video" class="intro-vid-fullscreen" playsinline webkit-playsinline preload="auto">
             <source src="Video_Enhancement_and_Logo_Addition.mp4" type="video/mp4">
         </video>
         
@@ -609,6 +598,7 @@
     <div id="mobile-menu" class="fixed inset-0 bg-[#050505]/95 backdrop-blur-2xl z-[9999] flex flex-col items-center justify-start pt-16 px-4 transform -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border-b-8 border-marvel overflow-hidden">
         
         <div class="absolute inset-0 halftone-bg opacity-20 pointer-events-none"></div>
+        
         <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-4xl font-bangers z-50 drop-shadow-[2px_2px_0px_#ED1D24] transition-all hover:scale-110 hover:text-marvel cursor-none">✕</button>
         
         <div class="mb-4 text-center mt-2 relative z-10">
@@ -617,54 +607,63 @@
         </div>
 
         <div class="w-full max-w-sm flex flex-col gap-3 relative z-10 font-bangers pb-12 overflow-y-auto custom-scrollbar px-2" style="max-height: calc(100vh - 140px);">
+            
             <a href="#home" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-marvel p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-marvel hover:shadow-[4px_4px_0px_#FCD116]">
                 <div class="bg-black border-2 border-marvel w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
                     <i class="fas fa-satellite-dish text-marvel group-hover:text-white text-lg drop-shadow-[0_0_5px_#ED1D24]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 group-hover:text-white comic-text-shadow">HQ / BASE</span>
             </a>
+
             <a href="#shows" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-dcblue p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-dcblue hover:shadow-[4px_4px_0px_#fff]">
                 <div class="bg-black border-2 border-dcblue w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
                     <i class="fas fa-eye text-dcblue group-hover:text-white text-lg drop-shadow-[0_0_5px_#0476F2]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow-dc">SHOWS</span>
             </a>
+
             <a href="#campus-tour" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-gray-400 p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-gray-200 hover:shadow-[4px_4px_0px_#ED1D24]">
                 <div class="bg-black border-2 border-gray-400 w-10 h-10 flex items-center justify-center group-hover:border-marvel transform skew-x-6 shrink-0">
                     <i class="fas fa-map-marked-alt text-gray-400 group-hover:text-marvel text-lg"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6">CAMPUS TOUR</span>
             </a>
+
             <a href="#fest-pass" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-accent p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-accent hover:shadow-[4px_4px_0px_#ED1D24]">
                 <div class="bg-black border-2 border-accent w-10 h-10 flex items-center justify-center group-hover:border-black transform skew-x-6 shrink-0">
                     <i class="fas fa-id-card text-accent group-hover:text-black text-lg drop-shadow-[0_0_5px_#FCD116]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6 comic-text-shadow-gold group-hover:text-shadow-none">S.H.I.E.L.D. PASS</span>
             </a>
+
             <a href="#event-reg" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-marvel p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-marvel hover:shadow-[4px_4px_0px_#0476F2]">
                 <div class="bg-black border-2 border-marvel w-10 h-10 flex items-center justify-center group-hover:border-dcblue transform skew-x-6 shrink-0">
                     <i class="fas fa-user-plus text-white text-lg drop-shadow-[0_0_5px_#ED1D24]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow">REGISTER</span>
             </a>
+
             <a href="#predictions" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-[var(--gamma-green)] p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-[var(--gamma-green)] hover:shadow-[4px_4px_0px_#000]">
                 <div class="bg-black border-2 border-[var(--gamma-green)] w-10 h-10 flex items-center justify-center group-hover:border-black transform skew-x-6 shrink-0">
                     <i class="fas fa-gem text-[var(--gamma-green)] group-hover:text-black text-lg drop-shadow-[0_0_5px_#44b61c]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6">NEXUS</span>
             </a>
+
             <a href="#schedule" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-hawkeye p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-hawkeye hover:shadow-[4px_4px_0px_#FCD116]">
                 <div class="bg-black border-2 border-hawkeye w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
                     <i class="far fa-clock text-hawkeye group-hover:text-white text-lg drop-shadow-[0_0_5px_#a855f7]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow">TIMELINE</span>
             </a>
+
             <a href="#contact" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-white p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-white hover:shadow-[4px_4px_0px_#ED1D24]">
                 <div class="bg-black border-2 border-white w-10 h-10 flex items-center justify-center group-hover:border-marvel transform skew-x-6 shrink-0">
                     <i class="fas fa-envelope text-white group-hover:text-marvel text-lg"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6">CONTACT HQ</span>
             </a>
+            
         </div>
     </div>
 
@@ -737,7 +736,7 @@
                                 </div>
                             </div>
                             
-                            <video id="evorush-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
+                            <video id="evorush-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="College_Fest_Trailer_Generation.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -774,7 +773,7 @@
                                 </div>
                             </div>
                             
-                            <video id="robo-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
+                            <video id="robo-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="Robo_Soccer_Event_Video_Creation.mp4#t=1" type="video/mp4">
                             </video>
                         </div>
@@ -816,7 +815,7 @@
                                 </div>
                             </div>
                             
-                            <video id="stark-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
+                            <video id="stark-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="Stark_Expo_Video_Generation_Request.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -843,7 +842,7 @@
                                 </div>
                             </div>
                             
-                            <video id="jarvis-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
+                            <video id="jarvis-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="JARVIS_Protocol_Video_Generation.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -870,7 +869,7 @@
                                 </div>
                             </div>
                             
-                            <video id="thor-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
+                            <video id="thor-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
                                 <source src="Buzz_Wire_Video_Generation_Request.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -883,34 +882,20 @@
                 </div>
                 
                 <div class="classy-video-border group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none overflow-hidden relative z-10 border-2 border-[#111] group-hover:border-marvel transition-colors">
-                        
-                        <div class="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(237,29,36,0.1)_10px,rgba(237,29,36,0.1)_20px)] opacity-50 z-0 pointer-events-none"></div>
-                        
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-black/80 z-10 group-hover:bg-black/60 transition-all">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none overflow-hidden relative z-10">
+                        <div class="absolute -right-8 top-4 bg-marvel text-white font-bangers text-[10px] md:text-sm px-8 py-0.5 transform rotate-45 z-40 border-y border-black shadow-[0_0_10px_rgba(237,29,36,0.8)] tracking-widest cursor-none">
+                            CLASSIFIED
+                        </div>
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center opacity-80 group-hover:opacity-100 transition-all bg-[#020202]">
                             <div class="classy-hud-corners classy-hud-gold"></div>
-                            
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-                                <div class="w-[150%] h-[150%] bg-marvel opacity-[0.1] blur-[30px] rounded-full animate-[pulse_2s_infinite]"></div>
-                                <div class="absolute top-1/2 left-0 w-full h-[2px] bg-aicyan opacity-50 animate-[laserSweep_1s_infinite]"></div>
-                            </div>
-
-                            <div class="relative z-20 text-center transform -skew-x-6 scale-110 group-hover:scale-125 transition-transform duration-500 mt-4">
-                                <h3 class="font-bangers text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-accent via-white to-marvel comic-text-shadow-gold crazy-glitch cursor-none inline-block filter drop-shadow-[0_0_15px_rgba(252,209,22,0.8)] leading-[0.9]">
-                                    COMING
-                                    <br>
-                                    SOON
-                                </h3>
-                                <div class="mt-4 font-code text-[10px] md:text-xs text-aicyan tracking-[0.3em] animate-pulse bg-black/80 px-3 py-1.5 border border-aicyan shadow-[0_0_10px_#00f0ff] inline-block">
-                                    <i class="fas fa-lock mr-1"></i> SIGNAL ENCRYPTED
-                                </div>
+                            <div class="relative z-10 bg-black p-3 md:p-6 rounded-full border border-accent shadow-[0_0_15px_rgba(252,209,22,0.4)]">
+                                <i class="fas fa-user-secret text-2xl md:text-5xl text-accent animate-pulse cursor-none"></i>
                             </div>
                         </div>
-                        
-                        <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#FCD116] cursor-none shadow-[0_0_10px_#FCD116] group-hover:bg-marvel transition-colors"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-[#FCD116] group-hover:text-marvel drop-shadow-[0_0_5px_rgba(252,209,22,0.5)] transition-colors">4. UNKNOWN THREAT</h3>
-                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-exclamation-triangle text-marvel animate-ping mr-1"></i> STATUS | <span class="text-marvel ml-1">PENDING</span></p>
+                        <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#FCD116] cursor-none shadow-[0_0_10px_#FCD116]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-[#FCD116] drop-shadow-[0_0_5px_rgba(252,209,22,0.5)]">4. ENCRYPTED</h3>
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-fingerprint text-accent"></i> CLEARANCE | <span class="text-[#FCD116]">LVL 7</span></p>
                         </div>
                     </div>
                 </div>
@@ -951,7 +936,7 @@
                                 <span class="font-bangers text-white text-xl md:text-3xl tracking-widest comic-text-shadow-dc drop-shadow-[0_0_10px_#0476F2] animate-pulse bg-black/60 px-4 py-1 border border-[#0476F2]">INITIALIZE TOUR</span>
                             </div>
                             
-                            <video autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none filter contrast-[1.15] brightness-[0.8] saturate-[1.2]">
+                            <video autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none filter contrast-[1.15] brightness-[0.8] saturate-[1.2]">
                                 <source src="VIDEO_65d4658c-8e58-4195-a937-15cbf280e811.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -1238,7 +1223,7 @@
 
             <button onclick="closeVideoModal()" class="absolute top-4 right-4 z-50 text-white hover:scale-110 text-3xl md:text-5xl font-bangers cursor-none drop-shadow-[0_0_5px_#000] transition-transform">×</button>
 
-            <video id="expanded-modal-video" class="w-full h-full object-cover hide-veo-watermark relative z-40 cursor-none" controls playsinline>
+            <video id="expanded-modal-video" class="w-full h-full object-cover md:object-contain relative z-40 cursor-none" controls playsinline>
                 <source src="" type="video/mp4">
             </video>
 
@@ -1258,7 +1243,7 @@
             </div>
             <span id="vibe-percentage" class="text-white text-xl mt-4 font-code font-bold cursor-none">0%</span>
         </div>
-        <video id="vibe-video" class="absolute inset-0 w-full h-full object-cover hide-veo-watermark hidden z-10 opacity-80 cursor-none" playsinline webkit-playsinline preload="auto">
+        <video id="vibe-video" class="absolute inset-0 w-full h-full object-cover hidden z-10 opacity-80 cursor-none" playsinline webkit-playsinline preload="auto">
             <source src="A_long_visually_hypnotic_sequ.mp4" type="video/mp4">
         </video>
         <button id="close-vibe-btn" onclick="closeVibeCheck()" class="absolute top-4 right-4 z-30 text-white text-4xl font-bangers hidden cursor-none">×</button>
