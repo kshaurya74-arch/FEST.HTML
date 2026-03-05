@@ -66,7 +66,7 @@
             position: fixed; top: 0; left: 0; width: 30px; height: 30px;
             border: 2px solid var(--ai-cyan); border-radius: 50%;
             pointer-events: none; transform: translate(-50%, -50%);
-            z-index: 99999; transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+            z-index: 9999999 !important; transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
         }
@@ -76,13 +76,21 @@
         }
         .cursor-hover { width: 45px !important; height: 45px !important; background-color: rgba(237, 29, 36, 0.1); border-color: var(--marvel-gold) !important; }
 
+        /* ENSURE CURSOR STAYS VISIBLE OVER VIDEOS AND MODALS */
+        video, video::-webkit-media-controls, video::-webkit-media-controls-panel, video::-webkit-media-controls-enclosure, iframe {
+            cursor: none !important;
+        }
+        #expanded-video-modal, #expanded-video-modal * {
+            cursor: none !important;
+        }
+
         /* CURSOR LIGHTNING SPARKS */
         .lightning-spark {
             position: fixed;
             width: 3px; height: 15px;
             background: #fff;
             pointer-events: none;
-            z-index: 99998;
+            z-index: 9999998;
             box-shadow: 0 0 8px var(--ai-cyan), 0 0 15px var(--dc-blue);
             animation: sparkFade 0.4s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
             mix-blend-mode: screen;
@@ -229,11 +237,14 @@
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
 
+        /* WATERMARK CROPPING VIA SCALE */
+        .hide-veo-watermark { transform: scale(1.15) !important; object-fit: cover !important; }
+
         #bg-video-wrapper { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             z-index: -50; overflow: hidden; opacity: 0; transition: opacity 3s ease-in; 
         }
-        #bg-video { width: 100vw; height: 100vh; object-fit: cover; object-position: center; filter: contrast(1.3) saturate(1.2); }
+        #bg-video { width: 100vw; height: 100vh; filter: contrast(1.3) saturate(1.2); }
         
         .video-overlay {
             position: absolute; inset: 0; 
@@ -243,10 +254,10 @@
 
         #intro-overlay {
             position: fixed; inset: 0; background: #050505; z-index: 10000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
         }
         .intro-vid-fullscreen {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: none; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; 
         }
         
         #start-screen-content { z-index: 20; text-align: center; width: 100%; padding: 0 1rem; }
@@ -487,9 +498,6 @@
             
             footer { padding-top: 1.5rem !important; padding-bottom: 2rem !important; margin-top: 3rem !important; border-top-width: 4px !important; }
             footer h2 { font-size: 2rem !important; margin-bottom: 0.5rem !important; }
-            
-            /* INTRO VIDEO LETTERBOX FIX */
-            .intro-vid-fullscreen { object-fit: contain !important; background-color: #000; }
         }
     </style>
 </head>
@@ -516,7 +524,7 @@
 
     <div id="bg-video-wrapper">
         <div class="video-overlay"></div>
-        <video id="bg-video" loop muted playsinline webkit-playsinline preload="auto">
+        <video id="bg-video" loop muted playsinline webkit-playsinline preload="auto" class="hide-veo-watermark w-full h-full">
             <source src="Superman vs Justice League _ Justice League (4k. HDR).mp4#t=60" type="video/mp4">
         </video>
     </div>
@@ -524,11 +532,11 @@
     <div id="particles-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
     <div id="intro-overlay">
-        <video id="pre-intro-video" class="intro-vid-fullscreen" playsinline webkit-playsinline preload="auto">
+        <video id="pre-intro-video" class="intro-vid-fullscreen hide-veo-watermark" playsinline webkit-playsinline preload="auto">
             <source src="Robo_Soccer_Event_Video_Creation.mp4" type="video/mp4">
         </video>
 
-        <video id="intro-video" class="intro-vid-fullscreen" playsinline webkit-playsinline preload="auto">
+        <video id="intro-video" class="intro-vid-fullscreen hide-veo-watermark" playsinline webkit-playsinline preload="auto">
             <source src="Video_Enhancement_and_Logo_Addition.mp4" type="video/mp4">
         </video>
         
@@ -598,7 +606,6 @@
     <div id="mobile-menu" class="fixed inset-0 bg-[#050505]/95 backdrop-blur-2xl z-[9999] flex flex-col items-center justify-start pt-16 px-4 transform -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border-b-8 border-marvel overflow-hidden">
         
         <div class="absolute inset-0 halftone-bg opacity-20 pointer-events-none"></div>
-        
         <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-4xl font-bangers z-50 drop-shadow-[2px_2px_0px_#ED1D24] transition-all hover:scale-110 hover:text-marvel cursor-none">✕</button>
         
         <div class="mb-4 text-center mt-2 relative z-10">
@@ -607,63 +614,54 @@
         </div>
 
         <div class="w-full max-w-sm flex flex-col gap-3 relative z-10 font-bangers pb-12 overflow-y-auto custom-scrollbar px-2" style="max-height: calc(100vh - 140px);">
-            
             <a href="#home" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-marvel p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-marvel hover:shadow-[4px_4px_0px_#FCD116]">
                 <div class="bg-black border-2 border-marvel w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
                     <i class="fas fa-satellite-dish text-marvel group-hover:text-white text-lg drop-shadow-[0_0_5px_#ED1D24]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 group-hover:text-white comic-text-shadow">HQ / BASE</span>
             </a>
-
             <a href="#shows" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-dcblue p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-dcblue hover:shadow-[4px_4px_0px_#fff]">
                 <div class="bg-black border-2 border-dcblue w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
                     <i class="fas fa-eye text-dcblue group-hover:text-white text-lg drop-shadow-[0_0_5px_#0476F2]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow-dc">SHOWS</span>
             </a>
-
             <a href="#campus-tour" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-gray-400 p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-gray-200 hover:shadow-[4px_4px_0px_#ED1D24]">
                 <div class="bg-black border-2 border-gray-400 w-10 h-10 flex items-center justify-center group-hover:border-marvel transform skew-x-6 shrink-0">
                     <i class="fas fa-map-marked-alt text-gray-400 group-hover:text-marvel text-lg"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6">CAMPUS TOUR</span>
             </a>
-
             <a href="#fest-pass" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-accent p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-accent hover:shadow-[4px_4px_0px_#ED1D24]">
                 <div class="bg-black border-2 border-accent w-10 h-10 flex items-center justify-center group-hover:border-black transform skew-x-6 shrink-0">
                     <i class="fas fa-id-card text-accent group-hover:text-black text-lg drop-shadow-[0_0_5px_#FCD116]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6 comic-text-shadow-gold group-hover:text-shadow-none">S.H.I.E.L.D. PASS</span>
             </a>
-
             <a href="#event-reg" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-marvel p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-marvel hover:shadow-[4px_4px_0px_#0476F2]">
                 <div class="bg-black border-2 border-marvel w-10 h-10 flex items-center justify-center group-hover:border-dcblue transform skew-x-6 shrink-0">
                     <i class="fas fa-user-plus text-white text-lg drop-shadow-[0_0_5px_#ED1D24]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow">REGISTER</span>
             </a>
-
             <a href="#predictions" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-[var(--gamma-green)] p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-[var(--gamma-green)] hover:shadow-[4px_4px_0px_#000]">
                 <div class="bg-black border-2 border-[var(--gamma-green)] w-10 h-10 flex items-center justify-center group-hover:border-black transform skew-x-6 shrink-0">
                     <i class="fas fa-gem text-[var(--gamma-green)] group-hover:text-black text-lg drop-shadow-[0_0_5px_#44b61c]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6">NEXUS</span>
             </a>
-
             <a href="#schedule" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-hawkeye p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-hawkeye hover:shadow-[4px_4px_0px_#FCD116]">
                 <div class="bg-black border-2 border-hawkeye w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
                     <i class="far fa-clock text-hawkeye group-hover:text-white text-lg drop-shadow-[0_0_5px_#a855f7]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow">TIMELINE</span>
             </a>
-
             <a href="#contact" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-white p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-white hover:shadow-[4px_4px_0px_#ED1D24]">
                 <div class="bg-black border-2 border-white w-10 h-10 flex items-center justify-center group-hover:border-marvel transform skew-x-6 shrink-0">
                     <i class="fas fa-envelope text-white group-hover:text-marvel text-lg"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6">CONTACT HQ</span>
             </a>
-            
         </div>
     </div>
 
@@ -726,17 +724,13 @@
                         <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners classy-hud-dc"></div>
                             
-                            <button onclick="event.stopPropagation(); toggleVideoAudio('evorush-vid', 'evorush-audio-icon', 'evorush-audio-btn', 'bg-[#0476F2]')" id="evorush-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#0476F2] hover:scale-110 hover:bg-[#0476F2] transition shadow-[0_0_5px_rgba(4,118,242,0.8)] cursor-none">
-                                <i id="evorush-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
-                            </button>
-                            
                             <div onclick="openVideoModal('College_Fest_Trailer_Generation.mp4', 'EVORUSH', '#0476F2')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
                                 <div class="w-12 h-12 rounded-full bg-[#0476F2]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#0476F2]">
                                     <i class="fas fa-expand text-white text-xl"></i>
                                 </div>
                             </div>
                             
-                            <video id="evorush-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
+                            <video id="evorush-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
                                 <source src="College_Fest_Trailer_Generation.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -763,17 +757,13 @@
                                 LIVE
                             </div>
                             
-                            <button onclick="event.stopPropagation(); toggleVideoAudio('robo-vid', 'robo-audio-icon', 'robo-audio-btn', 'bg-marvel')" id="robo-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-marvel hover:scale-110 hover:bg-marvel transition shadow-[0_0_5px_rgba(237,29,36,0.8)] cursor-none">
-                                <i id="robo-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
-                            </button>
-                            
                             <div onclick="openVideoModal('Robo_Soccer_Event_Video_Creation.mp4#t=1', 'ROBO SOCCER', '#ED1D24')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
                                 <div class="w-12 h-12 rounded-full bg-[#ED1D24]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#ED1D24]">
                                     <i class="fas fa-expand text-white text-xl"></i>
                                 </div>
                             </div>
                             
-                            <video id="robo-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
+                            <video id="robo-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
                                 <source src="Robo_Soccer_Event_Video_Creation.mp4#t=1" type="video/mp4">
                             </video>
                         </div>
@@ -805,17 +795,13 @@
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners classy-hud-dc"></div>
                             
-                            <button onclick="event.stopPropagation(); toggleVideoAudio('stark-vid', 'stark-audio-icon', 'stark-audio-btn', 'bg-[#FCD116]', 'text-black')" id="stark-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#FCD116] hover:scale-110 hover:bg-[#FCD116] hover:text-black transition shadow-[0_0_5px_rgba(252,209,22,0.8)] cursor-none">
-                                <i id="stark-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
-                            </button>
-                            
                             <div onclick="openVideoModal('Stark_Expo_Video_Generation_Request.mp4', 'STARK EXPO', '#FCD116')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
                                 <div class="w-12 h-12 rounded-full bg-[#FCD116]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#FCD116]">
                                     <i class="fas fa-expand text-black text-xl"></i>
                                 </div>
                             </div>
                             
-                            <video id="stark-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
+                            <video id="stark-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
                                 <source src="Stark_Expo_Video_Generation_Request.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -832,17 +818,13 @@
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners classy-hud-cyan"></div>
                             
-                            <button onclick="event.stopPropagation(); toggleVideoAudio('jarvis-vid', 'jarvis-audio-icon', 'jarvis-audio-btn', 'bg-[#00f0ff]', 'text-black')" id="jarvis-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#00f0ff] hover:scale-110 hover:bg-[#00f0ff] hover:text-black transition shadow-[0_0_5px_rgba(0,240,255,0.8)] cursor-none">
-                                <i id="jarvis-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
-                            </button>
-                            
                             <div onclick="openVideoModal('JARVIS_Protocol_Video_Generation.mp4', 'J.A.R.V.I.S.', '#00f0ff')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
                                 <div class="w-12 h-12 rounded-full bg-[#00f0ff]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#00f0ff]">
                                     <i class="fas fa-expand text-black text-xl"></i>
                                 </div>
                             </div>
                             
-                            <video id="jarvis-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
+                            <video id="jarvis-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
                                 <source src="JARVIS_Protocol_Video_Generation.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -859,17 +841,13 @@
                         <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners classy-hud-purple"></div>
                             
-                            <button onclick="event.stopPropagation(); toggleVideoAudio('thor-vid', 'thor-audio-icon', 'thor-audio-btn', 'bg-[#a855f7]')" id="thor-audio-btn" class="absolute top-2 right-2 z-30 bg-black/80 text-white p-1.5 md:p-2 rounded-full border border-[#a855f7] hover:scale-110 hover:bg-[#a855f7] transition shadow-[0_0_5px_rgba(168,85,247,0.8)] cursor-none">
-                                <i id="thor-audio-icon" class="fas fa-volume-mute text-[10px] md:text-lg cursor-none"></i>
-                            </button>
-                            
                             <div onclick="openVideoModal('Buzz_Wire_Video_Generation_Request.mp4', 'THOR\'S TRIAL', '#a855f7')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
                                 <div class="w-12 h-12 rounded-full bg-[#a855f7]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#a855f7]">
                                     <i class="fas fa-expand text-white text-xl"></i>
                                 </div>
                             </div>
                             
-                            <video id="thor-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none">
+                            <video id="thor-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
                                 <source src="Buzz_Wire_Video_Generation_Request.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -881,21 +859,36 @@
                     </div>
                 </div>
                 
-                <div class="classy-video-border group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none overflow-hidden relative z-10">
-                        <div class="absolute -right-8 top-4 bg-marvel text-white font-bangers text-[10px] md:text-sm px-8 py-0.5 transform rotate-45 z-40 border-y border-black shadow-[0_0_10px_rgba(237,29,36,0.8)] tracking-widest cursor-none">
-                            CLASSIFIED
-                        </div>
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center opacity-80 group-hover:opacity-100 transition-all bg-[#020202]">
-                            <div class="classy-hud-corners classy-hud-gold"></div>
-                            <div class="relative z-10 bg-black p-3 md:p-6 rounded-full border border-accent shadow-[0_0_15px_rgba(252,209,22,0.4)]">
-                                <i class="fas fa-user-secret text-2xl md:text-5xl text-accent animate-pulse cursor-none"></i>
+                <div class="classy-video-border group cursor-none relative overflow-hidden">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-accent transition-colors duration-500 overflow-hidden">
+
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--marvel-gold)_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
+
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-accent/50">
+                            <div class="classy-hud-corners classy-hud-gold opacity-30 group-hover:opacity-100 transition-opacity"></div>
+
+                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700">
+                                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full border border-[#333] group-hover:border-accent/80 flex items-center justify-center mb-3 md:mb-4 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(252,209,22,0.4)] transition-all duration-500">
+                                    <i class="fas fa-fingerprint text-xl md:text-3xl text-gray-600 group-hover:text-accent transition-colors duration-500"></i>
+                                </div>
+                                <h3 class="font-oswald font-light tracking-[0.4em] text-sm md:text-xl text-gray-500 group-hover:text-white uppercase transition-colors duration-500">
+                                    Classified
+                                </h3>
+                                <div class="h-[1px] w-0 group-hover:w-16 bg-accent mt-2 mb-2 transition-all duration-700"></div>
+                                <span class="font-bangers tracking-[0.2em] text-gray-700 group-hover:text-accent text-lg md:text-2xl transition-colors duration-500 group-hover:drop-shadow-[0_0_8px_rgba(252,209,22,0.8)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">COMING SOON</span>
                             </div>
+
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-accent opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#FCD116] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
                         </div>
-                        <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#FCD116] cursor-none shadow-[0_0_10px_#FCD116]"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-[#FCD116] drop-shadow-[0_0_5px_rgba(252,209,22,0.5)]">4. ENCRYPTED</h3>
-                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-fingerprint text-accent"></i> CLEARANCE | <span class="text-[#FCD116]">LVL 7</span></p>
+
+                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10 transition-colors">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#FCD116] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#FCD116]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-gray-600 group-hover:text-white transition-colors duration-500">
+                                4. PROJECT <span class="text-gray-700 group-hover:text-accent transition-colors duration-500">O.M.E.G.A</span>
+                            </h3>
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-600 ml-2 mt-1 cursor-none flex items-center group-hover:text-gray-400 transition-colors">
+                                <span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-marvel group-hover:animate-pulse mr-1.5"></span> CLEARANCE LEVEL 7
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -936,7 +929,7 @@
                                 <span class="font-bangers text-white text-xl md:text-3xl tracking-widest comic-text-shadow-dc drop-shadow-[0_0_10px_#0476F2] animate-pulse bg-black/60 px-4 py-1 border border-[#0476F2]">INITIALIZE TOUR</span>
                             </div>
                             
-                            <video autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none filter contrast-[1.15] brightness-[0.8] saturate-[1.2]">
+                            <video autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none filter contrast-[1.15] brightness-[0.8] saturate-[1.2]">
                                 <source src="VIDEO_65d4658c-8e58-4195-a937-15cbf280e811.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -1223,7 +1216,7 @@
 
             <button onclick="closeVideoModal()" class="absolute top-4 right-4 z-50 text-white hover:scale-110 text-3xl md:text-5xl font-bangers cursor-none drop-shadow-[0_0_5px_#000] transition-transform">×</button>
 
-            <video id="expanded-modal-video" class="w-full h-full object-cover md:object-contain relative z-40 cursor-none" controls playsinline>
+            <video id="expanded-modal-video" class="w-full h-full object-cover hide-veo-watermark relative z-40 cursor-none" controls playsinline muted>
                 <source src="" type="video/mp4">
             </video>
 
@@ -1243,7 +1236,7 @@
             </div>
             <span id="vibe-percentage" class="text-white text-xl mt-4 font-code font-bold cursor-none">0%</span>
         </div>
-        <video id="vibe-video" class="absolute inset-0 w-full h-full object-cover hidden z-10 opacity-80 cursor-none" playsinline webkit-playsinline preload="auto">
+        <video id="vibe-video" class="absolute inset-0 w-full h-full object-cover hide-veo-watermark hidden z-10 opacity-80 cursor-none" playsinline webkit-playsinline preload="auto">
             <source src="A_long_visually_hypnotic_sequ.mp4" type="video/mp4">
         </video>
         <button id="close-vibe-btn" onclick="closeVibeCheck()" class="absolute top-4 right-4 z-30 text-white text-4xl font-bangers hidden cursor-none">×</button>
@@ -1281,6 +1274,15 @@
     </div>
 
     <script>
+        // FORCING ALL SHOWS SECTION VIDEOS TO MUTED UPON LOAD AS AN EXTRA FAILSAFE
+        window.addEventListener('DOMContentLoaded', () => {
+            const showsVideos = document.querySelectorAll('#shows video');
+            showsVideos.forEach(vid => {
+                vid.muted = true;
+                vid.volume = 0;
+            });
+        });
+
         // Scroll Progress Bar Logic
         window.addEventListener('scroll', () => {
             let scrollDistance = document.documentElement.scrollTop || document.body.scrollTop;
@@ -1481,22 +1483,6 @@
             document.getElementById('ticket-batch').innerText = batch;
         }
 
-        function toggleVideoAudio(vidId, iconId, btnId, activeColorClass, textColorClass = 'text-white') {
-            const vid = document.getElementById(vidId); const icon = document.getElementById(iconId); const btn = document.getElementById(btnId);
-            const classes = activeColorClass ? activeColorClass.split(' ') : [];
-            if(vid.muted) {
-                vid.muted = false; icon.classList.remove('fa-volume-mute'); icon.classList.add('fa-volume-up');
-                if(classes.length) classes.forEach(c => btn.classList.add(c)); 
-                btn.classList.remove('bg-black/80');
-                if(textColorClass !== 'text-white') { btn.classList.remove('text-white'); btn.classList.add(textColorClass); }
-            } else {
-                vid.muted = true; icon.classList.remove('fa-volume-up'); icon.classList.add('fa-volume-mute');
-                btn.classList.add('bg-black/80'); 
-                if(classes.length) classes.forEach(c => btn.classList.remove(c));
-                if(textColorClass !== 'text-white') { btn.classList.remove(textColorClass); btn.classList.add('text-white'); }
-            }
-        }
-
         // --- EXPANDED VIDEO MODAL LOGIC ---
         function openVideoModal(videoSrc, title, themeColor) {
             const modal = document.getElementById('expanded-video-modal');
@@ -1514,6 +1500,11 @@
             
             // Set Content
             player.src = videoSrc;
+            
+            // FORCE JAVASCRIPT MUTE SO NO SOUND PLAYS
+            player.muted = true;
+            player.volume = 0;
+            
             titleEl.innerText = title;
             
             // Show Modal & Play
@@ -1553,24 +1544,21 @@
 
         const defaultSchedule = [
             { 
-                day: "ISSUE #1 // MAR 14", time: "10:00 IST", title: "ROBO SOCCER", desc: "Autonomous robotics competition on a miniature field.", color: "text-marvel",
+                day: "ISSUE #1 // MAR 14", time: "TBD", title: "ROBO SOCCER", desc: "Autonomous robotics competition on a miniature field.", color: "text-marvel",
                 detailsHtml: "<h4 class='text-2xl text-marvel mb-2 border-b-2 border-[#333] pb-2'>1. Intro</h4><p>Strategic autonomous robot battles hosted by CICR.</p>"
             },
             { 
-                day: "ISSUE #2 // MAR 15", time: "13:00 IST", title: "STARK EXPO", desc: "Rapid-fire tech exhibition and circuit assembly.", color: "text-marvel",
-                detailsHtml: "<h4 class='text-2xl text-marvel mb-2 border-b-2 border-[#333] pb-2'>Tech Specs</h4><p>Hardware/software rapid challenges to beat the timer.</p>"
+                day: "ISSUE #2 // MAR 15", time: "TBD", title: "EVORUSH", desc: "High-energy gaming and digital tech challenges.", color: "text-[#0476F2]",
+                detailsHtml: "<h4 class='text-2xl text-[#0476F2] mb-2 border-b-2 border-[#333] pb-2'>Details</h4><p>Interactive tech and competitive digital challenges.</p>"
             },
             { 
-                day: "ISSUE #2 // MAR 15", time: "14:00 IST", title: "EVORUSH", desc: "High-energy gaming and digital tech challenges.", color: "text-accent",
-                detailsHtml: "<h4 class='text-2xl text-accent mb-2 border-b-2 border-[#333] pb-2'>Details</h4><p>Interactive tech and competitive digital challenges.</p>"
-            },
-            { 
-                day: "ISSUE #2 // MAR 15", time: "15:00 IST", title: "J.A.R.V.I.S. PROTOCOL", desc: "AI-driven puzzle and code-breaking challenge.", color: "text-aicyan",
-                detailsHtml: "<h4 class='text-2xl text-aicyan mb-2 border-b-2 border-[#333] pb-2'>Override</h4><p>Algorithmic puzzles and cryptographic tests.</p>"
+                day: "ISSUE #2 // MAR 15", time: "TBD", title: "MARVEL MINI GAMES", desc: "A gauntlet of rapid-fire tech, logic, and physical challenges.", color: "text-accent",
+                detailsHtml: "<h4 class='text-2xl text-accent mb-2 border-b-2 border-[#333] pb-2'>1. Stark Expo</h4><p>Hardware/software rapid challenges to beat the timer.</p><h4 class='text-2xl text-[#00f0ff] mt-4 mb-2 border-b-2 border-[#333] pb-2'>2. J.A.R.V.I.S. Protocol</h4><p>Algorithmic puzzles and cryptographic tests.</p><h4 class='text-2xl text-[#a855f7] mt-4 mb-2 border-b-2 border-[#333] pb-2'>3. Thor's Trial</h4><p>Arcade-style physical and mental tests of endurance (Buzz Wire).</p>"
             }
         ];
 
-        function getSchedule() { return JSON.parse(localStorage.getItem('imp_schedule_v10')) || defaultSchedule; }
+        // Changed cache key to v11 to ensure the new combined schedule is loaded
+        function getSchedule() { return JSON.parse(localStorage.getItem('imp_schedule_v11')) || defaultSchedule; }
 
         function renderSchedule() {
             const schedule = getSchedule();
@@ -1611,13 +1599,13 @@
             const day = document.getElementById('sched-day').value; const time = document.getElementById('sched-time').value; const title = document.getElementById('sched-title').value; const desc = document.getElementById('sched-desc').value;
             if(!day || !time || !title) return alert("Fill required fields!");
             const schedule = getSchedule(); const colorClass = schedule.length % 2 === 0 ? 'text-marvel' : 'text-accent';
-            schedule.push({ day, time, title, desc, color: colorClass }); localStorage.setItem('imp_schedule_v10', JSON.stringify(schedule));
+            schedule.push({ day, time, title, desc, color: colorClass }); localStorage.setItem('imp_schedule_v11', JSON.stringify(schedule));
             renderSchedule(); alert("Timeline Updated!");
         }
 
         function resetSchedule() { 
             if(confirm("Wipe the entire timeline and restore defaults?")) { 
-                localStorage.removeItem('imp_schedule_v10'); 
+                localStorage.removeItem('imp_schedule_v11'); 
                 renderSchedule(); 
             } 
         }
