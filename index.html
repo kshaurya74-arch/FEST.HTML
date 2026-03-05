@@ -580,6 +580,7 @@
             <ul class="hidden lg:flex gap-2 xl:gap-4 shrink-0 cursor-none">
                 <li><a href="#home" class="nav-marvel-link cursor-none">HQ</a></li>
                 <li><a href="#shows" class="nav-marvel-link cursor-none">Shows</a></li>
+                <li><a href="#campus-tour" class="nav-marvel-link cursor-none">Tour</a></li>
                 <li><a href="#fest-pass" class="nav-marvel-link cursor-none">Pass</a></li>
                 <li><a href="#event-reg" class="nav-marvel-link cursor-none">Register</a></li>
                 <li><a href="#predictions" class="nav-marvel-link cursor-none">Nexus</a></li>
@@ -624,37 +625,44 @@
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-dcblue transition-colors">SHOWS</span>
             </a>
 
+            <a href="#campus-tour" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-[#0476F2] hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-[#0476F2] opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-[#0476F2]">>_ 03</div>
+                <i class="fas fa-map-marked-alt text-gray-500 text-2xl mb-2 group-hover:text-[#0476F2] group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(4,118,242,0)] group-hover:drop-shadow-[0_0_10px_#0476F2]"></i>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-[#0476F2] transition-colors">TOUR</span>
+            </a>
+
             <a href="#fest-pass" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-accent hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
                 <div class="absolute top-0 left-0 w-full h-[1px] bg-accent opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-accent">>_ 03</div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-accent">>_ 04</div>
                 <i class="fas fa-id-card text-gray-500 text-2xl mb-2 group-hover:text-accent group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(252,209,22,0)] group-hover:drop-shadow-[0_0_10px_#FCD116]"></i>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-accent transition-colors">PASS</span>
             </a>
 
             <a href="#event-reg" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-aicyan hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
                 <div class="absolute top-0 left-0 w-full h-[1px] bg-aicyan opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-aicyan">>_ 04</div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-aicyan">>_ 05</div>
                 <i class="fas fa-user-plus text-gray-500 text-2xl mb-2 group-hover:text-aicyan group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(0,240,255,0)] group-hover:drop-shadow-[0_0_10px_#00f0ff]"></i>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-aicyan transition-colors">REGISTER</span>
             </a>
 
             <a href="#predictions" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-[var(--gamma-green)] hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
                 <div class="absolute top-0 left-0 w-full h-[1px] bg-[var(--gamma-green)] opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-[var(--gamma-green)]">>_ 05</div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-[var(--gamma-green)]">>_ 06</div>
                 <i class="fas fa-gem text-gray-500 text-2xl mb-2 group-hover:text-[var(--gamma-green)] group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(68,182,28,0)] group-hover:drop-shadow-[0_0_10px_#44b61c]"></i>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-[var(--gamma-green)] transition-colors">NEXUS</span>
             </a>
 
             <a href="#schedule" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-hawkeye hover:bg-[#111] transition-all h-28 cursor-none rounded-sm">
                 <div class="absolute top-0 left-0 w-full h-[1px] bg-hawkeye opacity-0 group-hover:opacity-100 animate-[timelineLightDrop_1.5s_linear_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-hawkeye">>_ 06</div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-hawkeye">>_ 07</div>
                 <i class="far fa-clock text-gray-500 text-2xl mb-2 group-hover:text-hawkeye group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(168,85,247,0)] group-hover:drop-shadow-[0_0_10px_#a855f7]"></i>
                 <span class="text-xl tracking-[0.2em] text-white group-hover:text-hawkeye transition-colors">TIMELINE</span>
             </a>
 
             <a href="#contact" onclick="toggleMobileMenu()" class="col-span-2 group relative overflow-hidden bg-[#0a0a0a] border border-[#333] p-4 flex flex-col items-center justify-center hover:border-white hover:bg-[#111] transition-all h-20 cursor-none rounded-sm">
                 <div class="absolute top-0 left-0 w-full h-[1px] bg-white opacity-0 group-hover:opacity-100 animate-[laserSweep_2.5s_infinite]"></div>
-                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-white">>_ 07</div>
+                <div class="text-[9px] font-code text-gray-600 absolute top-2 left-2 group-hover:text-white">>_ 08</div>
                 <div class="flex items-center gap-3">
                     <i class="fas fa-envelope text-gray-500 text-xl group-hover:text-white group-hover:animate-pulse transition-colors drop-shadow-[0_0_5px_rgba(255,255,255,0)] group-hover:drop-shadow-[0_0_10px_#fff]"></i>
                     <span class="text-xl tracking-[0.2em] text-white group-hover:text-white transition-colors">CONTACT HQ</span>
@@ -897,6 +905,73 @@
                 </div>
 
             </div>
+        </div>
+    </section>
+
+    <section id="campus-tour" class="py-10 md:py-24 relative z-10 overflow-hidden">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+            <div class="w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[#0476F2] opacity-[0.15] blur-[100px] rounded-full animate-pulse"></div>
+        </div>
+
+        <div class="container mx-auto px-4 md:px-6 z-10 relative">
+            
+            <div class="text-center mb-10 md:mb-16 reveal relative z-10">
+                <h2 class="text-4xl md:text-7xl font-bangers text-white comic-text-shadow-dc transform -rotate-1 inline-block glitch-hover cursor-none" data-text="SECTOR 128 HQ">SECTOR 128 HQ</h2>
+                <br>
+                <p class="text-white font-bangers bg-[#0476F2] inline-block px-4 py-1 border-2 border-black tracking-widest text-md md:text-xl mt-3 uppercase shadow-[3px_3px_0px_#00f0ff] cursor-none transform skew-x-[-6deg]">
+                    <i class="fas fa-satellite text-aicyan animate-pulse mr-2"></i>S.H.I.E.L.D. Facility Recon
+                </p>
+            </div>
+
+            <div class="max-w-5xl mx-auto reveal cursor-none relative z-10 group">
+                <div class="stark-scanner-border rounded-lg shadow-[0_0_30px_rgba(4,118,242,0.3)] transition-all duration-500 group-hover:shadow-[0_0_60px_rgba(0,240,255,0.5)] cursor-none">
+                    <div class="stark-scanner-content p-2 md:p-4 border-2 md:border-4 border-black bg-[#050505] cursor-none relative">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-dcblue animate-[laserSweep_3s_infinite] z-20"></div>
+                        
+                        <div class="relative overflow-hidden w-full aspect-video flex-shrink-0 cursor-none border-2 border-[#1a1a1a] bg-black">
+                            <div class="classy-hud-corners classy-hud-dc"></div>
+                            
+                            <div onclick="openVideoModal('VIDEO_65d4658c-8e58-4195-a937-15cbf280e811.mp4', 'SECTOR 128 FACILITY', '#0476F2')" class="absolute inset-0 z-20 cursor-none group/expand flex flex-col items-center justify-center bg-black/50 hover:bg-black/20 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-500">
+                                
+                                <div class="w-16 h-16 md:w-24 md:h-24 rounded-full bg-[#0476F2]/80 border-2 border-white flex items-center justify-center transform scale-90 group-hover/expand:scale-110 transition-all duration-300 shadow-[0_0_30px_#0476F2] mb-4">
+                                    <i class="fas fa-play text-white text-2xl md:text-4xl ml-2 drop-shadow-[0_0_10px_#fff]"></i>
+                                </div>
+                                
+                                <span class="font-bangers text-white text-xl md:text-3xl tracking-widest comic-text-shadow-dc drop-shadow-[0_0_10px_#0476F2] animate-pulse bg-black/60 px-4 py-1 border border-[#0476F2]">INITIALIZE TOUR</span>
+                            </div>
+                            
+                            <video autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 cursor-none filter contrast-[1.15] brightness-[0.8] saturate-[1.2]">
+                                <source src="VIDEO_65d4658c-8e58-4195-a937-15cbf280e811.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        
+                        <div class="p-3 md:p-5 bg-[#0d0d0d] border-t border-[#1a1a1a] relative cursor-none mt-2 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#0476F2] cursor-none shadow-[0_0_10px_#0476F2]"></div>
+                            
+                            <div class="flex-grow">
+                                <h3 class="font-bangers text-xl md:text-[2.5rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(4,118,242,0.5)]">
+                                    <span class="text-white cursor-none">JIIT</span><span class="text-[#0476F2] ml-2 cursor-none">CAMPUS</span>
+                                </h3>
+                                <p class="font-oswald text-xs md:text-sm text-gray-400 ml-2 mt-1 cursor-none uppercase tracking-wide">
+                                    <i class="fas fa-map-marker-alt text-aicyan animate-pulse mr-1"></i> COORD: 28.519°N, 77.365°E <span class="mx-2 text-gray-700">|</span> <span class="text-white bg-[#0476F2]/20 px-2 py-0.5 border border-[#0476F2]">LOCATION CONFIRMED</span>
+                                </p>
+                            </div>
+                            
+                            <div class="hidden md:flex flex-col items-end cursor-none">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-code text-[10px] text-[#00f0ff] animate-pulse">UPLINK ACTIVE</span>
+                                    <i class="fas fa-signal text-[#00f0ff]"></i>
+                                </div>
+                                <div class="mt-2 text-right opacity-50">
+                                    <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-8 h-8 rounded-full border border-[#0476F2] grayscale" alt="Logo">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </section>
 
