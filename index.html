@@ -250,11 +250,11 @@
         }
 
         /* WATERMARK CROPPING VIA SCALE */
-        .hide-veo-watermark { transform: scale(1.15) !important; object-fit: cover !important; }
+        .hide-veo-watermark { transform: scale(1.05) translateY(2.5%) !important; object-fit: cover !important; }
 
         #bg-video-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -50; overflow: hidden; opacity: 0; transition: opacity 3s ease-in;
+            z-index: -50; overflow: hidden; opacity: 0; transition: opacity 0.5s ease-in;
         }
         #bg-video { width: 100vw; height: 100vh; filter: contrast(1.3) saturate(1.2); }
        
@@ -1492,8 +1492,15 @@
 
         function endIntro() {
             const overlay = document.getElementById('intro-overlay');
-            overlay.style.transition = "all 0.5s ease"; overlay.style.opacity = "0";
-            setTimeout(() => { overlay.style.display = "none"; enterSite(); }, 500);
+            overlay.style.transition = "all 0.4s ease"; 
+            overlay.style.opacity = "0";
+            
+            // Call enterSite instantly instead of waiting for the timeout delay
+            enterSite(); 
+            
+            setTimeout(() => { 
+                overlay.style.display = "none"; 
+            }, 400);
         }
 
         function enterSite() {
