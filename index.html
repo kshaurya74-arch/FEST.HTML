@@ -75,14 +75,14 @@
 
         body { background-color: #080808; color: white; overflow-x: hidden; padding-bottom: 40px; cursor: none; }
 
-        /* CUSTOM STARK CURSOR - ROUND SHAPE */
+        /* CUSTOM STARK CURSOR - PERFECT SHAPE GLOW */
        #custom-cursor {
             position: fixed;
             top: 0;
             left: 0;
             width: 45px;
             height: 45px;
-            background-image: url("cursor.png"); /* your image */
+            background-image: url("cursor.png"); /* ensure this file is a transparent PNG */
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -91,7 +91,9 @@
             z-index: 9999999;
             transition: transform 0.15s ease;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+            
+            /* Replaced box-shadow with drop-shadow to outline the PNG shape perfectly */
+            filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.8));
         }
         
         .cursor-hover {
@@ -564,8 +566,8 @@
     <div id="particles-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
     <div id="intro-overlay">
-        <video id="intro-video" class="intro-vid-fullscreen" playsinline webkit-playsinline preload="auto">
-            <source src="VIDEO_b61ae108-27f0-40e6-8924-413b57487b38.mp4" type="video/mp4">
+        <video id="intro-video" class="intro-vid-fullscreen hide-veo-watermark" playsinline webkit-playsinline preload="auto">
+            <source src="VIDEO_296c395e-47b4-41b2-8a8a-0997f3b96553.mp4" type="video/mp4">
         </video>
         
         <div id="start-screen-content" class="flex flex-col items-center justify-center h-full relative z-10">
