@@ -63,30 +63,26 @@
 
         /* CUSTOM STARK CURSOR - ROUND SHAPE */
        #custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: 45px;
-    height: 45px;
-
-    background-image: url("cursor.png"); /* your image */
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 9999999;
-
-    transition: transform 0.15s ease;
-}
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 45px;
+            height: 45px;
+            background-image: url("cursor.png"); /* your image */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999999;
+            transition: transform 0.15s ease;
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
         }
-               .cursor-hover {
-    transform: translate(-50%, -50%) scale(1.5);
-}
+        
+        .cursor-hover {
+            transform: translate(-50%, -50%) scale(1.5);
+        }
 
         /* ENSURE CURSOR STAYS VISIBLE OVER VIDEOS AND MODALS */
         video, video::-webkit-media-controls, video::-webkit-media-controls-panel, video::-webkit-media-controls-enclosure, iframe {
@@ -254,7 +250,8 @@
 
         #bg-video-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -50; overflow: hidden; opacity: 0; transition: opacity 0.5s ease-in;
+            z-index: -50; overflow: hidden; opacity: 0; 
+            transition: opacity 0.2s ease-out; /* Reduced for snappiness */
         }
         #bg-video { width: 100vw; height: 100vh; filter: contrast(1.3) saturate(1.2); }
        
@@ -465,10 +462,10 @@
             body, nav, a, button, select, input, [onclick], .cursor-none { cursor: auto !important; }
             #custom-cursor, .lightning-spark { display: none !important; }
 
-            /* INTRO VIDEO MOBILE FIT FIX */
+            /* INTRO VIDEO MOBILE FIT FIX - Changed to cover to fix the watermark on phones */
             #intro-video {
-                object-fit: contain !important;
-                transform: scale(1) !important;
+                object-fit: cover !important; 
+                transform: scale(1.05) translateY(2.5%) !important;
                 background-color: #050505;
             }
 
@@ -1476,12 +1473,22 @@
             const introVid = document.getElementById('intro-video');
             const skipBtn = document.getElementById('skip-intro-btn');
            
-            // Removed 1-sec delay video, instantly show main intro
             startContent.style.display = 'none'; 
             introVid.style.display = 'block'; 
             skipBtn.classList.remove('hidden');
+            
+            // Start video immediately
             introVid.muted = false; 
-            introVid.play().catch(e => console.log(e));
+            const playPromise = introVid.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(e => {
+                    console.log("Autoplay issue:", e);
+                    // Fallback to mute if unmuted fails due to mobile restrictions
+                    introVid.muted = true;
+                    introVid.play();
+                });
+            }
+            
             introVid.onended = () => endIntro();
         }
 
@@ -1492,15 +1499,14 @@
 
         function endIntro() {
             const overlay = document.getElementById('intro-overlay');
-            overlay.style.transition = "all 0.4s ease"; 
+            overlay.style.transition = "opacity 0.2s ease-out"; 
             overlay.style.opacity = "0";
             
-            // Call enterSite instantly instead of waiting for the timeout delay
             enterSite(); 
             
             setTimeout(() => { 
                 overlay.style.display = "none"; 
-            }, 400);
+            }, 200);
         }
 
         function enterSite() {
