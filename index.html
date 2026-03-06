@@ -466,7 +466,7 @@
             #custom-cursor, .lightning-spark { display: none !important; }
 
             /* INTRO VIDEO MOBILE FIT FIX */
-            #pre-intro-video, #intro-video {
+            #intro-video {
                 object-fit: contain !important;
                 transform: scale(1) !important;
                 background-color: #050505;
@@ -551,10 +551,6 @@
     <div id="particles-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
     <div id="intro-overlay">
-        <video id="pre-intro-video" class="intro-vid-fullscreen hide-veo-watermark" playsinline webkit-playsinline preload="auto">
-            <source src="Robo_Soccer_Event_Video_Creation.mp4" type="video/mp4">
-        </video>
-
         <video id="intro-video" class="intro-vid-fullscreen hide-veo-watermark" playsinline webkit-playsinline preload="auto">
             <source src="Video_Enhancement_and_Logo_Addition.mp4" type="video/mp4">
         </video>
@@ -741,40 +737,10 @@
                 <div class="classy-video-border group cursor-none">
                     <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
-                            <div class="classy-hud-corners classy-hud-dc"></div>
-                           
-                            <div onclick="openVideoModal('College_Fest_Trailer_Generation.mp4', 'ROBO RACE -- STARK SPEEDWAY?', '#0476F2')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-full bg-[#0476F2]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#0476F2]">
-                                    <i class="fas fa-expand text-white text-xl"></i>
-                                </div>
-                            </div>
-                           
-                            <video id="evorush-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
-                                <source src="College_Fest_Trailer_Generation.mp4" type="video/mp4">
-                            </video>
-                        </div>
-
-                        <div class="p-2 md:p-5 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative overflow-hidden cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#0476F2] cursor-none shadow-[0_0_10px_#0476F2]"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.5rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(4,118,242,0.5)]">
-                                <span class="text-white cursor-none">ROBO RACE</span> <span class="text-[#0476F2] ml-1 cursor-none">-- STARK SPEEDWAY?</span>
-                            </h3>
-                            <div class="mt-1 font-oswald font-bold tracking-wide space-y-1 ml-2 cursor-none">
-                                <p class="flex items-center text-white text-xs md:text-[0.95rem] cursor-none"><i class="fas fa-flag-checkered mr-1 text-gray-400"></i> RACE <span class="mx-1 text-gray-600">|</span> <span class="text-[#0476F2] cursor-none">TECH</span></p>
-                                <p class="flex items-center text-gray-400 uppercase text-[10px] md:text-[0.8rem] tracking-widest mt-1 cursor-none"><i class="fas fa-bolt text-[#00ff41] mr-1"></i> SEASON 1</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="classy-video-border group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
-                        <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners"></div>
-                            <div class="absolute top-2 left-2 z-30 bg-marvel text-white px-2 py-0.5 font-bangers text-[10px] md:text-sm tracking-widest border border-black transform skew-x-[-6deg] animate-pulse cursor-none">
-                                LIVE
-                            </div>
+                            
+                            <div class="absolute top-2 left-2 z-30 bg-marvel text-white px-2 py-0.5 font-bangers text-[10px] md:text-sm tracking-widest border border-black transform skew-x-[-6deg] animate-pulse cursor-none">LIVE</div>
+                            <div class="absolute top-2 right-2 z-30 bg-[#111] text-white px-3 py-1 font-bangers text-[10px] md:text-sm tracking-widest border border-marvel transform skew-x-[6deg] shadow-[2px_2px_0px_#ED1D24] cursor-none">DAY 1</div>
                            
                             <div onclick="openVideoModal('Robo_Soccer_Event_Video_Creation.mp4#t=1', 'ROBOSOCCER - MECHVENGERS ARENA', '#ED1D24')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
                                 <div class="w-12 h-12 rounded-full bg-[#ED1D24]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#ED1D24]">
@@ -798,7 +764,37 @@
                                 <p class="flex items-center text-gray-400 uppercase text-[10px] md:text-[0.8rem] tracking-widest mt-1 cursor-none"><i class="fas fa-play text-accent mr-1"></i> WATCH</p>
                             </div>
                         </div>
+                    </div>
+                </div>
 
+                <div class="classy-video-border group cursor-none">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
+                        <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
+                            <div class="classy-hud-corners classy-hud-dc"></div>
+
+                            <div class="absolute top-2 right-2 z-30 bg-[#111] text-white px-3 py-1 font-bangers text-[10px] md:text-sm tracking-widest border border-[#0476F2] transform skew-x-[6deg] shadow-[2px_2px_0px_#0476F2] cursor-none">DAY 2</div>
+                           
+                            <div onclick="openVideoModal('College_Fest_Trailer_Generation.mp4', 'ROBO RACE -- STARK SPEEDWAY?', '#0476F2')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-full bg-[#0476F2]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#0476F2]">
+                                    <i class="fas fa-expand text-white text-xl"></i>
+                                </div>
+                            </div>
+                           
+                            <video id="evorush-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
+                                <source src="College_Fest_Trailer_Generation.mp4" type="video/mp4">
+                            </video>
+                        </div>
+
+                        <div class="p-2 md:p-5 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative overflow-hidden cursor-none">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#0476F2] cursor-none shadow-[0_0_10px_#0476F2]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.5rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(4,118,242,0.5)]">
+                                <span class="text-white cursor-none">ROBO RACE</span> <span class="text-[#0476F2] ml-1 cursor-none">-- STARK SPEEDWAY?</span>
+                            </h3>
+                            <div class="mt-1 font-oswald font-bold tracking-wide space-y-1 ml-2 cursor-none">
+                                <p class="flex items-center text-white text-xs md:text-[0.95rem] cursor-none"><i class="fas fa-flag-checkered mr-1 text-gray-400"></i> RACE <span class="mx-1 text-gray-600">|</span> <span class="text-[#0476F2] cursor-none">TECH</span></p>
+                                <p class="flex items-center text-gray-400 uppercase text-[10px] md:text-[0.8rem] tracking-widest mt-1 cursor-none"><i class="fas fa-bolt text-[#00ff41] mr-1"></i> SEASON 1</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -810,101 +806,139 @@
                     </div>
                 </div>
 
-                <div class="classy-video-border group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
-                            <div class="classy-hud-corners classy-hud-dc"></div>
-                           
-                            <div onclick="openVideoModal('Stark_Expo_Video_Generation_Request.mp4', 'STARK EXPO', '#FCD116')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-full bg-[#FCD116]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#FCD116]">
-                                    <i class="fas fa-expand text-black text-xl"></i>
+                <div class="classy-video-border group cursor-none relative overflow-hidden">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-[#FCD116] transition-colors duration-500 overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#FCD116_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
+                        
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-[#FCD116]/50">
+                            <div class="classy-hud-corners classy-hud-gold opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                            
+                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700 p-2">
+                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#333] group-hover:border-[#FCD116]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(252,209,22,0.4)] transition-all duration-500">
+                                    <i class="fas fa-lock text-lg md:text-2xl text-gray-600 group-hover:text-[#FCD116] transition-colors duration-500"></i>
                                 </div>
+                                <h3 class="font-bangers tracking-[0.2em] text-lg md:text-2xl text-gray-500 group-hover:text-[#FCD116] uppercase transition-colors duration-500">
+                                    COMING SOON
+                                </h3>
+                                <div class="h-[1px] w-0 group-hover:w-24 bg-[#FCD116] mt-1 mb-2 transition-all duration-700"></div>
+                                <span class="font-oswald italic tracking-wide text-gray-700 group-hover:text-white text-xs md:text-sm transition-colors duration-500 group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 leading-snug px-4">
+                                    "Calibrating the future. Access granting soon."
+                                </span>
                             </div>
-                           
-                            <video id="stark-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
-                                <source src="Stark_Expo_Video_Generation_Request.mp4" type="video/mp4">
-                            </video>
+                            
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#FCD116] opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#FCD116] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
                         </div>
-                        <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#FCD116] cursor-none shadow-[0_0_10px_#FCD116]"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(252,209,22,0.5)]"><span class="text-white">1. STARK</span><span class="text-[#FCD116] ml-1">EXPO</span></h3>
-                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-lightbulb text-gray-500"></i> INNOVATION | <span class="text-[#FCD116]">TECH</span></p>
+
+                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10 transition-colors">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#FCD116] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#FCD116]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(252,209,22,0.5)] text-gray-600 group-hover:text-white transition-colors duration-500">
+                                1. STARK<span class="text-gray-700 group-hover:text-[#FCD116] transition-colors duration-500 ml-1">EXPO</span>
+                            </h3>
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-600 group-hover:text-gray-400 ml-2 mt-1 cursor-none transition-colors">
+                                <i class="fas fa-lightbulb text-gray-600 group-hover:text-[#FCD116] transition-colors mr-1"></i> INNOVATION | TECH
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="classy-video-border group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
-                            <div class="classy-hud-corners classy-hud-cyan"></div>
-                           
-                            <div onclick="openVideoModal('JARVIS_Protocol_Video_Generation.mp4', 'J.A.R.V.I.S.', '#00f0ff')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-full bg-[#00f0ff]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#00f0ff]">
-                                    <i class="fas fa-expand text-black text-xl"></i>
+                <div class="classy-video-border group cursor-none relative overflow-hidden">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-[#00f0ff] transition-colors duration-500 overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#00f0ff_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
+                        
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-[#00f0ff]/50">
+                            <div class="classy-hud-corners classy-hud-cyan opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                            
+                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700 p-2">
+                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#333] group-hover:border-[#00f0ff]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all duration-500">
+                                    <i class="fas fa-lock text-lg md:text-2xl text-gray-600 group-hover:text-[#00f0ff] transition-colors duration-500"></i>
                                 </div>
+                                <h3 class="font-bangers tracking-[0.2em] text-lg md:text-2xl text-gray-500 group-hover:text-[#00f0ff] uppercase transition-colors duration-500">
+                                    COMING SOON
+                                </h3>
+                                <div class="h-[1px] w-0 group-hover:w-24 bg-[#00f0ff] mt-1 mb-2 transition-all duration-700"></div>
+                                <span class="font-oswald italic tracking-wide text-gray-700 group-hover:text-white text-xs md:text-sm transition-colors duration-500 group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 leading-snug px-4">
+                                    "System reboot initiated.<br>Overriding manual controls.<br>The J.A.R.V.I.S. Protocol is loading..."
+                                </span>
                             </div>
-                           
-                            <video id="jarvis-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
-                                <source src="JARVIS_Protocol_Video_Generation.mp4" type="video/mp4">
-                            </video>
+
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#00f0ff] opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#00f0ff] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
                         </div>
-                        <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#00f0ff] cursor-none shadow-[0_0_10px_#00f0ff]"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]"><span class="text-white">2. J.A.R.V.I.S.</span></h3>
-                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-code text-gray-500"></i> ALGORITHM | <span class="text-[#00f0ff]">LOGIC</span></p>
+
+                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10 transition-colors">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#00f0ff] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#00f0ff]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(0,240,255,0.5)] text-gray-600 group-hover:text-white transition-colors duration-500">
+                                2. J.A.R.V.I.S.
+                            </h3>
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-600 group-hover:text-gray-400 ml-2 mt-1 cursor-none transition-colors">
+                                <i class="fas fa-code text-gray-600 group-hover:text-[#00f0ff] transition-colors mr-1"></i> ALGORITHM | LOGIC
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="classy-video-border group cursor-none">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none">
-                            <div class="classy-hud-corners classy-hud-purple"></div>
-                           
-                            <div onclick="openVideoModal('Buzz_Wire_Video_Generation_Request.mp4', 'THOR\'S TRIAL', '#a855f7')" class="absolute inset-0 z-20 cursor-none group/expand flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-full bg-[#a855f7]/80 border-2 border-white flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transform scale-50 group-hover/expand:scale-100 transition-all duration-300 shadow-[0_0_15px_#a855f7]">
-                                    <i class="fas fa-expand text-white text-xl"></i>
+                <div class="classy-video-border group cursor-none relative overflow-hidden">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-[#a855f7] transition-colors duration-500 overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#a855f7_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
+                        
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-[#a855f7]/50">
+                            <div class="classy-hud-corners classy-hud-purple opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                            
+                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700 p-2">
+                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#333] group-hover:border-[#a855f7]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-500">
+                                    <i class="fas fa-lock text-lg md:text-2xl text-gray-600 group-hover:text-[#a855f7] transition-colors duration-500"></i>
                                 </div>
+                                <h3 class="font-bangers tracking-[0.2em] text-lg md:text-2xl text-gray-500 group-hover:text-[#a855f7] uppercase transition-colors duration-500">
+                                    COMING SOON
+                                </h3>
+                                <div class="h-[1px] w-0 group-hover:w-24 bg-[#a855f7] mt-1 mb-2 transition-all duration-700"></div>
+                                <span class="font-oswald italic tracking-wide text-gray-700 group-hover:text-white text-xs md:text-sm transition-colors duration-500 group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 leading-snug px-4">
+                                    "The path is forged. The trial awaits.<br>Soon, you will have to prove your worth."
+                                </span>
                             </div>
-                           
-                            <video id="thor-vid" autoplay loop muted playsinline webkit-playsinline class="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.10] transition-transform duration-700 cursor-none">
-                                <source src="Buzz_Wire_Video_Generation_Request.mp4" type="video/mp4">
-                            </video>
+
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#a855f7] opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#a855f7] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
                         </div>
-                        <div class="p-2 md:p-4 bg-[#0d0d0d] border-t border-[#1a1a1a] flex-grow relative cursor-none">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#a855f7] cursor-none shadow-[0_0_10px_#a855f7]"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]"><span class="text-white">3. THOR'S</span><span class="text-[#a855f7] ml-1">TRIAL</span></h3>
-                            <p class="font-oswald text-[10px] md:text-sm text-gray-400 ml-2 mt-1 cursor-none"><i class="fas fa-hammer text-gray-500"></i> STRENGTH | <span class="text-[#a855f7]">ARCADE</span></p>
+
+                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10 transition-colors">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#a855f7] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#a855f7]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(168,85,247,0.5)] text-gray-600 group-hover:text-white transition-colors duration-500">
+                                3. THOR'S<span class="text-gray-700 group-hover:text-[#a855f7] transition-colors duration-500 ml-1">TRIAL</span>
+                            </h3>
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-600 group-hover:text-gray-400 ml-2 mt-1 cursor-none transition-colors">
+                                <i class="fas fa-hammer text-gray-600 group-hover:text-[#a855f7] transition-colors mr-1"></i> STRENGTH | ARCADE
+                            </p>
                         </div>
                     </div>
                 </div>
                
                 <div class="classy-video-border group cursor-none relative overflow-hidden">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-accent transition-colors duration-500 overflow-hidden">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-[#ED1D24] transition-colors duration-500 overflow-hidden">
 
-                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--marvel-gold)_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#ED1D24_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
 
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-accent/50">
-                            <div class="classy-hud-corners classy-hud-gold opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-[#ED1D24]/50">
+                            <div class="classy-hud-corners opacity-30 group-hover:opacity-100 transition-opacity"></div>
 
-                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700">
-                                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full border border-[#333] group-hover:border-accent/80 flex items-center justify-center mb-3 md:mb-4 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(252,209,22,0.4)] transition-all duration-500">
-                                    <i class="fas fa-fingerprint text-xl md:text-3xl text-gray-600 group-hover:text-accent transition-colors duration-500"></i>
+                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700 p-2">
+                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#333] group-hover:border-[#ED1D24]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(237,29,36,0.4)] transition-all duration-500">
+                                    <i class="fas fa-lock text-lg md:text-2xl text-gray-600 group-hover:text-[#ED1D24] transition-colors duration-500"></i>
                                 </div>
-                                <h3 class="font-oswald font-light tracking-[0.4em] text-sm md:text-xl text-gray-500 group-hover:text-white uppercase transition-colors duration-500">
+                                <h3 class="font-oswald font-light tracking-[0.4em] text-sm md:text-xl text-gray-500 group-hover:text-[#ED1D24] uppercase transition-colors duration-500">
                                     Classified
                                 </h3>
-                                <div class="h-[1px] w-0 group-hover:w-16 bg-accent mt-2 mb-2 transition-all duration-700"></div>
-                                <span class="font-bangers tracking-[0.2em] text-gray-700 group-hover:text-accent text-lg md:text-2xl transition-colors duration-500 group-hover:drop-shadow-[0_0_8px_rgba(252,209,22,0.8)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">COMING SOON</span>
+                                <div class="h-[1px] w-0 group-hover:w-24 bg-[#ED1D24] mt-1 mb-2 transition-all duration-700"></div>
+                                <span class="font-oswald italic tracking-wide text-gray-700 group-hover:text-white text-xs md:text-sm transition-colors duration-500 group-hover:drop-shadow-[0_0_8px_rgba(237,29,36,0.8)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 leading-snug px-4">
+                                    "Clearance Level 7 Required."
+                                </span>
                             </div>
 
-                            <div class="absolute top-0 left-0 w-full h-[1px] bg-accent opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#FCD116] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#ED1D24] opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#ED1D24] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
                         </div>
 
                         <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10 transition-colors">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#FCD116] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#FCD116]"></div>
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#ED1D24] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#ED1D24]"></div>
                             <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-gray-600 group-hover:text-white transition-colors duration-500">
-                                4. PROJECT <span class="text-gray-700 group-hover:text-accent transition-colors duration-500">O.M.E.G.A</span>
+                                4. PROJECT <span class="text-gray-700 group-hover:text-[#ED1D24] transition-colors duration-500">O.M.E.G.A</span>
                             </h3>
                             <p class="font-oswald text-[10px] md:text-sm text-gray-600 ml-2 mt-1 cursor-none flex items-center group-hover:text-gray-400 transition-colors">
                                 <span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-marvel group-hover:animate-pulse mr-1.5"></span> CLEARANCE LEVEL 7
@@ -1439,23 +1473,19 @@
 
         function startExperience() {
             const startContent = document.getElementById('start-screen-content');
-            const preIntroVid = document.getElementById('pre-intro-video');
             const introVid = document.getElementById('intro-video');
             const skipBtn = document.getElementById('skip-intro-btn');
            
-            startContent.style.display = 'none'; preIntroVid.style.display = 'block';
-            preIntroVid.muted = false; preIntroVid.play().catch(e => console.log(e));
-           
-            setTimeout(() => {
-                preIntroVid.pause(); preIntroVid.style.display = 'none';
-                introVid.style.display = 'block'; skipBtn.classList.remove('hidden');
-                introVid.muted = false; introVid.play().catch(e => console.log(e));
-                introVid.onended = () => endIntro();
-            }, 1000);
+            // Removed 1-sec delay video, instantly show main intro
+            startContent.style.display = 'none'; 
+            introVid.style.display = 'block'; 
+            skipBtn.classList.remove('hidden');
+            introVid.muted = false; 
+            introVid.play().catch(e => console.log(e));
+            introVid.onended = () => endIntro();
         }
 
         function skipIntro() {
-            document.getElementById('pre-intro-video').pause();
             document.getElementById('intro-video').pause();
             endIntro();
         }
@@ -1562,23 +1592,23 @@
             modal.classList.toggle('hidden'); modal.classList.toggle('flex');
         }
 
+        // BUMPED VERSION KEY TO RE-FETCH THE NEW SCHEDULE
         const defaultSchedule = [
             {
                 day: "ISSUE #1 // MAR 14", time: "TBD", title: "ROBOSOCCER - MECHVENGERS ARENA", desc: "(Mechanical Avengers) Autonomous robotics competition on a miniature field.", color: "text-marvel",
-                detailsHtml: "<h4 class='text-2xl text-marvel mb-2 border-b-2 border-[#333] pb-2'>1. Intro</h4><p>Strategic autonomous robot battles hosted by CICR.</p>"
+                detailsHtml: "<h4 class='text-2xl text-marvel mb-2 border-b-2 border-[#333] pb-2'>Mechvengers Arena</h4><p>Mechvengers arena is an exciting 1v1 robotic football showdown played inside a custom arena. Participants control robots provided by the organizers and compete to push the ball into the opponent’s goal.<br><br>The match tests strategy, reflexes, and precise control, as players battle head-to-head to score the most goals within the allotted time. Fast moves, smart positioning, and quick reactions will decide the winner.</p>"
             },
             {
                 day: "ISSUE #2 // MAR 15", time: "TBD", title: "ROBO RACE -- STARK SPEEDWAY?", desc: "High-energy gaming and digital tech challenges.", color: "text-[#0476F2]",
-                detailsHtml: "<h4 class='text-2xl text-[#0476F2] mb-2 border-b-2 border-[#333] pb-2'>Details</h4><p>Interactive tech and competitive digital challenges.</p>"
+                detailsHtml: "<h4 class='text-2xl text-[#0476F2] mb-2 border-b-2 border-[#333] pb-2'>Stark Speedway</h4><p>Stark Speedway is a fast-paced robotics challenge where participants control robots provided by the organizers to navigate a specially designed obstacle track. The course will feature ramps, sharp turns, and technical obstacles that test a participant’s control, precision, and quick decision-making.<br><br>The objective is simple: overcome every obstacle and complete the track in the least possible time. The participant with the fastest and cleanest run takes the win.</p>"
             },
             {
                 day: "ISSUE #2 // MAR 15", time: "TBD", title: "MARVEL MINI GAMES", desc: "A gauntlet of rapid-fire tech, logic, and physical challenges.", color: "text-accent",
-                detailsHtml: "<h4 class='text-2xl text-accent mb-2 border-b-2 border-[#333] pb-2'>1. Stark Expo</h4><p>Hardware/software rapid challenges to beat the timer.</p><h4 class='text-2xl text-[#00f0ff] mt-4 mb-2 border-b-2 border-[#333] pb-2'>2. J.A.R.V.I.S. Protocol</h4><p>Algorithmic puzzles and cryptographic tests.</p><h4 class='text-2xl text-[#a855f7] mt-4 mb-2 border-b-2 border-[#333] pb-2'>3. Thor's Trial</h4><p>Arcade-style physical and mental tests of endurance (Buzz Wire).</p>"
+                detailsHtml: "<h4 class='text-2xl text-accent mb-2 border-b-2 border-[#333] pb-2'>Mini Games</h4><p>Mini games details to be revealed soon. Stand by for decrypted S.H.I.E.L.D files.</p>"
             }
         ];
 
-        // Changed cache key to v12 to ensure the new combined schedule is loaded
-        function getSchedule() { return JSON.parse(localStorage.getItem('imp_schedule_v12')) || defaultSchedule; }
+        function getSchedule() { return JSON.parse(localStorage.getItem('imp_schedule_v15')) || defaultSchedule; }
 
         function renderSchedule() {
             const schedule = getSchedule();
@@ -1619,13 +1649,13 @@
             const day = document.getElementById('sched-day').value; const time = document.getElementById('sched-time').value; const title = document.getElementById('sched-title').value; const desc = document.getElementById('sched-desc').value;
             if(!day || !time || !title) return alert("Fill required fields!");
             const schedule = getSchedule(); const colorClass = schedule.length % 2 === 0 ? 'text-marvel' : 'text-accent';
-            schedule.push({ day, time, title, desc, color: colorClass }); localStorage.setItem('imp_schedule_v12', JSON.stringify(schedule));
+            schedule.push({ day, time, title, desc, color: colorClass }); localStorage.setItem('imp_schedule_v15', JSON.stringify(schedule));
             renderSchedule(); alert("Timeline Updated!");
         }
 
         function resetSchedule() {
             if(confirm("Wipe the entire timeline and restore defaults?")) {
-                localStorage.removeItem('imp_schedule_v12');
+                localStorage.removeItem('imp_schedule_v15');
                 renderSchedule();
             }
         }
