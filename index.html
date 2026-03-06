@@ -251,7 +251,7 @@
         #bg-video-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -50; overflow: hidden; opacity: 0; 
-            transition: opacity 0.2s ease-out; /* Reduced for snappiness */
+            transition: none; /* INSTANT 0s DELAY */
         }
         #bg-video { width: 100vw; height: 100vh; filter: contrast(1.3) saturate(1.2); }
        
@@ -462,11 +462,17 @@
             body, nav, a, button, select, input, [onclick], .cursor-none { cursor: auto !important; }
             #custom-cursor, .lightning-spark { display: none !important; }
 
-            /* INTRO VIDEO MOBILE FIT FIX - Changed to cover to fix the watermark on phones */
+            /* PERFECT 16:9 MOBILE VIDEO BOX + WATERMARK CROPPING */
             #intro-video {
+                position: absolute !important;
+                top: 50% !important;
+                left: 50% !important;
+                width: 100vw !important;
+                height: 56.25vw !important; /* Forces perfect 16:9 ratio */
                 object-fit: cover !important; 
-                transform: scale(1.05) translateY(2.5%) !important;
-                background-color: #050505;
+                /* Center, zoom in 8% to bypass Veo, pull down to crop it out of frame completely */
+                transform: translate(-50%, -46%) scale(1.08) !important;
+                background-color: #000;
             }
 
             nav .container { padding-left: 0.5rem; padding-right: 0.5rem; }
@@ -1499,14 +1505,11 @@
 
         function endIntro() {
             const overlay = document.getElementById('intro-overlay');
-            overlay.style.transition = "opacity 0.2s ease-out"; 
+            overlay.style.transition = "none"; 
             overlay.style.opacity = "0";
+            overlay.style.display = "none"; 
             
             enterSite(); 
-            
-            setTimeout(() => { 
-                overlay.style.display = "none"; 
-            }, 200);
         }
 
         function enterSite() {
