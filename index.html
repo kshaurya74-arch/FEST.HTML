@@ -214,18 +214,15 @@
         /* CLASSY VIDEO BORDER */
         .classy-video-border {
             position: relative; background: rgba(8, 8, 8, 0.7); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.05); padding: 5px; border-radius: 4px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 5px; border-radius: 4px;
             transition: all 0.4s ease; overflow: hidden; z-index: 1;
         }
         .classy-video-border::before {
             content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--ai-cyan), transparent);
+            background: linear-gradient(90deg, transparent, var(--marvel-red), var(--marvel-gold), transparent);
             animation: laserSweep 4s infinite; z-index: 10;
         }
         .classy-video-border:hover {
-            border-color: rgba(0, 240, 255, 0.3);
-            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.15), inset 0 0 20px rgba(0, 240, 255, 0.05);
             transform: translateY(-4px);
         }
 
@@ -304,15 +301,26 @@
             50% { box-shadow: 0 0 60px var(--ai-cyan); }
         }
 
+        /* --- INTENSIFIED NAV GLOW --- */
         @keyframes navGlow {
-            0% { box-shadow: 0 4px 20px rgba(237, 29, 36, 0.5), inset 0 -2px 10px rgba(252, 209, 22, 0.2); border-bottom-color: var(--marvel-red); }
-            100% { box-shadow: 0 4px 35px rgba(252, 209, 22, 0.7), inset 0 -2px 20px rgba(237, 29, 36, 0.4); border-bottom-color: var(--marvel-gold); }
+            0% { box-shadow: 0 4px 20px rgba(237, 29, 36, 0.4), inset 0 -2px 10px rgba(252, 209, 22, 0.2); border-bottom-color: transparent; }
+            100% { box-shadow: 0 4px 40px rgba(252, 209, 22, 0.8), inset 0 -2px 25px rgba(237, 29, 36, 0.6); border-bottom-color: transparent; }
         }
 
         nav {
-            backdrop-filter: blur(20px); background: rgba(8, 8, 8, 0.9); border-bottom: 2px solid var(--marvel-red); z-index: 100; animation: navGlow 4s infinite alternate; cursor: none;
+            backdrop-filter: blur(20px); background: rgba(8, 8, 8, 0.9); z-index: 100; animation: navGlow 2.5s infinite alternate; cursor: none; border-bottom: 2px solid transparent; position: relative;
         }
         nav a, button, select, input, [onclick] { cursor: none !important; }
+
+        /* MULTIVERSE LASER BOTTOM BORDER FOR NAV */
+        nav::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--marvel-red), var(--marvel-gold), var(--ai-cyan), transparent);
+            background-size: 200% 100%;
+            animation: flowLight 3s linear infinite;
+            box-shadow: 0 0 15px var(--marvel-red), 0 0 20px var(--marvel-gold);
+            pointer-events: none;
+        }
 
         /* NAV FLOWING LIGHTS & LASER SWEEP */
         .flow-light-text {
@@ -335,9 +343,9 @@
             justify-content: center;
             padding: 0.3rem 1.2rem;
             color: #fff;
-            font-family: 'Bangers', cursive;
-            font-size: 1.2rem;
-            letter-spacing: 3px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
             transform: skew(-15deg);
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
@@ -452,12 +460,22 @@
         @media (min-width: 640px) { .masonry-col { column-count: 2; column-gap: 1rem; } }
         @media (min-width: 1024px) { .masonry-col { column-count: 4; column-gap: 2rem; } }
         
+        /* --- GALLERY PULSING GLOW --- */
         .polaroid { background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(5px); padding: 8px 8px 25px 8px; transition: all 0.3s ease; margin-bottom: 15px; break-inside: avoid; border: 1px solid #fff; position: relative; }
-        .polaroid:nth-child(odd) { box-shadow: 0 0 10px var(--marvel-red), inset 0 0 5px var(--marvel-red); }
-        .polaroid:nth-child(even) { box-shadow: 0 0 10px var(--marvel-gold), inset 0 0 5px var(--marvel-gold); }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 50; box-shadow: 0 0 20px #fff, 0 0 30px #fff !important; }
+        .polaroid:nth-child(odd) { animation: pulseRed 3s infinite alternate; }
+        .polaroid:nth-child(even) { animation: pulseGold 3s infinite alternate; }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 50; box-shadow: 0 0 20px #fff, 0 0 40px #fff !important; }
         .polaroid img { width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2); border: 1px solid #000; }
         .handwriting { font-family: 'Marker Felt', 'Permanent Marker', cursive; color: #fff; font-size: 1rem; text-align: center; margin-top: 8px; text-shadow: 1px 1px 0px #000; }
+
+        @keyframes pulseRed { 
+            0% { box-shadow: 0 0 10px rgba(237,29,36,0.4), inset 0 0 5px rgba(237,29,36,0.3); border-color: rgba(255,255,255,0.8); } 
+            100% { box-shadow: 0 0 25px rgba(237,29,36,0.9), inset 0 0 15px rgba(237,29,36,0.6); border-color: var(--marvel-red); } 
+        }
+        @keyframes pulseGold { 
+            0% { box-shadow: 0 0 10px rgba(252,209,22,0.4), inset 0 0 5px rgba(252,209,22,0.3); border-color: rgba(255,255,255,0.8); } 
+            100% { box-shadow: 0 0 25px rgba(252,209,22,0.9), inset 0 0 15px rgba(252,209,22,0.6); border-color: var(--marvel-gold); } 
+        }
 
         .tech-tape { position: absolute; top: -8px; left: 50%; transform: translateX(-50%) rotate(-2deg); width: 60px; height: 16px; background: rgba(0, 240, 255, 0.1); backdrop-filter: blur(4px); border: 1px solid rgba(0, 240, 255, 0.5); box-shadow: 0 0 10px rgba(0, 240, 255, 0.4); z-index: 10; }
         .tech-tape::before { content: 'EVIDENCE //'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Courier New', monospace; font-size: 7px; color: var(--ai-cyan); letter-spacing: 1px; }
@@ -482,7 +500,7 @@
             body, nav, a, button, select, input, [onclick], .cursor-none { cursor: auto !important; }
             #custom-cursor, .lightning-spark { display: none !important; }
 
-            nav .container { padding-left: 0.5rem; padding-right: 0.5rem; }
+            nav .max-w-\\[1400px\\] { padding-left: 0.5rem; padding-right: 0.5rem; }
             
             section { padding-top: 3rem !important; padding-bottom: 2.5rem !important; }
             section#home { padding-top: 6rem !important; padding-bottom: 2rem !important; min-height: auto !important; }
@@ -597,7 +615,7 @@
     </div>
 
     <nav class="fixed top-0 w-full transition-all duration-300 z-[100] cursor-none">
-        <div class="container mx-auto px-4 py-2 md:py-3 flex justify-between items-center cursor-none">
+        <div class="max-w-[1400px] w-full mx-auto px-4 py-2 md:py-3 flex justify-between items-center cursor-none">
             
             <div class="flex items-center gap-2 cursor-none min-w-0 whitespace-nowrap" style="text-shadow: 2px 2px 0 var(--marvel-red), 3px 3px 0 #000;">
                 <a href="https://www.instagram.com/cicr_jiit?igsh=MWNib3pma2xiYXpqcQ==" target="_blank" class="shrink-0">
@@ -610,13 +628,15 @@
                 </a>
             </div>
             
-            <ul class="hidden lg:flex gap-2 xl:gap-4 shrink-0 cursor-none">
-                <li><a href="#home" class="nav-marvel-link cursor-none">HQ</a></li>
-                <li><a href="#shows" class="nav-marvel-link cursor-none">Shows</a></li>
-                <li><a href="#campus-tour" class="nav-marvel-link cursor-none">Tour</a></li>
-                <li><a href="#event-reg" class="nav-marvel-link cursor-none">Register</a></li>
-                <li><a href="#predictions" class="nav-marvel-link cursor-none">Nexus</a></li>
-                <li><a href="#schedule" class="nav-marvel-link cursor-none">Timeline</a></li>
+            <ul class="hidden lg:flex items-center gap-1 xl:gap-3 shrink-0 cursor-none">
+                <li><a href="#home" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">HQ</a></li>
+                <li><a href="#shows" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Shows</a></li>
+                <li><a href="#campus-tour" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Tour</a></li>
+                <li><a href="#event-reg" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Register</a></li>
+                <li><a href="#predictions" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Nexus</a></li>
+                <li><a href="#schedule" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Timeline</a></li>
+                <li><a href="#memories" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Gallery</a></li>
+                <li><a href="#contact" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Contact</a></li>
             </ul>
 
             <button onclick="toggleMobileMenu()" class="lg:hidden text-white text-2xl hover:text-marvel transition focus:outline-none z-[120] shrink-0 ml-2">
@@ -671,6 +691,12 @@
                     <i class="far fa-clock text-hawkeye group-hover:text-white text-lg drop-shadow-[0_0_5px_#a855f7]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow">TIMELINE</span>
+            </a>
+            <a href="#memories" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-marvel p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-marvel hover:shadow-[4px_4px_0px_#fff]">
+                <div class="bg-black border-2 border-marvel w-10 h-10 flex items-center justify-center group-hover:border-white transform skew-x-6 shrink-0">
+                    <i class="fas fa-images text-marvel group-hover:text-black text-lg drop-shadow-[0_0_5px_#ED1D24]"></i>
+                </div>
+                <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow">GALLERY</span>
             </a>
             <a href="#contact" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-white p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-white hover:shadow-[4px_4px_0px_#ED1D24]">
                 <div class="bg-black border-2 border-white w-10 h-10 flex items-center justify-center group-hover:border-marvel transform skew-x-6 shrink-0">
@@ -734,7 +760,7 @@
             
             <div class="grid grid-cols-2 lg:grid-cols-2 gap-2 md:gap-10 max-w-7xl mx-auto relative z-10 text-left">
                 
-                <div class="classy-video-border group cursor-none">
+                <div class="classy-video-border group cursor-none border-2 border-marvel shadow-[0_0_20px_rgba(237,29,36,0.4)] hover:shadow-[0_0_40px_rgba(237,29,36,0.8)]">
                     <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners"></div>
@@ -767,7 +793,7 @@
                     </div>
                 </div>
 
-                <div class="classy-video-border group cursor-none">
+                <div class="classy-video-border group cursor-none border-2 border-[#0476F2] shadow-[0_0_20px_rgba(4,118,242,0.4)] hover:shadow-[0_0_40px_rgba(4,118,242,0.8)]">
                     <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10">
                         <div class="relative overflow-hidden h-[250px] md:h-[350px] flex-shrink-0 cursor-none">
                             <div class="classy-hud-corners classy-hud-dc"></div>
@@ -806,142 +832,125 @@
                     </div>
                 </div>
 
-                <div class="classy-video-border group cursor-none relative overflow-hidden">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-[#FCD116] transition-colors duration-500 overflow-hidden">
-                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#FCD116_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
+                <div class="classy-video-border group cursor-none relative overflow-hidden border-2 border-[#FCD116] shadow-[0_0_20px_rgba(252,209,22,0.4)] hover:shadow-[0_0_40px_rgba(252,209,22,0.7)]">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#FCD116_0%,_transparent_70%)] opacity-15 pointer-events-none"></div>
                         
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-[#FCD116]/50">
-                            <div class="classy-hud-corners classy-hud-gold opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 border-b-2 border-[#FCD116]/50">
+                            <div class="classy-hud-corners classy-hud-gold opacity-100"></div>
                             
-                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700 p-2">
-                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#333] group-hover:border-[#FCD116]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(252,209,22,0.4)] transition-all duration-500">
-                                    <i class="fas fa-lock text-lg md:text-2xl text-gray-600 group-hover:text-[#FCD116] transition-colors duration-500"></i>
+                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-100 p-2">
+                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#FCD116]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-[0_0_20px_rgba(252,209,22,0.4)]">
+                                    <i class="fas fa-lock text-lg md:text-2xl text-[#FCD116]"></i>
                                 </div>
-                                <h3 class="font-bangers tracking-[0.2em] text-lg md:text-2xl text-gray-500 group-hover:text-[#FCD116] uppercase transition-colors duration-500">
-                                    COMING SOON
-                                </h3>
-                                <div class="h-[1px] w-0 group-hover:w-24 bg-[#FCD116] mt-1 mb-2 transition-all duration-700"></div>
-                                <span class="font-oswald italic tracking-wide text-gray-700 group-hover:text-white text-xs md:text-sm transition-colors duration-500 group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 leading-snug px-4">
-                                    "Calibrating the future. Access granting soon."
-                                </span>
+                                <h3 class="font-bangers tracking-[0.2em] text-lg md:text-2xl text-[#FCD116] uppercase">COMING SOON</h3>
+                                <div class="h-[1px] w-24 bg-[#FCD116] mt-1 mb-2"></div>
+                                <span class="font-oswald italic tracking-wide text-white text-xs md:text-sm drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] opacity-100 transform translate-y-0 leading-snug px-4">"Calibrating the future. Access granting soon."</span>
                             </div>
                             
-                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#FCD116] opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#FCD116] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#FCD116] opacity-40 shadow-[0_0_15px_#FCD116] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
                         </div>
 
-                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10 transition-colors">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#FCD116] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#FCD116]"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(252,209,22,0.5)] text-gray-600 group-hover:text-white transition-colors duration-500">
-                                1. STARK<span class="text-gray-700 group-hover:text-[#FCD116] transition-colors duration-500 ml-1">EXPO</span>
+                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#FCD116] shadow-[0_0_10px_#FCD116]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(252,209,22,0.5)] text-white">
+                                1. STARK<span class="text-[#FCD116] ml-1">EXPO</span>
                             </h3>
-                            <p class="font-oswald text-[10px] md:text-sm text-gray-600 group-hover:text-gray-400 ml-2 mt-1 cursor-none transition-colors">
-                                <i class="fas fa-lightbulb text-gray-600 group-hover:text-[#FCD116] transition-colors mr-1"></i> INNOVATION | TECH
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-300 ml-2 mt-1 cursor-none">
+                                <i class="fas fa-lightbulb text-[#FCD116] mr-1"></i> INNOVATION | TECH
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="classy-video-border group cursor-none relative overflow-hidden">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-[#00f0ff] transition-colors duration-500 overflow-hidden">
-                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#00f0ff_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
+                <div class="classy-video-border group cursor-none relative overflow-hidden border-2 border-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:shadow-[0_0_40px_rgba(0,240,255,0.7)]">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#00f0ff_0%,_transparent_70%)] opacity-15 pointer-events-none"></div>
                         
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-[#00f0ff]/50">
-                            <div class="classy-hud-corners classy-hud-cyan opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 border-b-2 border-[#00f0ff]/50">
+                            <div class="classy-hud-corners classy-hud-cyan opacity-100"></div>
                             
-                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700 p-2">
-                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#333] group-hover:border-[#00f0ff]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all duration-500">
-                                    <i class="fas fa-lock text-lg md:text-2xl text-gray-600 group-hover:text-[#00f0ff] transition-colors duration-500"></i>
+                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-100 p-2">
+                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#00f0ff]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                                    <i class="fas fa-lock text-lg md:text-2xl text-[#00f0ff]"></i>
                                 </div>
-                                <h3 class="font-bangers tracking-[0.2em] text-lg md:text-2xl text-gray-500 group-hover:text-[#00f0ff] uppercase transition-colors duration-500">
-                                    COMING SOON
-                                </h3>
-                                <div class="h-[1px] w-0 group-hover:w-24 bg-[#00f0ff] mt-1 mb-2 transition-all duration-700"></div>
-                                <span class="font-oswald italic tracking-wide text-gray-700 group-hover:text-white text-xs md:text-sm transition-colors duration-500 group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 leading-snug px-4">
-                                    "System reboot initiated.<br>Overriding manual controls.<br>The J.A.R.V.I.S. Protocol is loading..."
-                                </span>
+                                <h3 class="font-bangers tracking-[0.2em] text-lg md:text-2xl text-[#00f0ff] uppercase">COMING SOON</h3>
+                                <div class="h-[1px] w-24 bg-[#00f0ff] mt-1 mb-2"></div>
+                                <span class="font-oswald italic tracking-wide text-white text-xs md:text-sm drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] opacity-100 transform translate-y-0 leading-snug px-4">"System reboot initiated.<br>Overriding manual controls.<br>The J.A.R.V.I.S. Protocol is loading..."</span>
                             </div>
 
-                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#00f0ff] opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#00f0ff] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#00f0ff] opacity-40 shadow-[0_0_15px_#00f0ff] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
                         </div>
 
-                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10 transition-colors">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#00f0ff] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#00f0ff]"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(0,240,255,0.5)] text-gray-600 group-hover:text-white transition-colors duration-500">
+                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#00f0ff] shadow-[0_0_10px_#00f0ff]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(0,240,255,0.5)] text-white">
                                 2. J.A.R.V.I.S.
                             </h3>
-                            <p class="font-oswald text-[10px] md:text-sm text-gray-600 group-hover:text-gray-400 ml-2 mt-1 cursor-none transition-colors">
-                                <i class="fas fa-code text-gray-600 group-hover:text-[#00f0ff] transition-colors mr-1"></i> ALGORITHM | LOGIC
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-300 ml-2 mt-1 cursor-none">
+                                <i class="fas fa-code text-[#00f0ff] mr-1"></i> ALGORITHM | LOGIC
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="classy-video-border group cursor-none relative overflow-hidden">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-[#a855f7] transition-colors duration-500 overflow-hidden">
-                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#a855f7_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
+                <div class="classy-video-border group cursor-none relative overflow-hidden border-2 border-[#a855f7] shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_40px_rgba(168,85,247,0.7)]">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#a855f7_0%,_transparent_70%)] opacity-15 pointer-events-none"></div>
                         
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-[#a855f7]/50">
-                            <div class="classy-hud-corners classy-hud-purple opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 border-b-2 border-[#a855f7]/50">
+                            <div class="classy-hud-corners classy-hud-purple opacity-100"></div>
                             
-                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700 p-2">
-                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#333] group-hover:border-[#a855f7]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-500">
-                                    <i class="fas fa-lock text-lg md:text-2xl text-gray-600 group-hover:text-[#a855f7] transition-colors duration-500"></i>
+                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-100 p-2">
+                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#a855f7]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                                    <i class="fas fa-lock text-lg md:text-2xl text-[#a855f7]"></i>
                                 </div>
-                                <h3 class="font-bangers tracking-[0.2em] text-lg md:text-2xl text-gray-500 group-hover:text-[#a855f7] uppercase transition-colors duration-500">
-                                    COMING SOON
-                                </h3>
-                                <div class="h-[1px] w-0 group-hover:w-24 bg-[#a855f7] mt-1 mb-2 transition-all duration-700"></div>
-                                <span class="font-oswald italic tracking-wide text-gray-700 group-hover:text-white text-xs md:text-sm transition-colors duration-500 group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 leading-snug px-4">
-                                    "The path is forged. The trial awaits.<br>Soon, you will have to prove your worth."
-                                </span>
+                                <h3 class="font-bangers tracking-[0.2em] text-lg md:text-2xl text-[#a855f7] uppercase">COMING SOON</h3>
+                                <div class="h-[1px] w-24 bg-[#a855f7] mt-1 mb-2"></div>
+                                <span class="font-oswald italic tracking-wide text-white text-xs md:text-sm drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] opacity-100 transform translate-y-0 leading-snug px-4">"The path is forged. The trial awaits.<br>Soon, you will have to prove your worth."</span>
                             </div>
 
-                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#a855f7] opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#a855f7] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#a855f7] opacity-40 shadow-[0_0_15px_#a855f7] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
                         </div>
 
-                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10 transition-colors">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#a855f7] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#a855f7]"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(168,85,247,0.5)] text-gray-600 group-hover:text-white transition-colors duration-500">
-                                3. THOR'S<span class="text-gray-700 group-hover:text-[#a855f7] transition-colors duration-500 ml-1">TRIAL</span>
+                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#a855f7] shadow-[0_0_10px_#a855f7]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none drop-shadow-[0_0_5px_rgba(168,85,247,0.5)] text-white">
+                                3. THOR'S<span class="text-[#a855f7] ml-1">TRIAL</span>
                             </h3>
-                            <p class="font-oswald text-[10px] md:text-sm text-gray-600 group-hover:text-gray-400 ml-2 mt-1 cursor-none transition-colors">
-                                <i class="fas fa-hammer text-gray-600 group-hover:text-[#a855f7] transition-colors mr-1"></i> STRENGTH | ARCADE
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-300 ml-2 mt-1 cursor-none">
+                                <i class="fas fa-hammer text-[#a855f7] mr-1"></i> STRENGTH | ARCADE
                             </p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="classy-video-border group cursor-none relative overflow-hidden">
-                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 border-2 border-[#111] group-hover:border-[#ED1D24] transition-colors duration-500 overflow-hidden">
+                <div class="classy-video-border group cursor-none relative overflow-hidden border-2 border-[#ED1D24] shadow-[0_0_20px_rgba(237,29,36,0.4)] hover:shadow-[0_0_40px_rgba(237,29,36,0.7)]">
+                    <div class="flex flex-col h-full bg-[#050505] cursor-none relative z-10 overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#ED1D24_0%,_transparent_70%)] opacity-15 pointer-events-none"></div>
 
-                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#ED1D24_0%,_transparent_70%)] opacity-5 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
+                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 border-b-2 border-[#ED1D24]/50">
+                            <div class="classy-hud-corners opacity-100"></div>
 
-                        <div class="relative overflow-hidden h-[180px] md:h-[250px] flex-shrink-0 cursor-none flex flex-col items-center justify-center bg-[#0a0a0a] z-10 transition-all duration-500 border-b-2 border-transparent group-hover:border-[#ED1D24]/50">
-                            <div class="classy-hud-corners opacity-30 group-hover:opacity-100 transition-opacity"></div>
-
-                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-95 group-hover:scale-105 transition-transform duration-700 p-2">
-                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#333] group-hover:border-[#ED1D24]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-none group-hover:shadow-[0_0_20px_rgba(237,29,36,0.4)] transition-all duration-500">
-                                    <i class="fas fa-lock text-lg md:text-2xl text-gray-600 group-hover:text-[#ED1D24] transition-colors duration-500"></i>
+                            <div class="relative z-20 text-center flex flex-col items-center justify-center transform scale-100 p-2">
+                                <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-[#ED1D24]/80 flex items-center justify-center mb-2 md:mb-3 bg-black/80 shadow-[0_0_20px_rgba(237,29,36,0.4)]">
+                                    <i class="fas fa-lock text-lg md:text-2xl text-[#ED1D24]"></i>
                                 </div>
-                                <h3 class="font-oswald font-light tracking-[0.4em] text-sm md:text-xl text-gray-500 group-hover:text-[#ED1D24] uppercase transition-colors duration-500">
-                                    Classified
-                                </h3>
-                                <div class="h-[1px] w-0 group-hover:w-24 bg-[#ED1D24] mt-1 mb-2 transition-all duration-700"></div>
-                                <span class="font-oswald italic tracking-wide text-gray-700 group-hover:text-white text-xs md:text-sm transition-colors duration-500 group-hover:drop-shadow-[0_0_8px_rgba(237,29,36,0.8)] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 leading-snug px-4">
-                                    "Clearance Level 7 Required."
-                                </span>
+                                <h3 class="font-oswald font-light tracking-[0.4em] text-sm md:text-xl text-[#ED1D24] uppercase">CLASSIFIED</h3>
+                                <div class="h-[1px] w-24 bg-[#ED1D24] mt-1 mb-2"></div>
+                                <span class="font-oswald italic tracking-wide text-white text-xs md:text-sm drop-shadow-[0_0_8px_rgba(237,29,36,0.8)] opacity-100 transform translate-y-0 leading-snug px-4">"Clearance Level 7 Required."</span>
                             </div>
 
-                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#ED1D24] opacity-0 group-hover:opacity-40 shadow-[0_0_15px_#ED1D24] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#ED1D24] opacity-40 shadow-[0_0_15px_#ED1D24] animate-[laserSweep_2.5s_ease-in-out_infinite]"></div>
                         </div>
 
-                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10 transition-colors">
-                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#333] group-hover:bg-[#ED1D24] transition-colors duration-500 shadow-none group-hover:shadow-[0_0_10px_#ED1D24]"></div>
-                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-gray-600 group-hover:text-white transition-colors duration-500">
-                                4. PROJECT <span class="text-gray-700 group-hover:text-[#ED1D24] transition-colors duration-500">O.M.E.G.A</span>
+                        <div class="p-2 md:p-4 bg-[#0a0a0a] border-t border-[#1a1a1a] flex-grow relative cursor-none z-10">
+                            <div class="absolute left-0 top-0 bottom-0 w-[2px] md:w-[4px] bg-[#ED1D24] shadow-[0_0_10px_#ED1D24]"></div>
+                            <h3 class="font-bangers text-xs md:text-[1.6rem] italic tracking-widest ml-2 leading-tight cursor-none text-white">
+                                4. PROJECT <span class="text-[#ED1D24]">O.M.E.G.A</span>
                             </h3>
-                            <p class="font-oswald text-[10px] md:text-sm text-gray-600 ml-2 mt-1 cursor-none flex items-center group-hover:text-gray-400 transition-colors">
-                                <span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-marvel group-hover:animate-pulse mr-1.5"></span> CLEARANCE LEVEL 7
+                            <p class="font-oswald text-[10px] md:text-sm text-gray-300 ml-2 mt-1 cursor-none flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#ED1D24] animate-pulse mr-1.5 shadow-[0_0_5px_#ED1D24]"></span> CLEARANCE LEVEL 7
                             </p>
                         </div>
                     </div>
@@ -1122,8 +1131,14 @@
         <div class="relative max-w-4xl mx-auto cursor-none" id="schedule-container"></div>
     </section>
 
-    <section id="memories" class="py-10 md:py-24 relative z-10">
-        <div class="container mx-auto px-2 md:px-6 text-center reveal cursor-none">
+    <section id="memories" class="py-10 md:py-24 relative z-10 overflow-hidden">
+        
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+            <div class="w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-marvel opacity-[0.2] blur-[120px] rounded-full animate-[pulse_4s_infinite]"></div>
+            <div class="w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-accent opacity-[0.15] blur-[100px] rounded-full animate-[pulse_4s_infinite]" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-2 md:px-6 text-center reveal cursor-none relative z-10">
             <h2 class="font-bangers text-4xl md:text-7xl text-white mb-8 tracking-widest uppercase comic-text-shadow glitch-hover cursor-none" data-text="HALL OF HEROES">HALL OF HEROES</h2>
             <div id="photo-grid" class="masonry-col w-full max-w-6xl mx-auto pb-10 cursor-none"></div>
         </div>
@@ -1618,7 +1633,9 @@
                 "https://i.pinimg.com/736x/0d/a7/3e/0da73e5e6c0a5933475faaa9bb34ce2c.jpg", "https://i.pinimg.com/736x/ab/53/3e/ab533ed9b2312427ed6b8cd72f62458c.jpg",
                 "https://i.pinimg.com/736x/07/fb/98/07fb980b87de44a34cceb2f913d083c3.jpg", "https://i.pinimg.com/736x/18/58/db/1858dbae0b79af54f5cef75dba49b7f8.jpg",
                 "https://i.pinimg.com/736x/c6/21/f3/c621f33a179693f5df4005d6c0390eb9.jpg", "https://i.pinimg.com/736x/bb/8a/36/bb8a3654f8699c0233117d0c65871903.jpg",
-                "https://i.pinimg.com/736x/0c/0b/0f/0c0b0f97a3ce7d64ac6d1c9d42bc5240.jpg"
+                "https://i.pinimg.com/736x/0c/0b/0f/0c0b0f97a3ce7d64ac6d1c9d42bc5240.jpg",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGLxanLHnZ9Mq37-DMgPaHDepcKDofch9pHw&s",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7H5DCJ6uILu8kMNAqHNqLFx3ReldBJeK_wQ&s"
             ];
             const memGrid = document.getElementById('photo-grid');
             memImgs.forEach((url, index) => {
