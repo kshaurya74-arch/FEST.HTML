@@ -191,6 +191,11 @@
             50% { transform: translateY(-8px) skew(-2deg); }
         }
         .animate-float { animation: subtleFloat 5s ease-in-out infinite; }
+        
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(20px) skew(-2deg); }
+            100% { opacity: 1; transform: translateY(0) skew(-2deg); }
+        }
 
         .halftone-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -264,7 +269,7 @@
         #bg-video-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -50; overflow: hidden; opacity: 0; 
-            transition: opacity 0.2s ease-out; /* Reduced for snappiness */
+            transition: opacity 0.2s ease-out; 
         }
         #bg-video { width: 100vw; height: 100vh; filter: contrast(1.3) saturate(1.2); }
         
@@ -495,10 +500,51 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #111; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--marvel-red); }
 
+        /* --- FLOATING SOCIAL DOCK MARVEL UPGRADE --- */
+        .social-dock {
+            position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 1000;
+            display: flex; flex-direction: column; gap: 1rem;
+            padding: 2rem 0.8rem 2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(15,0,0,0.95), rgba(25,5,5,0.95));
+            backdrop-filter: blur(10px);
+            border-left: 4px solid var(--marvel-red);
+            box-shadow: -5px 0 25px rgba(237, 29, 36, 0.4), inset 5px 0 15px rgba(0, 0, 0, 0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%);
+        }
+        
+        .social-dock:hover {
+            border-left-color: var(--marvel-gold);
+            box-shadow: -10px 0 35px rgba(252, 209, 22, 0.5), inset 5px 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .social-dock-label {
+            position: absolute; top: 25px; left: -12px; transform: translateX(-100%) rotate(-90deg); transform-origin: right bottom;
+            background: var(--marvel-red); color: white; font-family: 'Bangers', cursive; font-size: 14px; letter-spacing: 2px;
+            padding: 2px 10px; border: 2px solid #000; box-shadow: -3px -3px 0 var(--marvel-gold); text-shadow: 2px 2px 0px #000;
+            pointer-events: none;
+        }
+
+        .social-btn {
+            position: relative; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
+            background: #050505; border: 2px solid #333; border-radius: 4px; color: white; font-size: 1.5rem;
+            transition: all 0.3s ease; transform: skew(-5deg); box-shadow: 3px 3px 0px #000;
+        }
+
+        .social-btn:hover {
+            transform: skew(-5deg) scale(1.1) translateX(-5px); border-color: currentColor; color: #000; box-shadow: 5px 5px 0px currentColor;
+        }
+
+        /* Specific Brand Colors for Hover */
+        .social-ig:hover { background: #E1306C; color: white; border-color: #E1306C; }
+        .social-li:hover { background: #0077b5; color: white; border-color: #0077b5; }
+        .social-web:hover { background: var(--marvel-red); color: white; border-color: var(--marvel-red); }
+
         /* --- AGGRESSIVE MOBILE COMPRESSION (Parallel 2-Col layouts & Fixes) --- */
         @media (max-width: 768px) {
             body, nav, a, button, select, input, [onclick], .cursor-none { cursor: auto !important; }
             #custom-cursor, .lightning-spark { display: none !important; }
+            .social-dock { display: none; /* Hide on mobile to save screen space, footer handles it */ }
 
             nav .max-w-\\[1400px\\] { padding-left: 0.5rem; padding-right: 0.5rem; }
             
@@ -553,6 +599,19 @@
     <div id="scroll-progress-container"><div id="scroll-progress"></div></div>
     <div id="custom-cursor"></div>
     <div class="scanlines"></div>
+
+    <div class="social-dock cursor-none group">
+        <div class="social-dock-label group-hover:bg-accent group-hover:text-black transition-colors">COMMS LINK</div>
+        <a href="https://www.instagram.com/cicr_jiit" target="_blank" class="social-btn social-ig cursor-none" title="Instagram">
+            <i class="fab fa-instagram cursor-none"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/cicrjiit128/posts/?feedView=all" target="_blank" class="social-btn social-li cursor-none" title="LinkedIn">
+            <i class="fab fa-linkedin-in cursor-none"></i>
+        </a>
+        <a href="https://www.cicr.in/" target="_blank" class="social-btn social-web cursor-none" title="Official Website">
+            <i class="fas fa-globe cursor-none"></i>
+        </a>
+    </div>
 
     <div class="marquee-container">
         <div class="marquee-content">
@@ -636,6 +695,7 @@
                 <li><a href="#predictions" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Nexus</a></li>
                 <li><a href="#schedule" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Timeline</a></li>
                 <li><a href="#memories" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Gallery</a></li>
+                <li><a href="#team" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Team</a></li>
                 <li><a href="#contact" class="nav-marvel-link cursor-none px-2 xl:px-4 text-[1rem] xl:text-[1.2rem]">Contact</a></li>
             </ul>
 
@@ -697,6 +757,12 @@
                     <i class="fas fa-images text-marvel group-hover:text-black text-lg drop-shadow-[0_0_5px_#ED1D24]"></i>
                 </div>
                 <span class="text-xl tracking-[0.2em] text-white ml-4 transform skew-x-6 comic-text-shadow">GALLERY</span>
+            </a>
+            <a href="#team" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-aicyan p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-aicyan hover:shadow-[4px_4px_0px_#fff]">
+                <div class="bg-black border-2 border-aicyan w-10 h-10 flex items-center justify-center group-hover:border-black transform skew-x-6 shrink-0">
+                    <i class="fas fa-users text-aicyan group-hover:text-black text-lg drop-shadow-[0_0_5px_#00f0ff]"></i>
+                </div>
+                <span class="text-xl tracking-[0.2em] text-white group-hover:text-black ml-4 transform skew-x-6 comic-text-shadow">TEAM</span>
             </a>
             <a href="#contact" onclick="toggleMobileMenu()" class="group relative overflow-hidden bg-[#111] border-2 border-white p-3 flex items-center transition-all cursor-none transform -skew-x-6 shadow-[4px_4px_0px_#000] hover:bg-white hover:shadow-[4px_4px_0px_#ED1D24]">
                 <div class="bg-black border-2 border-white w-10 h-10 flex items-center justify-center group-hover:border-marvel transform skew-x-6 shrink-0">
@@ -1173,6 +1239,53 @@
         </div>
     </section>
 
+    <section id="team" class="py-10 md:py-24 relative z-10 overflow-hidden">
+        <div class="container mx-auto px-4 md:px-6 z-10 relative">
+            <div class="text-center mb-8 md:mb-12 reveal relative z-10">
+                <h2 class="text-4xl md:text-7xl font-bangers text-white comic-text-shadow-dc transform -rotate-1 inline-block glitch-hover cursor-none" data-text="THE INITIATIVE CORE">THE INITIATIVE CORE</h2>
+                <br>
+                <p class="text-white font-bangers bg-marvel inline-block px-4 py-1 border-2 border-black tracking-widest text-md md:text-xl mt-3 uppercase shadow-[3px_3px_0px_#FCD116] cursor-none transform skew-x-[-6deg]">
+                    <i class="fas fa-id-card text-accent mr-2 animate-pulse"></i>S.H.I.E.L.D. Roster
+                </p>
+            </div>
+
+            <div id="team-init-container" class="flex justify-center reveal relative z-10 mb-10 cursor-none px-4">
+                <button onclick="initializeTeamView()" class="group relative inline-flex items-center justify-center px-6 py-4 md:px-12 md:py-6 font-bangers text-2xl md:text-5xl text-white tracking-[0.1em] overflow-hidden bg-[#0a0000] border-4 border-marvel transform -skew-x-6 shadow-[8px_8px_0px_#FCD116] transition-all hover:scale-105 hover:border-accent hover:shadow-[12px_12px_0px_#ED1D24] cursor-none w-full md:w-auto max-w-3xl">
+                    
+                    <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[laserSweep_1s_ease-in-out]"></span>
+                    
+                    <span class="absolute inset-0 w-full h-full bg-marvel opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></span>
+                    
+                    <span class="relative z-10 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 comic-text-shadow group-hover:drop-shadow-[0_0_10px_#000] transition-all">
+                        <div class="bg-black/50 p-2 md:p-3 rounded-full border-2 border-accent shadow-[0_0_15px_#FCD116] group-hover:bg-transparent group-hover:border-black group-hover:shadow-none transition-all">
+                            <i class="fas fa-fingerprint text-accent group-hover:text-black animate-pulse text-3xl md:text-6xl"></i>
+                        </div>
+                        <span class="mt-2 md:mt-0 group-hover:text-black group-hover:text-shadow-none text-center leading-none">AUTHORIZE &<br>VIEW TEAM</span>
+                    </span>
+                    
+                    <div class="absolute top-1 left-2 text-[8px] md:text-[10px] font-code text-marvel group-hover:text-black font-bold tracking-widest opacity-80">S.H.I.E.L.D. SECURE NETWORK</div>
+                    <div class="absolute bottom-1 right-2 text-[8px] md:text-[10px] font-code text-marvel group-hover:text-black font-bold tracking-widest opacity-80">LEVEL 7 CLEARANCE REQ</div>
+                    
+                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-accent group-hover:border-black transition-colors"></div>
+                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-accent group-hover:border-black transition-colors"></div>
+                </button>
+            </div>
+
+            <div id="team-content-wrapper" class="hidden opacity-0 transition-opacity duration-500">
+                <div id="team-filters" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-10 relative z-10 cursor-none">
+                    <button data-filter="core" onclick="renderTeam('core')" class="team-filter-btn bg-marvel text-white shadow-[2px_2px_0_#FCD116] border-2 border-black font-bangers px-4 py-1 transform -skew-x-6 text-lg transition-all cursor-none">CORE</button>
+                    <button data-filter="4" onclick="renderTeam(4)" class="team-filter-btn bg-[#111] text-gray-400 border-2 border-black font-bangers px-4 py-1 transform -skew-x-6 text-lg transition-all cursor-none hover:text-white hover:bg-gray-800">YEAR 4</button>
+                    <button data-filter="3" onclick="renderTeam(3)" class="team-filter-btn bg-[#111] text-gray-400 border-2 border-black font-bangers px-4 py-1 transform -skew-x-6 text-lg transition-all cursor-none hover:text-white hover:bg-gray-800">YEAR 3</button>
+                    <button data-filter="2" onclick="renderTeam(2)" class="team-filter-btn bg-[#111] text-gray-400 border-2 border-black font-bangers px-4 py-1 transform -skew-x-6 text-lg transition-all cursor-none hover:text-white hover:bg-gray-800">YEAR 2</button>
+                    <button data-filter="1" onclick="renderTeam(1)" class="team-filter-btn bg-[#111] text-gray-400 border-2 border-black font-bangers px-4 py-1 transform -skew-x-6 text-lg transition-all cursor-none hover:text-white hover:bg-gray-800">YEAR 1</button>
+                </div>
+
+                <div id="team-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto cursor-none relative z-10 min-h-[400px]">
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="contact" class="py-10 md:py-24 relative z-10">
         <div class="container mx-auto px-4 md:px-6">
             <div class="text-center mb-10 md:mb-16 reveal">
@@ -1236,21 +1349,65 @@
         </div>
     </section>
 
-    <footer class="bg-black pt-6 pb-10 relative z-10 text-center border-t-[8px] md:border-t-[12px] border-marvel flex flex-col items-center justify-center w-full mt-16 cursor-none">
-        <h2 class="text-3xl md:text-5xl font-bangers mb-4 text-white tracking-widest comic-text-shadow cursor-none">CONVERGE '26</h2>
-        <p id="admin-trigger" class="text-gray-500 font-oswald text-xs md:text-sm cursor-none select-none uppercase tracking-widest transition mb-4 cursor-none" onclick="handleSecretClick()">S.H.I.E.L.D. SECURE COMMS</p>
+    <footer class="bg-[#050505] pt-12 pb-6 relative z-10 border-t-[4px] md:border-t-[8px] border-marvel w-full mt-16 cursor-none overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[5px] bg-marvel shadow-[0_0_30px_#ED1D24] animate-[pulse_2s_infinite]"></div>
+        
+        <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-10">
+                
+                <div class="flex flex-col items-center md:items-start text-center md:text-left cursor-none">
+                    <div class="flex items-center gap-3 mb-4 cursor-none">
+                        <img src="https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw" class="w-12 h-12 rounded-full border border-aicyan p-0.5 bg-black" alt="CICR">
+                        <h2 class="text-3xl font-bangers text-white tracking-widest comic-text-shadow cursor-none m-0">CONVERGE '26</h2>
+                    </div>
+                    <p class="text-gray-400 font-oswald text-sm max-w-xs cursor-none mb-4">The ultimate Techno-Cultural Marvel Multiverse crossover event at JIIT Sector 128. Assemble your team and enter the nexus.</p>
+                    <p id="admin-trigger" class="text-marvel font-code text-[10px] cursor-none select-none uppercase tracking-widest hover:text-white transition cursor-none border border-marvel/30 px-2 py-1 bg-marvel/10 inline-block" onclick="handleSecretClick()">
+                        <i class="fas fa-lock mr-1"></i> S.H.I.E.L.D. ADMIN LOGIN
+                    </p>
+                </div>
 
-        <div class="mt-8 inline-block relative group cursor-none">
-            <div class="absolute -inset-1 bg-gradient-to-r from-[#0077b5] to-aicyan blur opacity-40 group-hover:opacity-100 transition duration-500 rounded-lg"></div>
-            <a href="https://www.linkedin.com/in/kumar-shaurya-31aa582a0" target="_blank" class="relative flex items-center gap-4 bg-[#050505] border-2 border-[#0077b5] p-3 pr-8 shadow-[4px_4px_0px_#0077b5] transition-all duration-300 hover:shadow-[6px_6px_0px_#00f0ff] hover:border-aicyan hover:-translate-y-1 cursor-none transform -skew-x-2">
-                <div class="bg-[#0077b5] flex items-center justify-center w-10 h-10 md:w-14 md:h-14 border-2 border-black shadow-[0_0_10px_#0077b5] transform rotate-3 cursor-none">
-                    <i class="fab fa-linkedin-in text-white text-xl md:text-3xl cursor-none"></i>
+                <div class="flex flex-col items-center md:items-start cursor-none">
+                    <h3 class="font-bangers text-xl text-accent tracking-widest mb-4 border-b border-[#333] pb-1 w-full md:w-auto cursor-none">HQ TERMINALS</h3>
+                    <ul class="space-y-2 font-oswald text-gray-300 text-sm cursor-none text-center md:text-left w-full">
+                        <li><a href="#shows" class="hover:text-marvel transition flex items-center justify-center md:justify-start gap-2 cursor-none"><i class="fas fa-caret-right text-marvel text-[10px]"></i> Live Competitions</a></li>
+                        <li><a href="#schedule" class="hover:text-accent transition flex items-center justify-center md:justify-start gap-2 cursor-none"><i class="fas fa-caret-right text-accent text-[10px]"></i> Multiverse Timeline</a></li>
+                        <li><a href="#event-reg" class="hover:text-dcblue transition flex items-center justify-center md:justify-start gap-2 cursor-none"><i class="fas fa-caret-right text-dcblue text-[10px]"></i> Gauntlet Registration</a></li>
+                        <li><a href="#campus-tour" class="hover:text-aicyan transition flex items-center justify-center md:justify-start gap-2 cursor-none"><i class="fas fa-caret-right text-aicyan text-[10px]"></i> Facility Recon (Map)</a></li>
+                    </ul>
                 </div>
-                <div class="text-left cursor-none transform skew-x-2">
-                    <p class="text-[10px] md:text-xs text-aicyan font-code tracking-widest leading-none mb-1 cursor-none drop-shadow-[0_0_2px_#00f0ff]">SYSTEM DEVELOPED BY</p>
-                    <p class="text-white font-bangers text-lg md:text-2xl tracking-widest leading-none comic-text-shadow-dc cursor-none">KUMAR SHAURYA</p>
+
+                <div class="flex flex-col items-center md:items-end cursor-none">
+                    <h3 class="font-bangers text-xl text-white tracking-widest mb-4 border-b border-[#333] pb-1 w-full md:w-auto text-center md:text-right cursor-none">COMM-LINKS</h3>
+                    
+                    <div class="flex md:hidden gap-4 mb-6 cursor-none">
+                        <a href="https://www.instagram.com/cicr_jiit" target="_blank" class="w-10 h-10 bg-[#111] border border-[#333] text-white flex items-center justify-center rounded-lg hover:bg-[#E1306C] hover:border-[#E1306C] transition-all transform skew-x-[-5deg] cursor-none"><i class="fab fa-instagram text-xl cursor-none"></i></a>
+                        <a href="https://www.linkedin.com/company/cicrjiit128/posts/?feedView=all" target="_blank" class="w-10 h-10 bg-[#111] border border-[#333] text-white flex items-center justify-center rounded-lg hover:bg-[#0077b5] hover:border-[#0077b5] transition-all transform skew-x-[-5deg] cursor-none"><i class="fab fa-linkedin-in text-xl cursor-none"></i></a>
+                        <a href="https://www.cicr.in/" target="_blank" class="w-10 h-10 bg-[#111] border border-[#333] text-white flex items-center justify-center rounded-lg hover:bg-marvel hover:border-marvel transition-all transform skew-x-[-5deg] cursor-none"><i class="fas fa-globe text-xl cursor-none"></i></a>
+                    </div>
+
+                    <div class="mt-2 inline-block relative group cursor-none">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-[#0077b5] to-aicyan blur opacity-40 group-hover:opacity-100 transition duration-500 rounded-lg"></div>
+                        <a href="https://www.linkedin.com/in/kumar-shaurya-31aa582a0" target="_blank" class="relative flex items-center gap-3 bg-[#0a0a0a] border border-[#0077b5] p-2 pr-6 shadow-[3px_3px_0px_#0077b5] transition-all duration-300 hover:shadow-[5px_5px_0px_#00f0ff] hover:border-aicyan hover:-translate-y-1 cursor-none transform -skew-x-2 w-full md:w-auto">
+                            <div class="bg-[#0077b5] flex items-center justify-center w-8 h-8 md:w-10 md:h-10 border border-black shadow-[0_0_10px_#0077b5] transform rotate-3 cursor-none">
+                                <i class="fab fa-linkedin-in text-white text-md md:text-xl cursor-none"></i>
+                            </div>
+                            <div class="text-left cursor-none transform skew-x-2">
+                                <p class="text-[8px] md:text-[10px] text-aicyan font-code tracking-widest leading-none mb-1 cursor-none drop-shadow-[0_0_2px_#00f0ff]">SYSTEM DEVELOPED BY</p>
+                                <p class="text-white font-bangers text-md md:text-xl tracking-widest leading-none comic-text-shadow-dc cursor-none whitespace-nowrap">KUMAR SHAURYA</p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </a>
+
+            </div>
+
+            <div class="border-t border-[#1a1a1a] pt-6 flex flex-col md:flex-row justify-between items-center gap-4 cursor-none">
+                <p class="font-code text-[10px] text-gray-500 cursor-none">© 2026 CICR JIIT Sector 128. All Multiversal Rights Reserved.</p>
+                <div class="flex items-center gap-2 font-code text-[10px] text-gray-500 cursor-none">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#00ff41] animate-pulse"></span>
+                    EARTH-616 SERVERS ONLINE
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -1345,11 +1502,7 @@
             const date = now.getDate();
             const year = now.getFullYear();
 
-            // FOR TESTING: Change either of these to "true" to force the Day 1 or Day 2 screen right now.
-            const forceDay1 = false;
-            const forceDay2 = false;
-
-            if (forceDay1 || (year === 2026 && month === 2 && date === 14)) {
+            if ((year === 2026 && month === 2 && date === 14)) {
                 container.innerHTML = `
                     <div class="flex-1 text-center md:text-left cursor-none z-10">
                         <span class="inline-block bg-marvel text-white font-bangers px-2 py-0.5 text-xs md:text-sm tracking-widest transform -skew-x-6 mb-3 border border-black shadow-[2px_2px_0px_#FCD116]">DAY 1 // MAR 14</span>
@@ -1365,7 +1518,7 @@
                         <i class="fas fa-robot text-5xl md:text-7xl text-white drop-shadow-[0_0_10px_#ED1D24] animate-pulse"></i>
                     </div>
                 `;
-            } else if (forceDay2 || (year === 2026 && month === 2 && date === 15)) {
+            } else if ((year === 2026 && month === 2 && date === 15)) {
                 container.innerHTML = `
                     <div class="flex-1 text-center md:text-left cursor-none z-10">
                         <span class="inline-block bg-dcblue text-white font-bangers px-2 py-0.5 text-xs md:text-sm tracking-widest transform -skew-x-6 mb-3 border border-black shadow-[2px_2px_0px_#00f0ff]">DAY 2 // MAR 15</span>
@@ -1586,6 +1739,155 @@
                 document.getElementById('d-mins').innerText = Math.floor((gap % hour) / min).toString().padStart(2, '0');
                 document.getElementById('d-secs').innerText = Math.floor((gap % min) / sec).toString().padStart(2, '0');
             }, 1000);
+        }
+
+        function initializeTeamView() {
+            document.getElementById('team-init-container').style.display = 'none';
+            const wrapper = document.getElementById('team-content-wrapper');
+            wrapper.classList.remove('hidden');
+            
+            setTimeout(() => {
+                wrapper.classList.remove('opacity-0');
+                renderTeam('core'); // Initializes to Core roster
+            }, 50);
+        }
+
+        function renderTeam(filter = 'core') {
+            // Update active filter button styles
+            document.querySelectorAll('.team-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-marvel', 'text-white', 'shadow-[2px_2px_0_#FCD116]');
+                btn.classList.add('bg-[#111]', 'text-gray-400');
+                if (btn.getAttribute('data-filter') == filter) {
+                    btn.classList.remove('bg-[#111]', 'text-gray-400');
+                    btn.classList.add('bg-marvel', 'text-white', 'shadow-[2px_2px_0_#FCD116]');
+                }
+            });
+
+            const rawMembers = [
+                { name: "Aashvi Gupta", id: "992401030246" },
+                { name: "Abhinav Sinha", id: "992501030465" },
+                { name: "Ajitesh Rajput", id: "992401040104" },
+                { name: "Akansha Nagar", id: "992501030044", desc: "Yr 1, F1-" },
+                { name: "Akshita Gupta", id: "992501030047" },
+                { name: "Aman", id: "2023", desc: "Yr 2" },
+                { name: "Aman Gandotra", id: "992401210077" },
+                { name: "Aman Raj", id: "9923102023", desc: "Yr 3, E16" },
+                { name: "Aman Satija", id: "992401030155" },
+                { name: "Ananya Soni", id: "992401040105" },
+                { name: "Ankit Sharma", id: "992401210060" },
+                { name: "Anushka Singh", id: "992501030401" },
+                { name: "Archit jain", id: "9922102006", desc: "Yr 4, 2022-2026" },
+                { name: "Arohan Arora", id: "992501210016" },
+                { name: "Aryan Varshney", id: "992401030154", desc: "Yr 2, F14" },
+                { name: "Ashutosh Vishwakarma", id: "992401030129" },
+                { name: "Bhuwan Dhanwani", id: "992501030457" },
+                { name: "Chirag Nigam", id: "992501030033" },
+                { name: "Cicr", id: "12345678", desc: "Official Account" },
+                { name: "Dhruvi Gupta", id: "992401030123", desc: "Yr 2, F13" },
+                { name: "Divyam Jain", id: "992501210090" },
+                { name: "GOURAV MANDAL", id: "992501210003", desc: "Yr 1, E1" },
+                { name: "Gunjan Pal", id: "992401210050" },
+                { name: "HARSHIT PANDEY", id: "992511350001" },
+                { name: "Kanan Goyal", id: "992510170013", desc: "Yr 1, mca1, IT" },
+                { name: "Kartik Virmani", id: "992501230039" },
+                { name: "Kshitika Barnwal", id: "992501030043" },
+                { name: "Kumar Shaurya", id: "992501040097", desc: "Initiative Director" },
+                { name: "Kushagra Garg", id: "992501030406" },
+                { name: "Labhansh Vashisht", id: "992501230050" },
+                { name: "Mahak Katahara", id: "992501030398" },
+                { name: "Navya Chawla", id: "992501230061", desc: "Yr 1, F18, CSE-CS" },
+                { name: "Nikita Singh", id: "992501030253" },
+                { name: "Palash Mittal", id: "992501030035" },
+                { name: "Parivisha Midha", id: "992501040035", desc: "Yr 1, H2, IT" },
+                { name: "Parth Mediratta", id: "992501210082" },
+                { name: "Priyanshi Saini", id: "992501030194" },
+                { name: "Pulkit Sukhija", "id": "992501220058", desc: "Yr 1, F22" },
+                { name: "Raghav Seth", id: "992501040005" },
+                { name: "Rishita Jha", id: "992401030242" },
+                { name: "Rohan Verma", "id": "992501030265" },
+                { name: "Sarthak Chaurasia", "id": "992501030330", desc: "Yr 1, F4" },
+                { name: "Shreya Bhatt", id: "992501210018" },
+                { name: "Shriya Singh", id: "992401210016", desc: "Yr 2, E1" },
+                { name: "Somya Jain", id: "992401040051" },
+                { name: "Taarini mishra", "id": "9923102007", desc: "Yr 3, E15" },
+                { name: "Tanisha Mehndiratta", id: "992501040037", desc: "Yr 1, H2, IT" },
+                { name: "Tanishka singh", "id": "992401210097" },
+                { name: "Tarush Jain", "id": "992401030330" },
+                { name: "Upmanyu Singh", "id": "992401030265", desc: "Yr 2, F4" },
+                { name: "Vaibhav katariya", "id": "9923102065" },
+                { name: "Vansh", "id": "9923103118", desc: "Yr 3, F5" },
+                { name: "Vanshik Jain", "id": "992401030324", desc: "Yr 2, F6" },
+                { name: "Vardaan Saxena", "id": "992501030399", desc: "Yr 1, F7" },
+                { name: "Vedansh Dwivedi", "id": "992401040112", desc: "Yr 2, F19" },
+                { name: "Yasharth singh", "id": "9923103059", desc: "Yr 3, F3" },
+                { name: "Anshika", "id": "992501030259", desc: "Yr 1, F25, Cse" },
+                { name: "Paarth Sachdeva", id: "99250104000", desc: "Yr 1, F10" },
+                { name: "Neeshal", id: "992501040108", desc: "Yr 1, H4" }
+            ];
+
+            // Automatically sort members into their years based on ID prefixes or Description
+            const teamMembers = rawMembers.map(m => {
+                let y = 'core';
+                if (m.desc && m.desc.includes("Yr 1")) y = 1;
+                else if (m.desc && m.desc.includes("Yr 2")) y = 2;
+                else if (m.desc && m.desc.includes("Yr 3")) y = 3;
+                else if (m.desc && m.desc.includes("Yr 4")) y = 4;
+                else if (m.id && m.id.startsWith("9925")) y = 1;
+                else if (m.id && m.id.startsWith("9924")) y = 2;
+                else if (m.id && m.id.startsWith("9923")) y = 3;
+                else if (m.id && m.id.startsWith("9922")) y = 4;
+                
+                return { ...m, year: y };
+            });
+
+            // Filter array based on the selected button
+            const filteredMembers = teamMembers.filter(m => m.year == filter);
+
+            const colors = [
+                { border: 'border-marvel', shadow: 'shadow-[6px_6px_0px_#ED1D24]', bg: 'bg-marvel', text: 'text-marvel', glow: 'shadow-[0_0_15px_#ED1D24]' },
+                { border: 'border-dcblue', shadow: 'shadow-[6px_6px_0px_#0476F2]', bg: 'bg-dcblue', text: 'text-dcblue', glow: 'shadow-[0_0_15px_#0476F2]' },
+                { border: 'border-accent', shadow: 'shadow-[6px_6px_0px_#FCD116]', bg: 'bg-accent', text: 'text-accent', glow: 'shadow-[0_0_15px_#FCD116]' },
+                { border: 'border-hawkeye', shadow: 'shadow-[6px_6px_0px_#a855f7]', bg: 'bg-hawkeye', text: 'text-hawkeye', glow: 'shadow-[0_0_15px_#a855f7]' }
+            ];
+
+            const container = document.getElementById('team-grid');
+            if(!container) return;
+            container.innerHTML = "";
+
+            if (filteredMembers.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center font-bangers text-2xl text-gray-400 mt-10 animate-[fade-in-up_0.5s_forwards]">NO AGENTS FOUND FOR THIS CLEARANCE LEVEL.</div>`;
+            }
+
+            filteredMembers.forEach((member, index) => {
+                const c = colors[index % colors.length];
+                const delay = (index % 4) * 0.1; // Speeds up the cascade animation
+                const avatar = "https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw";
+                const desc = member.desc || "Initiative Member";
+                const lvl = member.name === "Kumar Shaurya" ? "L-8" : "L-7";
+                const idHtml = member.id ? `<p class="text-gray-400 font-code text-[10px] mb-4 cursor-none">ID: ${member.id}</p>` : `<p class="text-gray-400 font-code text-[10px] mb-4 cursor-none"> </p>`;
+
+                container.innerHTML += `
+                <div class="hero-card reveal active p-1 border-2 ${c.border} bg-[#050505] ${c.shadow} group cursor-none relative overflow-hidden transition-all duration-300 opacity-0 animate-[fade-in-up_0.5s_forwards]" style="animation-delay: ${delay}s;">
+                    <div class="absolute inset-0 ${c.bg} opacity-0 group-hover:opacity-10 transition duration-300 pointer-events-none"></div>
+                    <div class="border-2 border-black bg-[#111] h-full flex flex-col items-center p-6 relative cursor-none transition-all">
+                        <div class="absolute top-2 right-2 ${c.bg} ${c.text === 'text-accent' ? 'text-black' : 'text-white'} font-code text-[10px] px-2 py-0.5 border border-black shadow-[2px_2px_0_#fff]">${lvl}</div>
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 ${c.border} overflow-hidden mb-4 ${c.glow} grayscale group-hover:grayscale-0 transition duration-500 cursor-none flex-shrink-0">
+                            <img src="${avatar}" alt="Member" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500 cursor-none">
+                        </div>
+                        <h3 class="text-xl font-bangers text-white tracking-widest comic-text-shadow mb-1 cursor-none text-center uppercase">${member.name}</h3>
+                        <p class="${c.text} font-oswald text-xs tracking-widest uppercase mb-2 cursor-none text-center">${desc}</p>
+                        ${idHtml}
+                        <div class="w-full h-[2px] bg-[#333] mb-4 relative">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] ${c.bg} group-hover:w-full transition-all duration-300 ${c.glow}"></div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            // Re-trigger observer for scrolling animations
+            setTimeout(() => {
+                document.querySelectorAll('.reveal:not(.active)').forEach(el => observer.observe(el));
+            }, 100);
         }
 
         // --- EXPANDED VIDEO MODAL LOGIC ---
