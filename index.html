@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
         tailwind.config = {
@@ -309,6 +310,15 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--marvel-red); border: 1px solid #000; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--marvel-gold); }
 
+        .lb-row-updated {
+            animation: rowUpdatedFlash 1.1s ease;
+        }
+        @keyframes rowUpdatedFlash {
+            0% { box-shadow: 0 0 0 rgba(0, 240, 255, 0); }
+            40% { box-shadow: 0 0 18px rgba(0, 240, 255, 0.7); }
+            100% { box-shadow: 0 0 0 rgba(0, 240, 255, 0); }
+        }
+
         .social-dock { position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 1rem; padding: 2rem 0.8rem 2rem 1.5rem; background: linear-gradient(135deg, rgba(15,0,0,0.95), rgba(25,5,5,0.95)); backdrop-filter: blur(10px); border-left: 4px solid var(--marvel-red); box-shadow: -5px 0 25px rgba(237, 29, 36, 0.4), inset 5px 0 15px rgba(0, 0, 0, 0.8); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%); }
         .social-dock:hover { border-left-color: var(--marvel-gold); box-shadow: -10px 0 35px rgba(252, 209, 22, 0.5), inset 5px 0 15px rgba(0, 0, 0, 0.8); }
         .social-dock-label { position: absolute; top: 25px; left: -12px; transform: translateX(-100%) rotate(-90deg); transform-origin: right bottom; background: var(--marvel-red); color: white; font-family: 'Bangers', cursive; font-size: 14px; letter-spacing: 2px; padding: 2px 10px; border: 2px solid #000; box-shadow: -3px -3px 0 var(--marvel-gold); text-shadow: 2px 2px 0px #000; pointer-events: none; }
@@ -355,6 +365,7 @@
             body, nav, a, button, select, input, [onclick] { cursor: auto !important; }
             #custom-cursor, .lightning-spark { display: none !important; }
             .social-dock { display: none; }
+            #lb-refresh-btn { width: 100%; justify-content: center; }
             nav .max-w-\\[1400px\\] { padding-left: 0.5rem; padding-right: 0.5rem; }
             section { padding-top: 3rem !important; padding-bottom: 2.5rem !important; }
             section#home { padding-top: 6rem !important; padding-bottom: 2rem !important; min-height: auto !important; }
@@ -381,6 +392,250 @@
             .tech-tape::before { font-size: 5px !important; }
             footer { padding-top: 1.5rem !important; padding-bottom: 2rem !important; margin-top: 3rem !important; border-top-width: 4px !important; }
             footer h2 { font-size: 2rem !important; margin-bottom: 0.5rem !important; }
+        }
+
+        @media (max-width: 640px) {
+            #leaderboard-table thead {
+                display: none;
+            }
+            #leaderboard-table,
+            #leaderboard-table tbody,
+            #leaderboard-table tr,
+            #leaderboard-table td {
+                display: block;
+                width: 100%;
+            }
+            #leaderboard-table tr {
+                margin-bottom: 0.75rem;
+            }
+            #leaderboard-table td {
+                text-align: left !important;
+                padding: 0.45rem 0.75rem !important;
+            }
+            #leaderboard-table td::before {
+                content: attr(data-label);
+                display: inline-block;
+                min-width: 70px;
+                margin-right: 0.5rem;
+                font-family: 'Oswald', sans-serif;
+                font-size: 0.75rem;
+                letter-spacing: 0.08em;
+                color: #9ca3af;
+                text-transform: uppercase;
+            }
+        }
+
+        /* === MEDAL COLORS === */
+        .medal-gold   { color: #FFD700 !important; text-shadow: 0 0 14px rgba(255,215,0,.9), 0 0 30px rgba(255,215,0,.4); }
+        .medal-silver { color: #C0C0C0 !important; text-shadow: 0 0 10px rgba(192,192,192,.7); }
+        .medal-bronze { color: #CD7F32 !important; text-shadow: 0 0 8px  rgba(205,127,50,.7); }
+
+        /* === CONNECTION QUALITY BAR === */
+        #conn-quality-bar { height:3px; width:100%; margin-top:5px; background:#222; border-radius:2px; overflow:hidden; }
+        #conn-quality-fill { height:100%; border-radius:2px; width:100%; transition: width .5s, background .5s; }
+        .cq-connected    { background:#00ff41; width:100%; }
+        .cq-reconnecting { background:#facc15; width:60%; animation:cqpulse .8s infinite alternate; }
+        .cq-delayed      { background:#fb923c; width:40%; animation:cqpulse 1s  infinite alternate; }
+        .cq-fallback     { background:#ef4444; width:25%; }
+        @keyframes cqpulse { from{opacity:.4} to{opacity:1} }
+
+        /* === BROADCAST BAR === */
+        .broadcast-chip { font-family:'Bangers',cursive; letter-spacing:.12em; padding:4px 10px; font-size:.78rem; }
+        #lb-broadcast-bar { background:linear-gradient(90deg,#0a0a0a,#111,#0a0a0a); }
+        #lb-live-duel-box {
+            background:
+                radial-gradient(circle at 10% 0%, rgba(237,29,36,.18), transparent 45%),
+                radial-gradient(circle at 90% 100%, rgba(0,240,255,.15), transparent 40%),
+                linear-gradient(120deg,#060606,#0b0b0b 45%,#050505);
+            border: 2px solid #1f1f1f;
+            box-shadow: 0 0 25px rgba(237,29,36,.15), inset 0 0 15px rgba(0,240,255,.08);
+        }
+        #lb-live-duel-score {
+            font-family: 'Bangers', cursive;
+            letter-spacing: .1em;
+            text-shadow: 0 0 14px rgba(252,209,22,.45);
+        }
+
+        /* === CURRENT PLAYERS PANEL === */
+        #lb-current-players { border-left:4px solid; transition:border-color .3s; }
+
+        /* === ADMIN PANEL === */
+        .admin-cool-wrap {
+            background: linear-gradient(145deg, rgba(10,10,10,.95), rgba(20,20,20,.75));
+            border: 2px solid #202020;
+            box-shadow: inset 0 0 20px rgba(0,240,255,.06), 0 0 18px rgba(237,29,36,.15);
+            padding: 10px;
+        }
+        .admin-row-action {
+            border: 2px solid #000;
+            font-family: 'Bangers', cursive;
+            letter-spacing: .08em;
+            padding: 4px 8px;
+            font-size: .75rem;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .admin-row-action:hover { transform: translateY(-2px); }
+        .admin-row-update { background: #00f0ff; color: #000; box-shadow: 2px 2px 0 #000; }
+        .admin-row-delete { background: #ed1d24; color: #fff; box-shadow: 2px 2px 0 #000; }
+        .admin-insert-box {
+            border: 2px dashed #333;
+            background: linear-gradient(90deg, #0a0a0a, #111);
+            padding: 10px;
+        }
+        .admin-input { width:100%; background:#0d0d0d; border:2px solid #333; color:#fff;
+            padding:8px 12px; font-family:'Oswald',sans-serif; letter-spacing:.05em; font-size:.95rem; }
+        .admin-input:focus { outline:none; border-color:#ED1D24; box-shadow:0 0 8px rgba(237,29,36,.35); }
+        .admin-input::placeholder { color:#555; }
+        textarea.admin-input { resize:vertical; min-height:58px; }
+        select.admin-input option { background:#111; }
+
+        .arena-panel {
+            border: 2px solid #202020;
+            background: linear-gradient(180deg, #090909, #050505);
+            box-shadow: inset 0 0 14px rgba(255,255,255,.03), 0 0 20px rgba(237,29,36,.12);
+        }
+        .arena-heading {
+            font-family: 'Bangers', cursive;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: #fff;
+            border-bottom: 2px solid #1f1f1f;
+            padding-bottom: 6px;
+        }
+        .arena-list-item {
+            border: 1px solid #1f1f1f;
+            background: #0b0b0b;
+            padding: 8px 10px;
+            font-family: 'Oswald', sans-serif;
+            color: #ddd;
+        }
+        .arena-live-score {
+            font-family: 'Bangers', cursive;
+            font-size: 2.4rem;
+            line-height: 1;
+            letter-spacing: .06em;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,.2);
+        }
+        .arena-mini-btn {
+            border: 2px solid #333;
+            background: #141414;
+            color: #fff;
+            font-family: 'Bangers', cursive;
+            letter-spacing: .06em;
+            padding: 4px 10px;
+        }
+        .arena-mini-btn:hover {
+            border-color: #fff;
+        }
+        .race-timer-hud {
+            border: 2px solid #0ea5e9;
+            background: linear-gradient(180deg, rgba(3,8,18,.95), rgba(2,6,14,.9));
+            box-shadow: inset 0 0 12px rgba(14,165,233,.22), 0 0 16px rgba(14,165,233,.18);
+            padding: 10px;
+        }
+        .race-timer-box {
+            border: 1px solid #1e293b;
+            background: #020617;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        .race-timer-value {
+            font-family: 'Bangers', cursive;
+            letter-spacing: .08em;
+            font-size: 2rem;
+            color: #e2e8f0;
+            text-shadow: 0 0 10px rgba(56,189,248,.3);
+            line-height: 1;
+        }
+
+        .admin-console-shell {
+            max-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .admin-tab-scroll {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+        .admin-stick-top {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: #050505;
+        }
+
+        @media (max-width: 768px) {
+            #lb-admin-modal {
+                padding: 0.5rem;
+                align-items: stretch;
+                justify-content: flex-start;
+            }
+            .admin-console-shell {
+                max-height: 98vh;
+                width: 100%;
+                margin: 0;
+            }
+            .admin-tab-btn {
+                flex: 1;
+                text-align: center;
+                font-size: 0.8rem;
+                padding: 0.6rem 0.4rem;
+            }
+            .admin-row-action {
+                width: 100%;
+                margin: 0 0 0.35rem 0 !important;
+                padding: 0.45rem 0.4rem;
+                font-size: 0.72rem;
+            }
+            .arena-live-score {
+                font-size: 2rem;
+            }
+            .arena-mini-btn {
+                min-width: 2.2rem;
+                min-height: 2.2rem;
+                padding: 0.3rem 0.45rem;
+            }
+            #admin-save-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            #admin-save-btn {
+                width: 100%;
+            }
+            #admin-audit-log {
+                min-height: 34px;
+                line-height: 1.45;
+            }
+        }
+
+        @media (max-width: 640px) {
+            #admin-rows-table thead {
+                display: none;
+            }
+            #admin-rows-table,
+            #admin-rows-table tbody,
+            #admin-rows-table tr,
+            #admin-rows-table td {
+                display: block;
+                width: 100%;
+            }
+            #admin-rows-table tr {
+                margin-bottom: 0.8rem;
+                border: 1px solid #222;
+                background: #0b0b0b;
+                padding: 0.45rem;
+            }
+            #admin-rows-table td {
+                padding: 0.25rem;
+            }
+            #admin-tab-livematch .grid.grid-cols-2.gap-2,
+            #admin-tab-livematch .grid.grid-cols-2.gap-3,
+            #admin-tab-livematch .grid.grid-cols-4.gap-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
         }
     </style>
 </head>
@@ -547,6 +802,223 @@
         </div>
     </div>
 
+    <!-- ADMIN SCORE CONSOLE (triple-click connection badge or Ctrl+Shift+A) -->
+        <!-- ADMIN SCORE CONSOLE (triple-click connection badge or Ctrl+Shift+A) -->
+        <div id="lb-admin-modal" class="fixed inset-0 bg-black/97 z-[70000] hidden flex-col items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
+            <div class="admin-console-shell bg-[#050505] border-4 border-marvel w-full max-w-6xl shadow-[0_0_40px_rgba(237,29,36,.5)] relative my-auto">
+
+                <!-- Header -->
+                <div class="admin-stick-top flex items-center gap-3 px-4 md:px-6 pt-4 md:pt-6 pb-3 md:pb-4 border-b-4 border-[#1a1a1a]">
+                    <i class="fas fa-shield-halved text-3xl text-marvel"></i>
+                    <div class="flex-1">
+                        <h2 class="font-bangers text-2xl md:text-3xl text-white tracking-widest">S.H.I.E.L.D. ARENA CONSOLE</h2>
+                        <p class="font-code text-[10px] text-red-500 tracking-widest">LEVEL-7 CLEARANCE · <span id="admin-logged-in-as" class="text-gray-500"></span></p>
+                    </div>
+                    <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-marvel text-4xl font-bangers leading-none">×</button>
+                </div>
+
+                <div class="admin-stick-top border-b-2 border-[#1a1a1a] px-3 md:px-6 py-2">
+                    <div class="font-bangers tracking-widest text-sm text-aicyan uppercase"><i class="fas fa-gamepad mr-1"></i>Arena Control Mode</div>
+                </div>
+
+                <!-- TAB: SCORES -->
+                <div id="admin-tab-scores" class="hidden admin-tab-scroll px-3 md:px-6 py-4 md:py-5 space-y-4">
+                    <div class="flex gap-2 flex-wrap">
+                        <select id="admin-game-select" class="admin-input flex-1" onchange="adminGameChanged()">
+                            <option value="robosoccer">MECHVENGERS — RoboSoccer</option>
+                            <option value="roborace">STARK SPEEDWAY — Robo Race</option>
+                            <option value="spidersense">SPIDER SENSE</option>
+                            <option value="jarvis">J.A.R.V.I.S. — COMING SOON</option>
+                        </select>
+                        <button onclick="loadAdminScores()" class="px-4 py-2 bg-[#111] border-2 border-aicyan text-aicyan font-bangers tracking-widest text-sm hover:bg-aicyan hover:text-black transition">
+                            <i class="fas fa-rotate mr-1"></i>LOAD
+                        </button>
+                    </div>
+                    <p id="admin-schema-note" class="font-code text-[10px] text-gray-500 tracking-widest">LOAD A GAME TO ENABLE BACKEND EDIT MODE.</p>
+
+                    <!-- Rows table -->
+                    <div id="admin-rows-wrap" class="hidden admin-cool-wrap">
+                        <div class="overflow-x-auto max-h-[45vh] overflow-y-auto custom-scrollbar">
+                            <table class="w-full text-sm font-oswald" id="admin-rows-table">
+                                <thead>
+                                    <tr class="text-gray-400 text-xs uppercase tracking-widest border-b-2 border-[#222]">
+                                        <th class="py-2 px-2 text-center w-12">RANK</th>
+                                        <th class="py-2 px-2">TEAM / AGENT</th>
+                                        <th class="py-2 px-2">SCORE</th>
+                                        <th class="py-2 px-2 text-center w-44">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-rows-body"></tbody>
+                            </table>
+                        </div>
+                        <button onclick="addAdminRow()" class="mt-3 w-full py-2 bg-[#0a0a0a] border-2 border-dashed border-[#333] text-gray-500 font-bangers tracking-widest text-sm hover:border-white hover:text-white transition">
+                            <i class="fas fa-plus mr-1"></i> ADD ROW
+                        </button>
+
+                        <div class="admin-insert-box mt-3">
+                            <p class="font-code text-[10px] text-gray-400 tracking-widest mb-2">QUICK INSERT TO DATABASE</p>
+                            <div id="quick-insert-simple" class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                <input id="qi-rank" class="admin-input" type="number" min="1" placeholder="Rank (optional)">
+                                <input id="qi-name" class="admin-input" placeholder="Team / Agent Name">
+                                <input id="qi-score" class="admin-input" placeholder="Score">
+                            </div>
+                            <div id="quick-insert-team" class="hidden grid grid-cols-1 md:grid-cols-4 gap-2">
+                                <input id="qi-team1" class="admin-input" placeholder="Team 1 Name">
+                                <input id="qi-team2" class="admin-input" placeholder="Team 2 Name">
+                                <input id="qi-goals1" class="admin-input" type="number" min="0" placeholder="Goals 1">
+                                <input id="qi-goals2" class="admin-input" type="number" min="0" placeholder="Goals 2">
+                            </div>
+                            <button onclick="adminQuickInsertRow()" class="mt-2 w-full py-2 bg-aicyan text-black font-bangers tracking-widest border-2 border-black shadow-[3px_3px_0px_#000] hover:bg-white transition">
+                                <i class="fas fa-plus-circle mr-1"></i>INSERT TEAM
+                            </button>
+                        </div>
+                    </div>
+                    <div id="admin-rows-empty" class="text-center py-6 text-gray-600 font-code text-xs">SELECT A GAME AND CLICK LOAD</div>
+
+                    <!-- Updated-by / Save -->
+                    <div id="admin-save-bar" class="hidden flex gap-2 items-center pt-2 border-t border-[#1a1a1a]">
+                        <input id="admin-updated-by" class="admin-input flex-1" placeholder="YOUR NAME (Admin ID)">
+                        <button id="admin-save-btn" onclick="saveAdminScores()" class="px-5 py-2 bg-marvel text-white font-bangers text-lg border-2 border-black shadow-[3px_3px_0px_#000] hover:bg-white hover:text-marvel tracking-widest transition">
+                            <i class="fas fa-cloud-upload-alt mr-1"></i>UPDATE ALL
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB: LIVE MATCH -->
+                <div id="admin-tab-livematch" class="admin-tab-scroll px-3 md:px-6 py-4 md:py-5 space-y-4">
+                    <div class="flex gap-2 items-center flex-wrap">
+                        <select id="lm-game-select" class="admin-input flex-1" onchange="adminArenaGameChanged()">
+                            <option value="robosoccer">MECHVENGERS — RoboSoccer</option>
+                            <option value="roborace">STARK SPEEDWAY — Robo Race</option>
+                            <option value="spidersense">SPIDER SENSE</option>
+                            <option value="jarvis">J.A.R.V.I.S. — COMING SOON</option>
+                        </select>
+                        <button onclick="loadAdminArenaState()" class="px-4 py-2 bg-[#111] border-2 border-aicyan text-aicyan font-bangers tracking-widest text-sm hover:bg-aicyan hover:text-black transition">
+                            <i class="fas fa-rotate mr-1"></i>SYNC
+                        </button>
+                    </div>
+
+                    <div id="arena-coming-soon" class="hidden arena-panel p-4 text-center">
+                        <h3 class="font-bangers text-2xl tracking-widest text-aicyan">J.A.R.V.I.S. COMING SOON</h3>
+                        <p class="font-code text-xs text-gray-500 mt-2 tracking-widest">ARENA CONTROLS FOR THIS EVENT WILL UNLOCK AFTER BACKEND ACTIVATION.</p>
+                    </div>
+
+                    <div id="arena-main-wrap" class="space-y-4">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div class="arena-panel p-4 space-y-3">
+                                <p id="arena-schedule-title" class="arena-heading text-marvel text-lg"><i class="fas fa-user-plus mr-2"></i>SCHEDULE MATCHUP</p>
+                                <input id="arena-name-a" class="admin-input" placeholder="Team A / Participant A">
+                                <input id="arena-name-b" class="admin-input" placeholder="Team B / Participant B">
+                                <button onclick="addArenaQueueItem()" class="w-full py-2 bg-marvel text-white border-2 border-black font-bangers tracking-widest shadow-[3px_3px_0px_#FCD116] hover:bg-white hover:text-marvel transition">
+                                    <i class="fas fa-calendar-plus mr-1"></i>ADD TO QUEUE
+                                </button>
+                            </div>
+
+                            <div class="arena-panel p-4 space-y-3">
+                                <p id="arena-live-title" class="arena-heading text-white text-lg"><i class="fas fa-fire mr-2 text-marvel"></i>LIVE MATCH CONTROLS</p>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <input id="arena-venue" class="admin-input" placeholder="Venue / Track / Hall">
+                                    <input id="arena-duration" class="admin-input" placeholder="Timer (MM:SS) optional">
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <input id="arena-round" class="admin-input" placeholder="Round (e.g. Semis / Heat 2)">
+                                    <input id="arena-last" class="admin-input" placeholder="Highlight / Last Event">
+                                </div>
+                                <div id="arena-race-timer-wrap" class="hidden race-timer-hud">
+                                    <p class="font-code text-[10px] text-[#38bdf8] tracking-widest mb-2">ROBO RACE LIVE TIMER</p>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="race-timer-box">
+                                            <div class="font-code text-[10px] text-gray-500 tracking-widest">TIME LEFT</div>
+                                            <div id="arena-race-remaining" class="race-timer-value">05:00</div>
+                                        </div>
+                                        <div class="race-timer-box">
+                                            <div class="font-code text-[10px] text-gray-500 tracking-widest">TIME TAKEN</div>
+                                            <div id="arena-race-elapsed" class="race-timer-value text-[#38bdf8]">00:00</div>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-2">
+                                        <button onclick="startRoboRaceFiveMin()" class="py-2 bg-[#111] border-2 border-[#38bdf8] text-[#38bdf8] font-bangers text-sm tracking-widest hover:bg-[#38bdf8] hover:text-black transition">START 5:00</button>
+                                        <button onclick="pauseLiveTimer()" class="py-2 bg-[#111] border-2 border-[#FCD116] text-[#FCD116] font-bangers text-sm tracking-widest hover:bg-[#FCD116] hover:text-black transition">PAUSE</button>
+                                        <button onclick="resumeLiveTimer()" class="py-2 bg-[#111] border-2 border-[#22c55e] text-[#22c55e] font-bangers text-sm tracking-widest hover:bg-[#22c55e] hover:text-black transition">RESUME</button>
+                                        <button onclick="extendLiveTimer(30)" class="py-2 bg-[#111] border-2 border-[#a3e635] text-[#a3e635] font-bangers text-sm tracking-widest hover:bg-[#a3e635] hover:text-black transition">+30s</button>
+                                        <button onclick="resetRoboRaceTimer()" class="py-2 bg-[#111] border-2 border-[#ef4444] text-[#ef4444] font-bangers text-sm tracking-widest hover:bg-[#ef4444] hover:text-white transition">RESET</button>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3 text-center">
+                                    <div>
+                                        <p id="arena-left-label" class="font-bangers text-lg text-gray-300">TEAM A</p>
+                                        <div class="flex items-center justify-center gap-2 mt-1">
+                                            <button onclick="adjustArenaScore('a',-1)" class="arena-mini-btn">-</button>
+                                            <span id="arena-score-a" class="arena-live-score">0</span>
+                                            <button onclick="adjustArenaScore('a',1)" class="arena-mini-btn">+</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p id="arena-right-label" class="font-bangers text-lg text-gray-300">TEAM B</p>
+                                        <div class="flex items-center justify-center gap-2 mt-1">
+                                            <button onclick="adjustArenaScore('b',-1)" class="arena-mini-btn">-</button>
+                                            <span id="arena-score-b" class="arena-live-score">0</span>
+                                            <button onclick="adjustArenaScore('b',1)" class="arena-mini-btn">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="arenaUpdateScoreOnly()" class="w-full py-2 bg-[#111] border-2 border-[#38bdf8] text-[#38bdf8] font-bangers tracking-widest hover:bg-[#38bdf8] hover:text-black transition">
+                                    <i class="fas fa-pen-to-square mr-1"></i>UPDATE SCORE
+                                </button>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button onclick="arenaSendNextLive()" class="py-2 bg-aicyan text-black border-2 border-black font-bangers tracking-widest hover:bg-white transition">SEND NEXT LIVE</button>
+                                    <button onclick="arenaLogResult()" class="py-2 bg-[#111] border-2 border-marvel text-marvel font-bangers tracking-widest hover:bg-marvel hover:text-white transition">LOG RESULT</button>
+                                </div>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                    <button onclick="arenaGoLiveNow()" class="py-2 bg-[#111] border-2 border-aicyan text-aicyan font-bangers text-sm tracking-widest hover:bg-aicyan hover:text-black transition">GO LIVE</button>
+                                    <button onclick="pauseLiveTimer()" class="py-2 bg-[#111] border-2 border-[#FCD116] text-[#FCD116] font-bangers text-sm tracking-widest hover:bg-[#FCD116] hover:text-black transition">PAUSE</button>
+                                    <button onclick="resumeLiveTimer()" class="py-2 bg-[#111] border-2 border-[#22c55e] text-[#22c55e] font-bangers text-sm tracking-widest hover:bg-[#22c55e] hover:text-black transition">RESUME</button>
+                                    <button onclick="clearLiveMatch()" class="py-2 bg-[#111] border-2 border-[#666] text-gray-300 font-bangers text-sm tracking-widest hover:border-white hover:text-white transition">CLEAR</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div class="arena-panel p-4">
+                                <p id="arena-queue-title" class="arena-heading text-white text-lg"><i class="fas fa-list-ol mr-2 text-aicyan"></i>UPCOMING MATCHES</p>
+                                <div id="arena-queue-list" class="mt-3 space-y-2"></div>
+                            </div>
+                            <div class="arena-panel p-4">
+                                <p id="arena-history-title" class="arena-heading text-marvel text-lg"><i class="fas fa-rotate-left mr-2"></i>MATCH HISTORY LOGS</p>
+                                <div class="overflow-x-auto mt-3 max-h-[220px] overflow-y-auto custom-scrollbar">
+                                    <table class="w-full text-sm font-oswald">
+                                        <thead>
+                                            <tr class="text-gray-400 text-xs uppercase tracking-widest border-b border-[#222]">
+                                                <th class="py-1 text-left">Time</th>
+                                                <th class="py-1 text-left">Venue</th>
+                                                <th class="py-1 text-left">Matchup</th>
+                                                <th class="py-1 text-right">Result</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="arena-history-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden bridge inputs used by existing live broadcast functions -->
+                    <div class="hidden">
+                        <input id="lm-players">
+                        <input id="lm-round">
+                        <input id="lm-time">
+                        <input id="lm-duration">
+                        <input id="lm-last">
+                        <input id="lm-score">
+                    </div>
+                </div>
+
+                <!-- Audit log -->
+                <div id="admin-audit-log" class="px-3 md:px-6 pb-2 font-code text-xs min-h-[20px]"></div>
+                <p class="px-3 md:px-6 pb-3 md:pb-4 text-center font-code text-[9px] text-gray-600 tracking-widest border-t border-[#1a1a1a] pt-2 md:pt-3">ALL CHANGES LOGGED WITH TIMESTAMP &amp; ADMIN ID · SUPABASE RLS ENFORCED</p>
+            </div>
+        </div>
+
     <div id="leaderboard-view" class="fixed inset-0 bg-[#080808] z-[55000] hidden overflow-y-auto custom-scrollbar pb-20 pt-10">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000_100%)] pointer-events-none fixed z-0"></div>
         <div class="absolute inset-0 bg-marvel opacity-[0.03] fixed z-0 mix-blend-color"></div>
@@ -591,20 +1063,65 @@
                 </div>
             </div>
 
+            <!-- LIVE MATCH BOX BETWEEN GAME TABS AND STANDINGS -->
+            <div id="lb-live-duel-box" class="hidden mb-6 p-4 md:p-5 relative z-10">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-3 border-b border-[#1f1f1f] pb-3">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-gamepad text-aicyan text-xl"></i>
+                        <span class="font-code text-[10px] md:text-xs text-gray-400 tracking-[0.2em] uppercase">Now Playing Live</span>
+                    </div>
+                    <div id="lb-live-duel-score" class="text-[#FCD116] text-xl md:text-3xl">SCORE —</div>
+                </div>
+
+                <div id="lb-current-players" class="hidden mb-3 p-3 bg-[#080808] flex items-center gap-3" style="border-left-color:#00f0ff">
+                    <i class="fas fa-users-viewfinder text-xl animate-pulse" id="lb-players-icon" style="color:#00f0ff"></i>
+                    <div>
+                        <div class="font-code text-[10px] text-gray-500 tracking-widest uppercase">Now Competing</div>
+                        <div id="lb-players-text" class="font-bangers text-lg md:text-xl tracking-widest text-white"></div>
+                    </div>
+                </div>
+
+                <div id="lb-live-banner" class="hidden mb-3 border border-aicyan bg-aicyan/10 text-aicyan font-oswald tracking-wide px-3 py-2 text-sm"></div>
+
+                <div id="lb-broadcast-bar" class="hidden grid grid-cols-2 md:grid-cols-4 gap-2 text-center border border-[#222] p-2">
+                    <div class="broadcast-chip bg-[#0d0d0d] border border-[#ED1D24] text-[#ED1D24]">
+                        <i class="fas fa-layer-group mr-1"></i><span id="lb-broadcast-round">ROUND —</span>
+                    </div>
+                    <div class="broadcast-chip bg-[#0d0d0d] border border-aicyan text-aicyan">
+                        <i class="fas fa-clock mr-1"></i><span id="lb-broadcast-timer">⏱ —</span>
+                    </div>
+                    <div class="broadcast-chip bg-[#0d0d0d] border border-[#FCD116] text-[#FCD116]">
+                        <i class="fas fa-bolt mr-1"></i><span id="lb-broadcast-last">✦ —</span>
+                    </div>
+                    <div class="broadcast-chip bg-[#0d0d0d] border border-[#22c55e] text-[#22c55e]">
+                        <i class="fas fa-trophy mr-1"></i><span id="lb-broadcast-score">SCORE —</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="relative z-10">
                 <div class="stark-scanner-border rounded-lg shadow-[0_0_30px_rgba(237,29,36,0.2)] transition-colors duration-500" id="leaderboard-border-wrap">
                     <div class="bg-[#050505] border-4 border-black p-4 md:p-8 relative z-10">
                         
                         <div class="flex flex-col md:flex-row justify-between items-center border-b-4 border-[#222] pb-6 mb-6 gap-4">
                             <h3 id="lb-title" class="font-bangers text-3xl md:text-5xl tracking-widest text-marvel comic-text-shadow uppercase text-center md:text-left drop-shadow-[0_0_10px_rgba(237,29,36,0.4)]">ROBOSOCCER STANDINGS</h3>
-                            <div class="flex items-center gap-2 border-2 border-[#333] px-3 py-2 bg-[#111] transform skew-x-[-10deg]">
-                                <span class="w-3 h-3 rounded-full bg-[#00ff41] animate-ping shadow-[0_0_10px_#00ff41]"></span>
-                                <span class="font-code text-[#00ff41] text-[12px] md:text-sm font-bold tracking-widest">LIVE DATA FEED</span>
+                            <div class="w-full md:w-auto flex flex-col md:flex-row items-center gap-2">
+                                <button id="lb-refresh-btn" onclick="refreshActiveLeaderboard()" class="px-3 py-2 bg-[#111] border-2 border-[#333] text-white font-bangers tracking-wider text-sm flex items-center gap-2 hover:border-aicyan hover:text-aicyan transition">
+                                    <i class="fas fa-rotate"></i> REFRESH
+                                </button>
+                                <div id="realtime-status-badge" class="flex flex-col border-2 border-[#333] px-3 py-2 bg-[#111] transform skew-x-[-10deg] min-w-[160px] cursor-pointer select-none" onclick="handleAdminAccess()" title="Connection quality indicator">
+                    <div class="flex items-center gap-2">
+                        <span id="conn-dot" class="w-3 h-3 rounded-full flex-shrink-0" style="background:#00ff41;box-shadow:0 0 8px #00ff41"></span>
+                        <span id="realtime-status-text" class="font-code text-[12px] md:text-sm font-bold tracking-widest" style="color:#00ff41">LIVE DATA FEED</span>
+                    </div>
+                    <div id="conn-quality-bar"><div id="conn-quality-fill" class="cq-connected"></div></div>
+                    <div id="conn-quality-label" class="font-code text-[9px] text-gray-500 tracking-widest mt-0.5">SIGNAL: FULL</div>
+                </div>
                             </div>
                         </div>
 
                         <div class="overflow-x-auto custom-scrollbar">
-                            <table class="w-full text-left font-oswald border-separate" style="border-spacing: 0 10px;">
+                            <table id="leaderboard-table" class="w-full text-left font-oswald border-separate" style="border-spacing: 0 10px;">
                                 <thead>
                                     <tr class="text-gray-400 text-sm md:text-lg uppercase tracking-widest bg-black border-2 border-[#222]">
                                         <th class="py-3 px-2 md:px-4 w-20 text-center border-b-4 border-[#333]">RANK</th>
@@ -617,7 +1134,12 @@
                         </div>
 
                         <div class="mt-8 text-center bg-black/60 py-3 border border-[#222]">
-                            <p class="font-code text-[10px] md:text-xs text-gray-500 animate-pulse">S.H.I.E.L.D. DATA ENCRYPTED & AUTO-UPDATING THE MULTIVERSE INDEX...</p>
+                            <p class="font-code text-[10px] md:text-xs text-gray-500 animate-pulse">S.H.I.E.L.D. DATA ENCRYPTED &amp; AUTO-UPDATING THE MULTIVERSE INDEX...</p>
+                            <p id="leaderboard-last-sync" class="font-code text-[10px] md:text-xs text-gray-400 mt-1">LAST SYNC: STANDBY</p>
+                            <div id="lb-cache-notice" class="hidden mt-2 mx-auto inline-flex items-center gap-2 px-3 py-1 border border-red-800 bg-red-950/40">
+                                <i class="fas fa-database text-red-400 text-xs"></i>
+                                <span class="font-code text-[9px] text-red-400 tracking-widest">CACHED DATA FROM <span id="lb-cache-timestamp">--:--</span> &mdash; LIVE FEED UNAVAILABLE</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1208,7 +1730,7 @@
                             </div>
                             <div class="text-left transform skew-x-2">
                                 <p class="text-[8px] md:text-[10px] text-aicyan font-code tracking-widest leading-none mb-1 drop-shadow-[0_0_2px_#00f0ff]">SYSTEM DEVELOPED BY</p>
-                                <p class="text-white font-bangers text-md md:text-xl tracking-widest leading-none comic-text-shadow-dc whitespace-nowrap">KUMAR SHAURYA</p>
+                                <p class="text-white font-bangers text-md md:text-xl tracking-widest leading-none comic-text-shadow-dc whitespace-nowrap">CICR</p>
                             </div>
                         </a>
                     </div>
@@ -1284,18 +1806,722 @@
 
     <script>
         // --- 1. LEADERBOARD DATA & LOGIC ---
-        const leaderboardData = {
-            'robosoccer': { title: "MECHVENGERS STANDINGS", metric: "GOALS", theme: "#ED1D24", data: [ { name: "Iron Legion", score: "12 - 2" }, { name: "Ultron United", score: "10 - 4" }, { name: "Stark Strikers", score: "8 - 5" }, { name: "Quantum Kickers", score: "7 - 6" }, { name: "Wakanda Warriors", score: "5 - 8" } ] },
-            'roborace': { title: "STARK SPEEDWAY TIMES", metric: "BEST TIME", theme: "#0476F2", data: [ { name: "Mark L", score: "01:14.22" }, { name: "Quicksilver Bot", score: "01:16.85" }, { name: "Falcon Wings", score: "01:19.40" }, { name: "Bucky's Arm", score: "01:22.10" }, { name: "Silver Surfer", score: "01:25.55" } ] },
-            'spidersense': { title: "SPIDER SENSE RANKINGS", metric: "REFLEX SCORE", theme: "#e23636", data: [ { name: "Peter Parker", score: "9,999" }, { name: "Miles Morales", score: "9,450" }, { name: "Gwen Stacy", score: "9,100" }, { name: "Miguel O'Hara", score: "8,800" }, { name: "Silk", score: "8,200" } ] },
-            'jarvis': { title: "J.A.R.V.I.S. PROTOCOL", metric: "COMPUTE CYCLES", theme: "#00f0ff", data: [ { name: "Mainframe", score: "99.9%" }, { name: "F.R.I.D.A.Y.", score: "95.2%" }, { name: "E.D.I.T.H.", score: "91.5%" }, { name: "Vision", score: "89.4%" }, { name: "Jocasta", score: "85.1%" } ] },
-            'thorstrial': { title: "THOR'S TRIAL: WORTHINESS", metric: "POWER LEVEL", theme: "#a855f7", data: [ { name: "Odinson", score: "99,999" }, { name: "Mighty Jane", score: "94,500" }, { name: "Beta Ray", score: "88,200" }, { name: "Valkyrie", score: "82,100" }, { name: "Korg", score: "75,000" } ] },
-            'starkexpo': { title: "STARK EXPO INNOVATIONS", metric: "STARK FUNDING", theme: "#FCD116", data: [ { name: "Stark Industries", score: "$2.5B" }, { name: "Pym Tech", score: "$1.8B" }, { name: "Wakanda Design", score: "$1.5B" }, { name: "Hammer Tech", score: "$400M" }, { name: "A.I.M.", score: "$150M" } ] }
+        const SUPABASE_URL = window.SUPABASE_URL || "https://bexrqxbsuvtdfxjctkfv.supabase.co";
+        const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJleHJxeGJzdXZ0ZGZ4amN0a2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MjQ0MjcsImV4cCI6MjA4OTAwMDQyN30.hVw3BlyxnqEvY2DMmsa6-JMcskyPiN4NqkTRFklXhfc";
+        const SUPABASE_PUBLISHABLE_KEY = window.SUPABASE_PUBLISHABLE_KEY || "sb_publishable_STpupuO0j5C_Y1BLoHGvgA_50EuGMq7";
+        const SUPABASE_KEY = SUPABASE_PUBLISHABLE_KEY || SUPABASE_ANON_KEY;
+        const SUPABASE_ENABLED = SUPABASE_URL.includes('supabase.co') && SUPABASE_KEY.length > 20;
+
+        let supabaseClient = null;
+        let supabaseChannel = null;
+        let activeGameId = 'robosoccer';
+        let realtimeConnected = false;
+        let connectionQuality = 'connected'; // connected | reconnecting | delayed | fallback
+        let lastBackendError = '';
+        let lastBackendTable = '';
+        let liveCountdownTimer = null;
+        let adminRaceTimer = null;
+        const adminSchemaByGame = {};
+        let adminClickCount = 0, adminClickTimer = null, adminAuthenticated = false;
+
+        const gameTableMap = {
+            robosoccer: 'robosoccer',
+            roborace: 'roborace',
+            spidersense: 'spidersense',
+            jarvis: 'buzzwire'
         };
 
-        function showLeaderboard(gameId) {
+        // Schema per game: 'team' = team1_name/team2_name/team1_goals/team2_goals
+        //                  'simple' = name/score
+        const gameSchemaMap = {
+            robosoccer: 'team',
+            roborace:   'simple',
+            spidersense:'simple',
+            jarvis:     'simple'
+        };
+
+        // Config only — no static data. All rows come from Supabase.
+        const leaderboardData = {
+            'robosoccer': { title: "MECHVENGERS STANDINGS",  metric: "GOALS",         theme: "#ED1D24" },
+            'roborace':   { title: "STARK SPEEDWAY TIMES",   metric: "BEST TIME",      theme: "#0476F2" },
+            'spidersense':{ title: "SPIDER SENSE RANKINGS",  metric: "REFLEX SCORE",   theme: "#e23636" },
+            'jarvis':     { title: "J.A.R.V.I.S. PROTOCOL",  metric: "COMPUTE CYCLES", theme: "#00f0ff", comingSoon: true },
+            'thorstrial': { title: "THOR'S TRIAL: WORTHINESS",metric: "POWER LEVEL",   theme: "#a855f7" },
+            'starkexpo':  { title: "STARK EXPO INNOVATIONS", metric: "STARK FUNDING",  theme: "#FCD116" }
+        };
+
+        // Runtime cache — populated exclusively from Supabase fetches.
+        const liveCache = {};
+
+        function setConnectionQuality(state, message) {
+            connectionQuality = state;
+            const dot   = document.getElementById('conn-dot');
+            const text  = document.getElementById('realtime-status-text');
+            const fill  = document.getElementById('conn-quality-fill');
+            const label = document.getElementById('conn-quality-label');
+            const badge = document.getElementById('realtime-status-badge');
+            if (!text) return;
+
+            const cfg = {
+                connected:    { color:'#00ff41', fillCls:'cq-connected',    signal:'SIGNAL: FULL',        border:'border-[#333]'        },
+                reconnecting: { color:'#facc15', fillCls:'cq-reconnecting', signal:'SIGNAL: RECONNECTING', border:'border-yellow-600'    },
+                delayed:      { color:'#fb923c', fillCls:'cq-delayed',      signal:'SIGNAL: DEGRADED',     border:'border-orange-500'    },
+                fallback:     { color:'#ef4444', fillCls:'cq-fallback',     signal:'SIGNAL: OFFLINE',      border:'border-marvel'        }
+            }[state] || { color:'#ef4444', fillCls:'cq-fallback', signal:'SIGNAL: UNKNOWN', border:'border-marvel' };
+
+            if (dot)   { dot.style.background = cfg.color; dot.style.boxShadow = `0 0 8px ${cfg.color}`; }
+            text.textContent = message || state.toUpperCase();
+            text.style.color = cfg.color;
+            if (fill)  { fill.className = cfg.fillCls; }
+            if (label) { label.textContent = cfg.signal; }
+            if (badge) {
+                ['border-[#333]','border-marvel','border-yellow-600','border-orange-500'].forEach(c => badge.classList.remove(c));
+                badge.classList.add(cfg.border);
+            }
+        }
+
+        function updateRealtimeStatus(isConnected, message) {
+            realtimeConnected = isConnected;
+            if (!isConnected) {
+                const state = (message || '').includes('RECONNECT') ? 'reconnecting' : 'reconnecting';
+                setConnectionQuality(state, message || 'RECONNECTING...');
+            } else {
+                setConnectionQuality('connected', message || 'LIVE DATA FEED');
+            }
+        }
+
+        function setLastSyncLabel(prefix) {
+            const el = document.getElementById('leaderboard-last-sync');
+            if (!el) return;
+            const stamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            el.textContent = `LAST SYNC: ${prefix} ${stamp}`;
+        }
+
+        function normalizeLeaderboardRows(rows, fallbackMetric) {
+            const normalized = [];
+
+            rows.forEach(row => {
+                // Support control rows encoded in name/team1_name fields.
+                const controlKey = String(row.name ?? row.team1_name ?? row.team ?? '').trim();
+                if (controlKey.startsWith('__')) return;
+
+                // Schema A: pair-wise rows (team1_name/team2_name + goals).
+                if (row.team1_name || row.team2_name) {
+                    const t1 = String(row.team1_name || '').trim();
+                    const t2 = String(row.team2_name || '').trim();
+                    const g1 = row.team1_goals ?? row.team1_score ?? row.goals1 ?? row.score1;
+                    const g2 = row.team2_goals ?? row.team2_score ?? row.goals2 ?? row.score2;
+
+                    if (t1 && !t1.startsWith('__')) {
+                        const n1 = Number(String(g1 ?? '0').replace(/[^0-9.-]/g, ''));
+                        normalized.push({ name: t1, score: String(g1 ?? '0'), rank: null, numericScore: Number.isFinite(n1) ? n1 : null, metric: fallbackMetric });
+                    }
+                    if (t2 && !t2.startsWith('__')) {
+                        const n2 = Number(String(g2 ?? '0').replace(/[^0-9.-]/g, ''));
+                        normalized.push({ name: t2, score: String(g2 ?? '0'), rank: null, numericScore: Number.isFinite(n2) ? n2 : null, metric: fallbackMetric });
+                    }
+                    return;
+                }
+
+                // Schema B: simple rows (name/score style).
+                const name = row.name ?? row.team ?? row.agent ?? row.player ?? row.title ?? row.label ?? 'Unknown Agent';
+                const scoreRaw = row.score ?? row.points ?? row.value ?? row.goals ?? row.time ?? row.reflex_score ?? row.best_time ?? row.metric ?? '0';
+                const rank = Number(row.rank ?? row.position ?? Number.NaN);
+                const numericScore = Number(String(scoreRaw).replace(/[^0-9.-]/g, ''));
+                normalized.push({
+                    name: String(name),
+                    score: String(scoreRaw),
+                    rank: Number.isFinite(rank) ? rank : null,
+                    numericScore: Number.isFinite(numericScore) ? numericScore : null,
+                    metric: row.metric_name || fallbackMetric
+                });
+            });
+
+            if (normalized.some(r => r.rank !== null)) {
+                normalized.sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999));
+            } else if (normalized.some(r => r.numericScore !== null)) {
+                normalized.sort((a, b) => (b.numericScore ?? -Infinity) - (a.numericScore ?? -Infinity));
+            }
+
+            return normalized.map(({ name, score }) => ({ name, score }));
+        }
+
+        function getControlText(row, prefix) {
+            const candidates = [row.name, row.team1_name, row.team, row.agent, row.player];
+            const token = candidates.find(v => typeof v === 'string' && v.startsWith(prefix));
+            if (!token) return null;
+            return String(token).slice(prefix.length) || null;
+        }
+
+        // ---- Special-row parsers ----
+        function parseBroadcastData(rows) {
+            const row = rows.find(r => getControlText(r, '__BROADCAST__|'));
+            if (!row) return null;
+            const raw = getControlText(row, '__BROADCAST__|') || '';
+            const parts = String(raw).split('|').filter(Boolean);
+            const data = {};
+            parts.forEach(p => { const [k, ...v] = p.split(':'); if (k) data[k.toLowerCase().trim()] = v.join(':').trim(); });
+            return data; // { round, time, last }
+        }
+
+        function clearLiveCountdownTimer() {
+            if (liveCountdownTimer) {
+                clearInterval(liveCountdownTimer);
+                liveCountdownTimer = null;
+            }
+        }
+
+        function clearAdminRaceTimer() {
+            if (adminRaceTimer) {
+                clearInterval(adminRaceTimer);
+                adminRaceTimer = null;
+            }
+        }
+
+        function formatCountdown(msLeft) {
+            const safeMs = Math.max(0, msLeft);
+            const totalSec = Math.ceil(safeMs / 1000);
+            const min = Math.floor(totalSec / 60);
+            const sec = totalSec % 60;
+            return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        }
+
+        function parseDurationToSeconds(value) {
+            const raw = String(value || '').trim();
+            if (!raw) return null;
+            const mmss = raw.match(/^(\d{1,3}):(\d{1,2})$/);
+            if (mmss) {
+                const m = Number(mmss[1]);
+                const s = Number(mmss[2]);
+                if (!Number.isFinite(m) || !Number.isFinite(s) || s > 59) return null;
+                return (m * 60) + s;
+            }
+            const asMinutes = Number(raw);
+            if (!Number.isFinite(asMinutes) || asMinutes <= 0) return null;
+            return Math.round(asMinutes * 60);
+        }
+
+        function serializeBroadcastData(data) {
+            const order = ['round', 'time', 'last', 'score', 'end', 'paused'];
+            const parts = [];
+            order.forEach(k => {
+                if (data[k] !== undefined && data[k] !== null && String(data[k]).trim() !== '') {
+                    parts.push(`${k}:${String(data[k]).trim()}`);
+                }
+            });
+            Object.keys(data).forEach(k => {
+                if (!order.includes(k) && data[k] !== undefined && data[k] !== null && String(data[k]).trim() !== '') {
+                    parts.push(`${k}:${String(data[k]).trim()}`);
+                }
+            });
+            return parts.join('|');
+        }
+
+        async function getBroadcastControlState(gameId) {
+            const table = gameTableMap[gameId];
+            const schema = await detectAdminSchema(gameId, table);
+            const isTeam = schema === 'team';
+            const col = isTeam ? 'team1_name' : 'name';
+            const { data, error } = await supabaseClient.from(table).select('*').like(col, '__BROADCAST__|%').limit(1);
+            if (error) return { error, table, isTeam, state: {} };
+            const row = (data || [])[0] || null;
+            const state = row ? (parseBroadcastData([row]) || {}) : {};
+            return { error: null, table, isTeam, state };
+        }
+
+        async function saveBroadcastControlState(gameId, isTeam, state) {
+            const table = gameTableMap[gameId];
+            const payload = serializeBroadcastData(state);
+            return writeControlRow(table, isTeam, '__BROADCAST__', payload);
+        }
+
+        async function writeControlRow(table, isTeam, key, value) {
+            const col = isTeam ? 'team1_name' : 'name';
+            const token = `__${key}__|${value}`;
+
+            // Remove previous control row(s) first to avoid duplicates and ON CONFLICT dependency.
+            const { error: delError } = await supabaseClient
+                .from(table)
+                .delete()
+                .like(col, `__${key}__|%`);
+            if (delError) return { error: delError };
+
+            let row;
+            if (isTeam) {
+                row = { team1_name: token, team2_name: '', team1_goals: 0, team2_goals: 0 };
+            } else {
+                row = { name: token, score: 0 };
+                if (table === 'roborace') {
+                    row.enrollment = token.slice(0, 120);
+                }
+            }
+
+            return supabaseClient.from(table).insert(row);
+        }
+
+        async function pauseLiveTimer() {
+            const gameId = document.getElementById('lm-game-select').value;
+            const logEl = document.getElementById('admin-audit-log');
+            if (!gameTableMap[gameId] || !supabaseClient) return;
+
+            const { error, isTeam, state } = await getBroadcastControlState(gameId);
+            if (error) { logEl.innerHTML = `<span class="text-red-400">✗ ${error.message}</span>`; return; }
+
+            let remainingSec = Number(state.paused);
+            if (!Number.isFinite(remainingSec)) {
+                const endTs = Number(state.end);
+                if (Number.isFinite(endTs) && endTs > 0) remainingSec = Math.ceil(Math.max(0, endTs - Date.now()) / 1000);
+            }
+            if (!Number.isFinite(remainingSec)) {
+                remainingSec = parseDurationToSeconds(state.time || '') || 0;
+            }
+            if (remainingSec <= 0) { logEl.innerHTML = '<span class="text-yellow-400">⚠ No active timer to pause.</span>'; return; }
+
+            const next = { ...state, paused: remainingSec, time: formatCountdown(remainingSec * 1000) };
+            delete next.end;
+            const res = await saveBroadcastControlState(gameId, isTeam, next);
+            if (res.error) { logEl.innerHTML = `<span class="text-red-400">✗ ${res.error.message}</span>`; return; }
+
+            logEl.innerHTML = '<span class="text-green-400">✓ Timer paused.</span>';
+            await refreshEditedGame(gameId);
+        }
+
+        async function resumeLiveTimer() {
+            const gameId = document.getElementById('lm-game-select').value;
+            const logEl = document.getElementById('admin-audit-log');
+            if (!gameTableMap[gameId] || !supabaseClient) return;
+
+            const { error, isTeam, state } = await getBroadcastControlState(gameId);
+            if (error) { logEl.innerHTML = `<span class="text-red-400">✗ ${error.message}</span>`; return; }
+
+            let remainingSec = Number(state.paused);
+            if (!Number.isFinite(remainingSec)) remainingSec = parseDurationToSeconds(state.time || '') || 0;
+            if (remainingSec <= 0) { logEl.innerHTML = '<span class="text-yellow-400">⚠ No paused timer to resume.</span>'; return; }
+
+            const nextEnd = Date.now() + (remainingSec * 1000);
+            const next = { ...state, end: nextEnd, time: formatCountdown(remainingSec * 1000) };
+            delete next.paused;
+            const res = await saveBroadcastControlState(gameId, isTeam, next);
+            if (res.error) { logEl.innerHTML = `<span class="text-red-400">✗ ${res.error.message}</span>`; return; }
+
+            logEl.innerHTML = '<span class="text-green-400">✓ Timer resumed.</span>';
+            await refreshEditedGame(gameId);
+        }
+
+        async function extendLiveTimer(seconds = 30) {
+            const gameId = document.getElementById('lm-game-select').value;
+            const logEl = document.getElementById('admin-audit-log');
+            if (!gameTableMap[gameId] || !supabaseClient) return;
+
+            const { error, isTeam, state } = await getBroadcastControlState(gameId);
+            if (error) { logEl.innerHTML = `<span class="text-red-400">✗ ${error.message}</span>`; return; }
+
+            const pausedSec = Number(state.paused);
+            const endTs = Number(state.end);
+            let next = { ...state };
+            if (Number.isFinite(pausedSec) && pausedSec >= 0) {
+                const n = pausedSec + seconds;
+                next.paused = n;
+                next.time = formatCountdown(n * 1000);
+                delete next.end;
+            } else if (Number.isFinite(endTs) && endTs > 0) {
+                const nEnd = endTs + (seconds * 1000);
+                next.end = nEnd;
+                next.time = formatCountdown(Math.max(0, nEnd - Date.now()));
+                delete next.paused;
+            } else {
+                const base = parseDurationToSeconds(state.time || '') || 0;
+                const n = base + seconds;
+                next.end = Date.now() + (n * 1000);
+                next.time = formatCountdown(n * 1000);
+                delete next.paused;
+            }
+
+            const res = await saveBroadcastControlState(gameId, isTeam, next);
+            if (res.error) { logEl.innerHTML = `<span class="text-red-400">✗ ${res.error.message}</span>`; return; }
+
+            logEl.innerHTML = `<span class="text-green-400">✓ Timer extended by ${seconds}s.</span>`;
+            await refreshEditedGame(gameId);
+        }
+
+        function parseCurrentPlayers(rows) {
+            const row = rows.find(r => getControlText(r, '__CURRENT_PLAYERS__|'));
+            return row ? getControlText(row, '__CURRENT_PLAYERS__|') : null;
+        }
+
+        function updateBroadcastOverlay(data, theme) {
+            const bar = document.getElementById('lb-broadcast-bar');
+            const duel = document.getElementById('lb-live-duel-box');
+            const scoreChip = document.getElementById('lb-broadcast-score');
+            const duelScore = document.getElementById('lb-live-duel-score');
+            const timerChip = document.getElementById('lb-broadcast-timer');
+            if (!bar) return;
+            if (!data || (!data.round && !data.time && !data.last && !data.score)) {
+                clearLiveCountdownTimer();
+                bar.classList.add('hidden');
+                if (scoreChip) scoreChip.textContent = 'SCORE —';
+                if (duelScore) duelScore.textContent = 'SCORE —';
+                if (timerChip) timerChip.textContent = '⏱ —';
+                const playersPanel = document.getElementById('lb-current-players');
+                const liveBanner = document.getElementById('lb-live-banner');
+                if (duel && (!playersPanel || playersPanel.classList.contains('hidden')) && (!liveBanner || liveBanner.classList.contains('hidden'))) {
+                    duel.classList.add('hidden');
+                }
+                return;
+            }
+            const r = document.getElementById('lb-broadcast-round');
+            const t = document.getElementById('lb-broadcast-timer');
+            const l = document.getElementById('lb-broadcast-last');
+            const s = document.getElementById('lb-broadcast-score');
+            const startedTs = Number(data.started);
+            const isRaceMode = String(data.mode || '').toLowerCase() === 'race';
+            if (r) r.textContent = data.round ? `ROUND ${data.round}` : 'ROUND —';
+            clearLiveCountdownTimer();
+            const pausedSec = Number(data.paused);
+            const endTs = Number(data.end);
+            const getElapsedMs = () => {
+                if (!Number.isFinite(startedTs) || startedTs <= 0) return null;
+                const totalMs = Number.isFinite(endTs) && endTs > startedTs ? (endTs - startedTs) : (5 * 60 * 1000);
+                let leftMs = 0;
+                if (Number.isFinite(pausedSec) && pausedSec >= 0) {
+                    leftMs = pausedSec * 1000;
+                } else if (Number.isFinite(endTs) && endTs > 0) {
+                    leftMs = Math.max(0, endTs - Date.now());
+                }
+                return Math.max(0, totalMs - leftMs);
+            };
+            if (t) {
+                if (Number.isFinite(pausedSec) && pausedSec >= 0) {
+                    t.textContent = `⏱ PAUSED ${formatCountdown(pausedSec * 1000)}`;
+                    if (isRaceMode) {
+                        const elapsedMs = getElapsedMs();
+                        const elapsedText = elapsedMs !== null ? formatCountdown(elapsedMs) : '00:00';
+                        if (s) s.textContent = `TIME ${elapsedText}`;
+                        if (duelScore) duelScore.textContent = elapsedText;
+                    }
+                } else if (Number.isFinite(endTs) && endTs > 0) {
+                    const tick = () => {
+                        const left = endTs - Date.now();
+                        if (left <= 0) {
+                            t.textContent = '⏱ 00:00';
+                            if (isRaceMode) {
+                                if (s) s.textContent = 'TIME 05:00';
+                                if (duelScore) duelScore.textContent = '05:00';
+                            }
+                            clearLiveCountdownTimer();
+                            return;
+                        }
+                        t.textContent = `⏱ ${formatCountdown(left)}`;
+                        if (isRaceMode) {
+                            const elapsedMs = getElapsedMs();
+                            const elapsedText = elapsedMs !== null ? formatCountdown(elapsedMs) : '00:00';
+                            if (s) s.textContent = `TIME ${elapsedText}`;
+                            if (duelScore) duelScore.textContent = elapsedText;
+                        }
+                    };
+                    tick();
+                    liveCountdownTimer = setInterval(tick, 1000);
+                } else {
+                    t.textContent = data.time ? `⏱ ${data.time}` : '⏱ —';
+                }
+            }
+            if (l) l.textContent = data.last  ? `✦ ${data.last}` : '✦ —';
+            if (!isRaceMode) {
+                if (s) s.textContent = data.score ? `SCORE ${data.score}` : 'SCORE —';
+                if (duelScore) duelScore.textContent = data.score ? data.score : 'SCORE —';
+            }
+            bar.classList.remove('hidden');
+            if (duel) duel.classList.remove('hidden');
+        }
+
+        function updateCurrentPlayersPanel(players, theme) {
+            const panel  = document.getElementById('lb-current-players');
+            const textEl = document.getElementById('lb-players-text');
+            const iconEl = document.getElementById('lb-players-icon');
+            const duel = document.getElementById('lb-live-duel-box');
+            if (!panel) return;
+            if (!players) {
+                panel.classList.add('hidden');
+                const bar = document.getElementById('lb-broadcast-bar');
+                const banner = document.getElementById('lb-live-banner');
+                if (duel && (!bar || bar.classList.contains('hidden')) && (!banner || banner.classList.contains('hidden'))) {
+                    duel.classList.add('hidden');
+                }
+                return;
+            }
+            if (textEl) textEl.textContent = players;
+            const color = theme || '#00f0ff';
+            panel.style.borderLeftColor = color;
+            if (iconEl) iconEl.style.color = color;
+            panel.classList.remove('hidden');
+            if (duel) duel.classList.remove('hidden');
+        }
+
+        function updateLiveMatchBanner(rows) {
+            const banner = document.getElementById('lb-live-banner');
+            const duel = document.getElementById('lb-live-duel-box');
+            if (!banner) return;
+
+            const liveRow = rows.find(row => getControlText(row, '__LIVE_MATCH__|'));
+            if (!liveRow) {
+                clearLiveCountdownTimer();
+                banner.classList.add('hidden');
+                banner.textContent = '';
+                const panel = document.getElementById('lb-current-players');
+                const bar = document.getElementById('lb-broadcast-bar');
+                if (duel && (!panel || panel.classList.contains('hidden')) && (!bar || bar.classList.contains('hidden'))) {
+                    duel.classList.add('hidden');
+                }
+                return;
+            }
+
+            const payload = getControlText(liveRow, '__LIVE_MATCH__|') || '';
+            banner.textContent = payload ? `LIVE MATCH: ${payload}` : 'LIVE MATCH IN PROGRESS';
+            banner.classList.remove('hidden');
+            if (duel) duel.classList.remove('hidden');
+        }
+
+        async function fetchLeaderboardFromSupabase(gameId) {
+            const table = gameTableMap[gameId];
+            if (!table || !supabaseClient) return null;
+
+            lastBackendTable = table;
+            lastBackendError = '';
+            setConnectionQuality('delayed', 'QUERYING...');
+            const t0 = Date.now();
+            const { data, error } = await supabaseClient.from(table).select('*').limit(1000);
+            const elapsed = Date.now() - t0;
+
+            if (error) {
+                console.warn(`Supabase fetch failed for ${table}:`, error.message);
+                lastBackendError = error.message;
+                setConnectionQuality('reconnecting', 'SYNC FAILED');
+                return null;
+            }
+
+            setConnectionQuality(elapsed > 3000 ? 'delayed' : 'connected',
+                                 elapsed > 3000 ? 'DELAYED RESPONSE' : 'LIVE DATA FEED');
+
+            const allRows = data || [];
+            updateLiveMatchBanner(allRows);
+            updateBroadcastOverlay(parseBroadcastData(allRows), leaderboardData[gameId]?.theme);
+            updateCurrentPlayersPanel(parseCurrentPlayers(allRows), leaderboardData[gameId]?.theme);
+
+            return normalizeLeaderboardRows(allRows, leaderboardData[gameId]?.metric ?? '');
+        }
+
+        // Browser debug helper: run window.debugSupabaseFetch('robosoccer') in DevTools.
+        window.debugSupabaseFetch = async function(gameId = 'robosoccer') {
+            const table = gameTableMap[gameId];
+            if (!table) return { ok: false, reason: 'Unknown gameId', gameId };
+            if (!supabaseClient) return { ok: false, reason: 'Supabase client not initialized yet' };
+
+            const { data, error } = await supabaseClient.from(table).select('*').limit(5);
+            return {
+                ok: !error,
+                gameId,
+                table,
+                supabaseEnabled: SUPABASE_ENABLED,
+                url: SUPABASE_URL,
+                usingPublishableKey: SUPABASE_KEY === SUPABASE_PUBLISHABLE_KEY,
+                error: error ? error.message : null,
+                count: Array.isArray(data) ? data.length : 0,
+                sample: Array.isArray(data) ? data.slice(0, 2) : []
+            };
+        };
+
+        // Renders a loading skeleton into the tbody.
+        function renderLoadingState(game) {
+            const tbody = document.getElementById('leaderboard-body');
+            if (!tbody) return;
+            tbody.innerHTML = `
+                <tr><td colspan="3" class="py-12 text-center">
+                    <div class="flex flex-col items-center gap-3">
+                        <span class="inline-block w-8 h-8 border-4 border-t-transparent rounded-full animate-spin" style="border-color:${game.theme};border-top-color:transparent"></span>
+                        <span class="font-code text-xs tracking-widest" style="color:${game.theme}">QUERYING MULTIVERSE DATABASE...</span>
+                    </div>
+                </td></tr>
+            `;
+        }
+
+        // Renders an empty-state when Supabase returns no rows.
+        function renderEmptyState(game) {
+            const tbody = document.getElementById('leaderboard-body');
+            if (!tbody) return;
+            const errHint = lastBackendError
+                ? `<span class="font-code text-[10px] text-red-400 tracking-wide mt-2 block">BACKEND ERROR: ${lastBackendError}</span>
+                   <span class="font-code text-[10px] text-gray-500 tracking-wide mt-1 block">CHECK RLS SELECT POLICY FOR TABLE: ${lastBackendTable}</span>`
+                : '';
+            tbody.innerHTML = `
+                <tr><td colspan="3" class="py-12 text-center">
+                    <div class="flex flex-col items-center gap-2">
+                        <i class="fas fa-satellite-dish text-3xl animate-pulse" style="color:${game.theme}"></i>
+                        <span class="font-bangers text-2xl text-white tracking-widest mt-2">NO DATA YET</span>
+                        <span class="font-code text-xs text-gray-500 tracking-widest">STANDINGS WILL APPEAR ONCE SCORES ARE RECORDED</span>
+                        ${errHint}
+                    </div>
+                </td></tr>
+            `;
+        }
+
+        function renderComingSoonState(game) {
+            const tbody = document.getElementById('leaderboard-body');
+            if (!tbody) return;
+            tbody.innerHTML = `
+                <tr><td colspan="3" class="py-12 text-center">
+                    <div class="flex flex-col items-center gap-2">
+                        <i class="fas fa-lock text-3xl animate-pulse" style="color:${game.theme}"></i>
+                        <span class="font-bangers text-3xl tracking-widest" style="color:${game.theme}">COMING SOON</span>
+                        <span class="font-code text-xs text-gray-500 tracking-widest">J.A.R.V.I.S. LEADERBOARD WILL GO LIVE AFTER PROTOCOL ACTIVATION</span>
+                    </div>
+                </td></tr>
+            `;
+        }
+
+        // ---- localStorage cache helpers ----
+        function saveCachedLeaderboard(gameId, rows) {
+            try { localStorage.setItem(`converge_lb_${gameId}`, JSON.stringify({ rows, ts: Date.now() })); } catch(e) {}
+        }
+        function loadCachedLeaderboard(gameId) {
+            try {
+                const raw = localStorage.getItem(`converge_lb_${gameId}`);
+                if (!raw) return null;
+                const { rows, ts } = JSON.parse(raw);
+                if (Date.now() - ts > 60 * 60 * 1000) return null; // expire after 1 hour
+                return { rows, ts };
+            } catch(e) { return null; }
+        }
+        function showCacheNotice(ts) {
+            const el    = document.getElementById('lb-cache-notice');
+            const stamp = document.getElementById('lb-cache-timestamp');
+            if (!el) return;
+            if (ts) {
+                if (stamp) stamp.textContent = new Date(ts).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        async function hydrateLeaderboardData(gameId) {
             const game = leaderboardData[gameId];
             if (!game) return;
+
+            if (!SUPABASE_ENABLED || !gameTableMap[gameId]) {
+                // No Supabase table for this tab — show empty state cleanly.
+                liveCache[gameId] = [];
+                return;
+            }
+
+            renderLoadingState(game);
+            const liveRows = await fetchLeaderboardFromSupabase(gameId);
+
+            if (liveRows !== null) {
+                liveCache[gameId] = liveRows;
+                saveCachedLeaderboard(gameId, liveRows);
+                setLastSyncLabel('LIVE');
+                showCacheNotice(null);
+            } else {
+                // Supabase failed — try localStorage fallback
+                const cached = loadCachedLeaderboard(gameId);
+                if (cached) {
+                    liveCache[gameId] = cached.rows;
+                    setLastSyncLabel('CACHED');
+                    setConnectionQuality('fallback', 'USING CACHED DATA');
+                    showCacheNotice(cached.ts);
+                } else {
+                    liveCache[gameId] = [];
+                    setLastSyncLabel('ERROR');
+                    setConnectionQuality('fallback', 'NO DATA AVAILABLE');
+                    showCacheNotice(null);
+                }
+            }
+        }
+
+        async function refreshActiveLeaderboard() {
+            await hydrateLeaderboardData(activeGameId);
+            showLeaderboard(activeGameId, true);
+        }
+
+        function highlightTopRows() {
+            document.querySelectorAll('#leaderboard-body tr').forEach((row, idx) => {
+                if (idx < 3) {
+                    row.classList.add('lb-row-updated');
+                    setTimeout(() => row.classList.remove('lb-row-updated'), 1200);
+                }
+            });
+        }
+
+        async function initSupabaseRealtime() {
+            if (!SUPABASE_ENABLED || !window.supabase) {
+                updateRealtimeStatus(false, 'OFFLINE MODE');
+                return;
+            }
+
+            try {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+                    auth: { persistSession: false }
+                });
+
+                const tables = Object.values(gameTableMap);
+                supabaseChannel = supabaseClient.channel('converge-live-leaderboards');
+
+                tables.forEach(table => {
+                    supabaseChannel.on('postgres_changes', {
+                        event: '*',
+                        schema: 'public',
+                        table
+                    }, async () => {
+                        await hydrateLeaderboardData(activeGameId);
+                        showLeaderboard(activeGameId, true);
+                    });
+                });
+
+                supabaseChannel.subscribe((status) => {
+                    if (status === 'SUBSCRIBED') {
+                        updateRealtimeStatus(true, 'LIVE DATA FEED');
+                    }
+                    if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+                        updateRealtimeStatus(false, 'RECONNECTING...');
+                    }
+                });
+
+                updateRealtimeStatus(true, 'CONNECTING...');
+            } catch (err) {
+                console.warn('Supabase init failed:', err);
+                updateRealtimeStatus(false, 'OFFLINE MODE');
+            }
+        }
+
+        async function showLeaderboard(gameId, skipHydration = false) {
+            const game = leaderboardData[gameId];
+            if (!game) return;
+            activeGameId = gameId;
+
+            if (!gameTableMap[gameId]) {
+                const banner = document.getElementById('lb-live-banner');
+                if (banner) {
+                    banner.classList.add('hidden');
+                    banner.textContent = '';
+                }
+                updateRealtimeStatus(SUPABASE_ENABLED, SUPABASE_ENABLED ? 'STATIC TAB' : 'OFFLINE MODE');
+            } else if (SUPABASE_ENABLED) {
+                updateRealtimeStatus(realtimeConnected, realtimeConnected ? 'LIVE DATA FEED' : 'CONNECTING...');
+            }
+
+            if (!skipHydration) {
+                await hydrateLeaderboardData(gameId);
+            }
+
+            if (game.comingSoon) {
+                const banner = document.getElementById('lb-live-banner');
+                if (banner) {
+                    banner.classList.add('hidden');
+                    banner.textContent = '';
+                }
+                updateBroadcastOverlay(null, game.theme);
+                updateCurrentPlayersPanel(null, game.theme);
+            }
 
             const tabs = ['robosoccer', 'roborace', 'spidersense', 'jarvis', 'thorstrial', 'starkexpo'];
             tabs.forEach(tab => {
@@ -1331,48 +2557,65 @@
             document.getElementById('leaderboard-border-wrap').style.borderColor = game.theme;
 
             const tbody = document.getElementById('leaderboard-body');
+            const rows = liveCache[gameId] ?? null;
+
+            // Still fetching — hydrateLeaderboardData already rendered a spinner.
+            if (rows === null) return;
+
+            if (game.comingSoon) {
+                renderComingSoonState(game);
+                return;
+            }
+
+            // Supabase returned no rows (or tab has no table).
+            if (rows.length === 0) {
+                renderEmptyState(game);
+                return;
+            }
+
             tbody.innerHTML = '';
-            
-            game.data.forEach((row, index) => {
+            rows.forEach((row, index) => {
                 let rankStyle = "text-gray-400 font-oswald text-sm md:text-base";
                 let iconHtml = `${index + 1}`;
                 let rowBg = "bg-[#111] border-2 border-[#333] shadow-[4px_4px_0px_#000] hover:-translate-y-1 transition-transform transform -skew-x-2";
                 let rankIconColor = "gray";
 
                 if (index === 0) { 
-                    rankStyle = "text-black font-bangers text-xl md:text-2xl drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]"; 
+                    rankStyle = "medal-gold font-bangers text-xl md:text-2xl"; 
                     iconHtml = `<i class="fas fa-crown mr-1"></i>1ST`;
-                    rowBg = `bg-black border-[3px] shadow-[6px_6px_0px_${game.theme}] transform scale-[1.02] z-10 relative -skew-x-2`;
-                    rankIconColor = game.theme;
+                    rowBg = `bg-black border-[3px] border-[#FFD700] shadow-[6px_6px_0px_#FFD700,0_0_20px_rgba(255,215,0,0.2)] transform scale-[1.02] z-10 relative -skew-x-2`;
+                    rankIconColor = "#FFD700";
                 } else if (index === 1) { 
-                    rankStyle = "text-gray-200 font-bangers text-lg md:text-xl drop-shadow-[0_0_5px_#fff]"; 
+                    rankStyle = "medal-silver font-bangers text-lg md:text-xl"; 
                     iconHtml = `<i class="fas fa-shield-alt mr-1"></i>2ND`;
-                    rowBg = "bg-[#1a1a1a] border-2 border-gray-400 shadow-[4px_4px_0px_#9ca3af] transform -skew-x-2";
-                    rankIconColor = "white";
+                    rowBg = "bg-[#1a1a1a] border-2 border-[#C0C0C0] shadow-[4px_4px_0px_#C0C0C0] transform -skew-x-2";
+                    rankIconColor = "#C0C0C0";
                 } else if (index === 2) { 
-                    rankStyle = "text-[#cd7f32] font-bangers text-lg md:text-xl"; 
+                    rankStyle = "medal-bronze font-bangers text-lg md:text-xl"; 
                     iconHtml = `<i class="fas fa-bolt mr-1"></i>3RD`;
-                    rowBg = "bg-[#1a1a1a] border-2 border-[#cd7f32] shadow-[4px_4px_0px_#cd7f32] transform -skew-x-2";
-                    rankIconColor = "#cd7f32";
+                    rowBg = "bg-[#1a1a1a] border-2 border-[#CD7F32] shadow-[4px_4px_0px_#CD7F32] transform -skew-x-2";
+                    rankIconColor = "#CD7F32";
                 } else {
                     rowBg = "bg-[#0d0d0d] border-2 border-[#222] opacity-80 hover:opacity-100 transform -skew-x-2 shadow-[2px_2px_0px_#000]";
                 }
 
                 let inlineStyles = "";
                 if (index === 0) {
-                    inlineStyles = `border-color: ${game.theme}; background: linear-gradient(90deg, ${game.theme}dd, ${game.theme}33);`;
+                    inlineStyles = "background: linear-gradient(90deg, rgba(255,215,0,0.18), rgba(255,215,0,0.04));";
                 }
 
                 tbody.innerHTML += `
                     <tr class="${rowBg} transition-all duration-300 group block md:table-row w-full mb-3 md:mb-0" style="${inlineStyles}">
-                        <td class="py-3 px-2 md:px-6 text-center ${rankStyle} border-l-4 border-transparent" style="${index===0?`border-left-color: ${game.theme}`:''}">${iconHtml}</td>
-                        <td class="py-3 px-2 md:px-6 font-oswald text-white tracking-wider text-sm md:text-xl transition-colors" onmouseover="this.style.color='${game.theme}'" onmouseout="this.style.color='white'">
+                        <td data-label="Rank" class="py-3 px-2 md:px-6 text-center ${rankStyle} border-l-4 border-transparent" style="${index===0?'border-left-color:#FFD700':''}">${iconHtml}</td>
+                        <td data-label="Agent" class="py-3 px-2 md:px-6 font-oswald text-white tracking-wider text-sm md:text-xl transition-colors" onmouseover="this.style.color='${game.theme}'" onmouseout="this.style.color='white'">
                             <i class="fas fa-user-astronaut text-xs md:text-sm mr-2 opacity-80" style="color: ${rankIconColor}"></i>${row.name}
                         </td>
-                        <td class="py-3 px-2 md:px-6 text-right font-code font-bold text-lg md:text-2xl tracking-widest drop-shadow-[0_0_5px_rgba(0,0,0,0.8)]" style="${index===0 ? 'color: black;' : `color: ${game.theme};`}">${row.score}</td>
+                        <td data-label="${game.metric}" class="py-3 px-2 md:px-6 text-right font-code font-bold text-lg md:text-2xl tracking-widest drop-shadow-[0_0_5px_rgba(0,0,0,0.8)]" style="${index===0 ? 'color:#FFD700;text-shadow:0 0 12px rgba(255,215,0,.8)' : `color: ${game.theme};`}">${row.score}</td>
                     </tr>
                 `;
             });
+
+            highlightTopRows();
         }
 
         // LEADERBOARD GATEWAY & AUTHENTICATION
@@ -1434,6 +2677,926 @@
             document.getElementById('leaderboard-view').classList.add('hidden');
             document.body.style.overflow = ''; 
         }
+
+        // === ADMIN SCORE CONSOLE ===
+        // Access: triple-click the connection badge  OR  Ctrl+Shift+A
+        function handleAdminAccess() {
+            adminClickCount++;
+            clearTimeout(adminClickTimer);
+            adminClickTimer = setTimeout(() => { adminClickCount = 0; }, 1500);
+            if (adminClickCount >= 3) {
+                adminClickCount = 0;
+                openAdminPanel();
+            }
+        }
+
+        function openAdminPanel() {
+            if (!adminAuthenticated) {
+                const pwd = prompt('ENTER ADMIN AUTHORIZATION CODE:');
+                if (!pwd || pwd.trim() !== 'CONVERGE26') {
+                    alert('ACCESS DENIED \u2014 INVALID AUTHORIZATION CODE');
+                    return;
+                }
+                adminAuthenticated = true;
+            }
+            const modal = document.getElementById('lb-admin-modal');
+            if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+            const log = document.getElementById('admin-audit-log');
+            if (log) log.innerHTML = '';
+            const logEl = document.getElementById('admin-audit-log');
+            if (logEl) logEl.innerHTML = '';
+            const who = document.getElementById('admin-logged-in-as');
+            if (who) who.textContent = '';
+            switchAdminTab('livematch');
+            loadAdminArenaState(true).catch(() => {});
+        }
+
+        function closeAdminPanel() {
+            const modal = document.getElementById('lb-admin-modal');
+            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+        }
+
+        function switchAdminTab(tab) {
+            ['scores','livematch'].forEach(t => {
+                document.getElementById(`admin-tab-${t}`)?.classList.add('hidden');
+                const btn = document.getElementById(`atab-${t}`);
+                if (btn) { btn.classList.remove('border-marvel','text-white'); btn.classList.add('border-transparent','text-gray-500'); }
+            });
+            document.getElementById(`admin-tab-${tab}`)?.classList.remove('hidden');
+            const activeBtn = document.getElementById(`atab-${tab}`);
+            if (activeBtn) { activeBtn.classList.add('border-marvel','text-white'); activeBtn.classList.remove('border-transparent','text-gray-500'); }
+            if (tab === 'livematch') loadAdminArenaState(true);
+        }
+
+        let _adminRows = [];
+        let _adminTid  = 0;
+        let _adminIsTeamSchema = false;
+
+        function adminGameChanged() {
+            _adminRows = [];
+            _adminIsTeamSchema = false;
+            document.getElementById('admin-rows-wrap')?.classList.add('hidden');
+            const empty = document.getElementById('admin-rows-empty');
+            if (empty) { empty.classList.remove('hidden'); empty.textContent = 'SELECT A GAME AND CLICK LOAD'; }
+            document.getElementById('admin-save-bar')?.classList.add('hidden');
+            const note = document.getElementById('admin-schema-note');
+            if (note) note.textContent = 'LOAD A GAME TO ENABLE BACKEND EDIT MODE.';
+            const arenaSel = document.getElementById('lm-game-select');
+            const scoreSel = document.getElementById('admin-game-select');
+            if (arenaSel && scoreSel) arenaSel.value = scoreSel.value;
+            syncAdminInsertUI();
+            loadAdminScores().catch(() => {});
+        }
+
+        function adminArenaGameChanged() {
+            loadAdminArenaState();
+        }
+
+        async function loadAdminScores() {
+            const gameId = document.getElementById('admin-game-select').value;
+            const table  = gameTableMap[gameId];
+            const logEl  = document.getElementById('admin-audit-log');
+            const noteEl = document.getElementById('admin-schema-note');
+            if (!table || !supabaseClient) { logEl.innerHTML = '<span class="text-red-400">\u2717 No Supabase connection.</span>'; return; }
+            logEl.innerHTML = '<span class="text-gray-400">Loading\u2026</span>';
+            _adminIsTeamSchema = (await detectAdminSchema(gameId, table)) === 'team';
+            const { data, error } = await supabaseClient.from(table).select('*');
+            if (error) { logEl.innerHTML = `<span class="text-red-400">\u2717 ${error.message}</span>`; return; }
+            const rows = data || [];
+            _adminRows = rows
+                .filter(r => !String(r.name || r.team1_name || '').startsWith('__'))
+                .map(r => _adminIsTeamSchema
+                    ? { _tid: ++_adminTid, id: r.id, t1: r.team1_name||'', t2: r.team2_name||'', g1: String(r.team1_goals??0), g2: String(r.team2_goals??0), _del: false, _new: false }
+                    : { _tid: ++_adminTid, id: r.id, name: r.name||'', score: String(r.score??''), rank: r.rank??'', _del: false, _new: false }
+                );
+            renderAdminRows();
+            if (noteEl) {
+                noteEl.textContent = _adminIsTeamSchema
+                    ? `EDIT MODE: TEAM MATCH DATA (${table}) - TEAM NAMES + GOALS WILL BE WRITTEN TO SUPABASE.`
+                    : `EDIT MODE: SIMPLE LEADERBOARD (${table}) - RANK/NAME/SCORE WILL BE WRITTEN TO SUPABASE.`;
+            }
+            const arenaSel = document.getElementById('lm-game-select');
+            if (arenaSel) arenaSel.value = gameId;
+            syncAdminInsertUI();
+            logEl.innerHTML = `<span class="text-green-400">\u2713 Loaded ${_adminRows.length} row(s).</span>`;
+        }
+
+        async function refreshEditedGame(gameId) {
+            await hydrateLeaderboardData(gameId);
+            if (activeGameId === gameId) showLeaderboard(gameId, true);
+        }
+
+        async function detectAdminSchema(gameId, table) {
+            if (adminSchemaByGame[gameId]) return adminSchemaByGame[gameId];
+            if (!supabaseClient || !table) return (gameSchemaMap[gameId] || 'simple');
+
+            // Probe for team schema columns first.
+            let probe = await supabaseClient
+                .from(table)
+                .select('id,team1_name,team2_name,team1_goals,team2_goals')
+                .limit(1);
+            if (!probe.error) {
+                adminSchemaByGame[gameId] = 'team';
+                return 'team';
+            }
+
+            // Fallback probe for simple schema columns.
+            probe = await supabaseClient
+                .from(table)
+                .select('id,name,score,rank')
+                .limit(1);
+            if (!probe.error) {
+                adminSchemaByGame[gameId] = 'simple';
+                return 'simple';
+            }
+
+            // Last resort to avoid blocking admin UI entirely.
+            adminSchemaByGame[gameId] = gameSchemaMap[gameId] || 'simple';
+            return adminSchemaByGame[gameId];
+        }
+
+        function syncAdminInsertUI() {
+            const simple = document.getElementById('quick-insert-simple');
+            const team = document.getElementById('quick-insert-team');
+            if (!simple || !team) return;
+            if (_adminIsTeamSchema) {
+                team.classList.remove('hidden');
+                simple.classList.add('hidden');
+            } else {
+                simple.classList.remove('hidden');
+                team.classList.add('hidden');
+            }
+        }
+
+        async function adminUpdateRow(tid) {
+            const row = _adminRows.find(r => r._tid === tid);
+            const gameId = document.getElementById('admin-game-select').value;
+            const table = gameTableMap[gameId];
+            const logEl = document.getElementById('admin-audit-log');
+            const updatedBy = (document.getElementById('admin-updated-by')?.value || '').trim();
+
+            if (!row || row._del) return;
+            if (!updatedBy && !_adminIsTeamSchema) { logEl.innerHTML = '<span class="text-yellow-400">⚠ Enter your Admin ID first.</span>'; return; }
+            if (!table || !supabaseClient) { logEl.innerHTML = '<span class="text-red-400">✗ No Supabase connection.</span>'; return; }
+
+            let error = null;
+            if (_adminIsTeamSchema) {
+                if (!String(row.t1 || '').trim() || !String(row.t2 || '').trim()) {
+                    logEl.innerHTML = '<span class="text-yellow-400">⚠ Both team names are required.</span>';
+                    return;
+                }
+                const rec = { team1_name: row.t1, team2_name: row.t2, team1_goals: Number(row.g1) || 0, team2_goals: Number(row.g2) || 0 };
+                if (row.id) ({ error } = await supabaseClient.from(table).update(rec).eq('id', row.id));
+                else ({ error } = await supabaseClient.from(table).insert(rec));
+            } else {
+                if (!String(row.name || '').trim()) {
+                    logEl.innerHTML = '<span class="text-yellow-400">⚠ Team/Agent name is required.</span>';
+                    return;
+                }
+                const rec = { name: row.name, score: row.score, updated_by: updatedBy, updated_at: new Date().toISOString() };
+                rec.rank = (row.rank !== '') ? Number(row.rank) : null;
+                if (row.id) ({ error } = await supabaseClient.from(table).update(rec).eq('id', row.id));
+                else ({ error } = await supabaseClient.from(table).insert(rec));
+            }
+
+            if (error) {
+                logEl.innerHTML = `<span class="text-red-400">✗ ${error.message}</span>`;
+                return;
+            }
+
+            logEl.innerHTML = '<span class="text-green-400">✓ Score updated in database.</span>';
+            await loadAdminScores();
+            await refreshEditedGame(gameId);
+        }
+
+        async function adminDeleteRowNow(tid) {
+            const row = _adminRows.find(r => r._tid === tid);
+            const gameId = document.getElementById('admin-game-select').value;
+            const table = gameTableMap[gameId];
+            const logEl = document.getElementById('admin-audit-log');
+            if (!row) return;
+
+            if (!row.id) {
+                _adminRows = _adminRows.filter(r => r._tid !== tid);
+                renderAdminRows();
+                logEl.innerHTML = '<span class="text-green-400">✓ Unsaved row removed.</span>';
+                return;
+            }
+
+            const { error } = await supabaseClient.from(table).delete().eq('id', row.id);
+            if (error) {
+                logEl.innerHTML = `<span class="text-red-400">✗ ${error.message}</span>`;
+                return;
+            }
+            logEl.innerHTML = '<span class="text-green-400">✓ Team deleted from database.</span>';
+            await loadAdminScores();
+            await refreshEditedGame(gameId);
+        }
+
+        async function adminQuickInsertRow() {
+            const gameId = document.getElementById('admin-game-select').value;
+            const table = gameTableMap[gameId];
+            const logEl = document.getElementById('admin-audit-log');
+            const updatedBy = (document.getElementById('admin-updated-by')?.value || '').trim();
+            if (!table || !supabaseClient) { logEl.innerHTML = '<span class="text-red-400">✗ No Supabase connection.</span>'; return; }
+
+            let rec;
+            if (_adminIsTeamSchema) {
+                const t1 = (document.getElementById('qi-team1')?.value || '').trim();
+                const t2 = (document.getElementById('qi-team2')?.value || '').trim();
+                const g1 = document.getElementById('qi-goals1')?.value || '0';
+                const g2 = document.getElementById('qi-goals2')?.value || '0';
+                if (!t1 || !t2) { logEl.innerHTML = '<span class="text-yellow-400">⚠ Enter both team names.</span>'; return; }
+                rec = { team1_name: t1, team2_name: t2, team1_goals: Number(g1) || 0, team2_goals: Number(g2) || 0 };
+            } else {
+                const name = (document.getElementById('qi-name')?.value || '').trim();
+                const score = (document.getElementById('qi-score')?.value || '').trim();
+                const rankVal = (document.getElementById('qi-rank')?.value || '').trim();
+                if (!name) { logEl.innerHTML = '<span class="text-yellow-400">⚠ Team/Agent name is required.</span>'; return; }
+                if (!updatedBy) { logEl.innerHTML = '<span class="text-yellow-400">⚠ Enter your Admin ID first.</span>'; return; }
+                rec = { name, score, updated_by: updatedBy, updated_at: new Date().toISOString() };
+                if (rankVal !== '') rec.rank = Number(rankVal);
+            }
+
+            const { error } = await supabaseClient.from(table).insert(rec);
+            if (error) {
+                logEl.innerHTML = `<span class="text-red-400">✗ ${error.message}</span>`;
+                return;
+            }
+            logEl.innerHTML = '<span class="text-green-400">✓ New team inserted into database.</span>';
+            await loadAdminScores();
+            await refreshEditedGame(gameId);
+        }
+
+        function renderAdminRows() {
+            const tbody = document.getElementById('admin-rows-body');
+            const thead = document.querySelector('#admin-rows-table thead tr');
+            const wrap  = document.getElementById('admin-rows-wrap');
+            const empty = document.getElementById('admin-rows-empty');
+            const bar   = document.getElementById('admin-save-bar');
+            if (!tbody) return;
+
+            // Update column headers based on schema
+            if (thead) {
+                if (_adminIsTeamSchema) {
+                    thead.innerHTML = `
+                        <th class="py-2 px-2">TEAM 1</th>
+                        <th class="py-2 px-2">TEAM 2</th>
+                        <th class="py-2 px-2 text-center w-16">GOALS 1</th>
+                        <th class="py-2 px-2 text-center w-16">GOALS 2</th>
+                        <th class="py-2 px-2 text-center w-44">ACTIONS</th>`;
+                } else {
+                    thead.innerHTML = `
+                        <th class="py-2 px-2 text-center w-12">RANK</th>
+                        <th class="py-2 px-2">TEAM / AGENT</th>
+                        <th class="py-2 px-2">SCORE</th>
+                        <th class="py-2 px-2 text-center w-44">ACTIONS</th>`;
+                }
+            }
+
+            tbody.innerHTML = '';
+            _adminRows.filter(r => !r._del).forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-[#1a1a1a] hover:bg-[#0d0d0d]';
+                tr.dataset.tid = row._tid;
+                if (_adminIsTeamSchema) {
+                    tr.innerHTML = `
+                      <td class="py-1 px-1"><input value="${String(row.t1).replace(/"/g,'&quot;')}" placeholder="Team 1 name"
+                        class="admin-input w-full py-1 text-sm"
+                        oninput="adminRowChange(${row._tid},'t1',this.value)"></td>
+                      <td class="py-1 px-1"><input value="${String(row.t2).replace(/"/g,'&quot;')}" placeholder="Team 2 name"
+                        class="admin-input w-full py-1 text-sm"
+                        oninput="adminRowChange(${row._tid},'t2',this.value)"></td>
+                      <td class="py-1 px-1"><input type="number" min="0" value="${row.g1}" placeholder="0"
+                        class="admin-input w-16 text-center py-1 text-sm"
+                        oninput="adminRowChange(${row._tid},'g1',this.value)"></td>
+                      <td class="py-1 px-1"><input type="number" min="0" value="${row.g2}" placeholder="0"
+                        class="admin-input w-16 text-center py-1 text-sm"
+                        oninput="adminRowChange(${row._tid},'g2',this.value)"></td>
+                                            <td class="py-1 px-1 text-center whitespace-nowrap">
+                                                <button onclick="adminUpdateRow(${row._tid})" class="admin-row-action admin-row-update mr-1" title="Update Score">UPDATE SCORE</button>
+                                                <button onclick="adminDeleteRowNow(${row._tid})" class="admin-row-action admin-row-delete" title="Delete Team">DELETE</button>
+                      </td>`;
+                } else {
+                    tr.innerHTML = `
+                      <td class="py-1 px-1"><input type="number" min="1" value="${row.rank}" placeholder="#"
+                        class="admin-input w-16 text-center py-1 text-sm"
+                        oninput="adminRowChange(${row._tid},'rank',this.value)"></td>
+                      <td class="py-1 px-1"><input value="${String(row.name).replace(/"/g,'&quot;')}" placeholder="Team / Agent"
+                        class="admin-input w-full py-1 text-sm"
+                        oninput="adminRowChange(${row._tid},'name',this.value)"></td>
+                      <td class="py-1 px-1"><input value="${String(row.score).replace(/"/g,'&quot;')}" placeholder="Score"
+                        class="admin-input w-full py-1 text-sm"
+                        oninput="adminRowChange(${row._tid},'score',this.value)"></td>
+                                            <td class="py-1 px-1 text-center whitespace-nowrap">
+                                                <button onclick="adminUpdateRow(${row._tid})" class="admin-row-action admin-row-update mr-1" title="Update Score">UPDATE SCORE</button>
+                                                <button onclick="adminDeleteRowNow(${row._tid})" class="admin-row-action admin-row-delete" title="Delete Team">DELETE</button>
+                      </td>`;
+                }
+                tbody.appendChild(tr);
+            });
+            wrap.classList.remove('hidden');
+            empty.classList.add('hidden');
+            bar.classList.remove('hidden');
+        }
+
+        function adminRowChange(tid, field, val) {
+            const row = _adminRows.find(r => r._tid === tid);
+            if (row) row[field] = val;
+        }
+
+        function addAdminRow() {
+            _adminRows.push(_adminIsTeamSchema
+                ? { _tid: ++_adminTid, id: null, t1: '', t2: '', g1: '0', g2: '0', _del: false, _new: true }
+                : { _tid: ++_adminTid, id: null, name: '', score: '', rank: '', _del: false, _new: true }
+            );
+            renderAdminRows();
+            const rows = document.querySelectorAll('#admin-rows-body tr');
+            if (rows.length) rows[rows.length - 1].querySelector('input:nth-child(1)')?.focus();
+        }
+
+        function deleteAdminRow(tid) {
+            const row = _adminRows.find(r => r._tid === tid);
+            if (!row) return;
+            if (row._new) { _adminRows = _adminRows.filter(r => r._tid !== tid); }
+            else { row._del = true; }
+            renderAdminRows();
+        }
+
+        async function saveAdminScores() {
+            const gameId    = document.getElementById('admin-game-select').value;
+            const updatedBy = (document.getElementById('admin-updated-by')?.value || '').trim();
+            const table     = gameTableMap[gameId];
+            const logEl     = document.getElementById('admin-audit-log');
+            const btn       = document.getElementById('admin-save-btn');
+            if (!updatedBy) { logEl.innerHTML = '<span class="text-yellow-400">\u26a0 Enter your Admin ID first.</span>'; return; }
+            if (!table || !supabaseClient) { logEl.innerHTML = '<span class="text-red-400">\u2717 No Supabase connection.</span>'; return; }
+            btn.textContent = 'SAVING\u2026'; btn.disabled = true;
+            const now = new Date().toISOString();
+            let errors = [];
+
+            for (const row of _adminRows.filter(r => r._del && r.id)) {
+                const { error } = await supabaseClient.from(table).delete().eq('id', row.id);
+                const label = _adminIsTeamSchema ? `"${row.t1} vs ${row.t2}"` : `"${row.name}"`;
+                if (error) errors.push(`Delete ${label}: ${error.message}`);
+            }
+            if (_adminIsTeamSchema) {
+                for (const row of _adminRows.filter(r => r._new && !r._del && r.t1)) {
+                    if (!String(row.t2 || '').trim()) {
+                        errors.push(`Insert "${row.t1}": team 2 name is required.`);
+                        continue;
+                    }
+                    const rec = { team1_name: row.t1, team2_name: row.t2, team1_goals: Number(row.g1)||0, team2_goals: Number(row.g2)||0 };
+                    const { error } = await supabaseClient.from(table).insert(rec);
+                    if (error) errors.push(`Insert "${row.t1} vs ${row.t2}": ${error.message}`);
+                }
+                for (const row of _adminRows.filter(r => !r._new && !r._del && r.id)) {
+                    if (!String(row.t1 || '').trim() || !String(row.t2 || '').trim()) {
+                        errors.push(`Update row #${row.id}: both team names are required.`);
+                        continue;
+                    }
+                    const rec = { team1_name: row.t1, team2_name: row.t2, team1_goals: Number(row.g1)||0, team2_goals: Number(row.g2)||0 };
+                    const { error } = await supabaseClient.from(table).update(rec).eq('id', row.id);
+                    if (error) errors.push(`Update "${row.t1} vs ${row.t2}": ${error.message}`);
+                }
+            } else {
+                for (const row of _adminRows.filter(r => r._new && !r._del && r.name)) {
+                    const rec = { name: row.name, score: row.score, updated_by: updatedBy, updated_at: now };
+                    if (row.rank !== '') rec.rank = Number(row.rank);
+                    const { error } = await supabaseClient.from(table).insert(rec);
+                    if (error) errors.push(`Insert "${row.name}": ${error.message}`);
+                }
+                for (const row of _adminRows.filter(r => !r._new && !r._del && r.id)) {
+                    const rec = { name: row.name, score: row.score, updated_by: updatedBy, updated_at: now };
+                    rec.rank = (row.rank !== '') ? Number(row.rank) : null;
+                    const { error } = await supabaseClient.from(table).update(rec).eq('id', row.id);
+                    if (error) errors.push(`Update "${row.name}": ${error.message}`);
+                }
+            }
+
+            if (errors.length) {
+                logEl.innerHTML = `<span class="text-red-400">\u2717 ${errors.join(' | ')}</span>`;
+            } else {
+                logEl.innerHTML = `<span class="text-green-400">\u2713 Saved at ${new Date().toLocaleTimeString()} by ${updatedBy}</span>`;
+                await loadAdminScores();
+                await refreshEditedGame(gameId);
+            }
+            btn.textContent = 'SAVE'; btn.disabled = false;
+        }
+
+        async function pushLiveMatch() {
+            const gameId  = document.getElementById('lm-game-select').value;
+            const players = document.getElementById('lm-players').value.trim();
+            const round   = document.getElementById('lm-round').value.trim();
+            const time    = document.getElementById('lm-time').value.trim();
+            const durationRaw = document.getElementById('lm-duration').value.trim();
+            const last    = document.getElementById('lm-last').value.trim();
+            const score   = document.getElementById('lm-score').value.trim();
+            const table   = gameTableMap[gameId];
+            const logEl   = document.getElementById('admin-audit-log');
+            if (!table || !supabaseClient) { logEl.innerHTML = '<span class="text-red-400">\u2717 No Supabase connection.</span>'; return; }
+            const errs = [];
+            const isTeam = (await detectAdminSchema(gameId, table)) === 'team';
+            if (players) {
+                const res = await writeControlRow(table, isTeam, 'CURRENT_PLAYERS', players);
+                if (res.error) errs.push(res.error);
+            }
+            const bcastParts = [];
+            if (round) bcastParts.push(`round:${round}`);
+            const durationSec = parseDurationToSeconds(durationRaw);
+            if (durationRaw && !durationSec) {
+                logEl.innerHTML = '<span class="text-yellow-400">\u26a0 Invalid duration. Use MM:SS (e.g. 05:00).</span>';
+                return;
+            }
+            if (durationSec) {
+                const endTs = Date.now() + (durationSec * 1000);
+                bcastParts.push(`end:${endTs}`);
+                bcastParts.push(`time:${formatCountdown(durationSec * 1000)}`);
+                bcastParts.push(`started:${Date.now()}`);
+                if (gameId === 'roborace') bcastParts.push('mode:race');
+            } else if (time) {
+                bcastParts.push(`time:${time}`);
+            }
+            if (last)  bcastParts.push(`last:${last}`);
+            if (score) bcastParts.push(`score:${score}`);
+            if (bcastParts.length) {
+                const res = await writeControlRow(table, isTeam, 'BROADCAST', bcastParts.join('|'));
+                if (res.error) errs.push(res.error);
+            }
+            if (!players && !bcastParts.length) { logEl.innerHTML = '<span class="text-yellow-400">\u26a0 Fill at least one field.</span>'; return; }
+            if (errs.length) {
+                logEl.innerHTML = `<span class="text-red-400">\u2717 ${errs.map(e => e.message).join(' | ')}</span>`;
+            } else {
+                logEl.innerHTML = '<span class="text-green-400">\u2713 Live match is now BROADCASTING.</span>';
+                await refreshEditedGame(gameId);
+            }
+        }
+
+        async function clearLiveMatch() {
+            const gameId = document.getElementById('lm-game-select').value;
+            const table  = gameTableMap[gameId];
+            const logEl  = document.getElementById('admin-audit-log');
+            if (!table || !supabaseClient) return;
+            const isTeam = (await detectAdminSchema(gameId, table)) === 'team';
+            const col = isTeam ? 'team1_name' : 'name';
+            await Promise.all([
+                supabaseClient.from(table).delete().like(col, '__CURRENT_PLAYERS__%'),
+                supabaseClient.from(table).delete().like(col, '__BROADCAST__%'),
+                supabaseClient.from(table).delete().like(col, '__LIVE_MATCH__%')
+            ]);
+            clearLiveCountdownTimer();
+            ['lm-players','lm-round','lm-time','lm-duration','lm-last','lm-score'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            logEl.innerHTML = '<span class="text-green-400">\u2713 Live match cleared.</span>';
+            await refreshEditedGame(gameId);
+        }
+
+        let _arenaQueue = [];
+        let _arenaHistory = [];
+
+        function getArenaMeta(gameId) {
+            const defaults = {
+                scheduleTitle: 'SCHEDULE MATCHUP',
+                queueTitle: 'UPCOMING MATCHES',
+                historyTitle: 'MATCH HISTORY LOGS',
+                liveTitle: 'LIVE MATCH CONTROLS',
+                leftLabel: 'TEAM A',
+                rightLabel: 'TEAM B',
+                single: false,
+                step: 1,
+                comingSoon: false
+            };
+            const map = {
+                robosoccer: { ...defaults },
+                spidersense: { ...defaults, scheduleTitle: 'SCHEDULE 1v1 DUEL', queueTitle: 'UPCOMING DUELS', leftLabel: 'PLAYER A', rightLabel: 'PLAYER B' },
+                roborace: { ...defaults, scheduleTitle: 'RACER REGISTRATION', queueTitle: 'STARTING GRID (QUEUE)', historyTitle: 'TRACK HISTORY LOGS', liveTitle: 'LIVE SPEEDWAY TRACKER', leftLabel: 'ACTIVE RACER', rightLabel: 'LAP TIME', single: true, step: 1 },
+                jarvis: { ...defaults, comingSoon: true }
+            };
+            return map[gameId] || defaults;
+        }
+
+        function setAdminLog(html) {
+            const logEl = document.getElementById('admin-audit-log');
+            if (logEl) logEl.innerHTML = html;
+        }
+
+        function parseControlJsonArray(rows, key) {
+            const row = (rows || []).find(r => getControlText(r, `__${key}__|`));
+            if (!row) return [];
+            const raw = getControlText(row, `__${key}__|`) || '[]';
+            try {
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch {
+                return [];
+            }
+        }
+
+        async function saveArenaArray(gameId, key, list) {
+            const table = gameTableMap[gameId];
+            if (!table || !supabaseClient) return { error: { message: 'No Supabase table mapped for this event.' } };
+            const isTeam = (await detectAdminSchema(gameId, table)) === 'team';
+            return writeControlRow(table, isTeam, key, JSON.stringify(list.slice(0, 250)));
+        }
+
+        function applyArenaMeta(meta) {
+            const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+            setText('arena-schedule-title', meta.scheduleTitle);
+            setText('arena-queue-title', meta.queueTitle);
+            setText('arena-history-title', meta.historyTitle);
+            setText('arena-live-title', meta.liveTitle);
+            setText('arena-left-label', meta.leftLabel);
+            setText('arena-right-label', meta.rightLabel);
+
+            const rightScore = document.getElementById('arena-score-b')?.closest('div');
+            const nameB = document.getElementById('arena-name-b');
+            const raceWrap = document.getElementById('arena-race-timer-wrap');
+            if (meta.single) {
+                if (rightScore) rightScore.classList.add('opacity-40');
+                if (nameB) nameB.classList.add('hidden');
+                if (raceWrap) raceWrap.classList.remove('hidden');
+            } else {
+                if (rightScore) rightScore.classList.remove('opacity-40');
+                if (nameB) nameB.classList.remove('hidden');
+                if (raceWrap) raceWrap.classList.add('hidden');
+            }
+        }
+
+        function renderAdminRaceTimerFromBroadcast(broadcast) {
+            const remEl = document.getElementById('arena-race-remaining');
+            const elapEl = document.getElementById('arena-race-elapsed');
+            if (!remEl || !elapEl) return;
+
+            clearAdminRaceTimer();
+            const started = Number((broadcast || {}).started);
+            const endTs = Number((broadcast || {}).end);
+            const pausedSec = Number((broadcast || {}).paused);
+
+            if (!Number.isFinite(started) || started <= 0) {
+                remEl.textContent = '05:00';
+                elapEl.textContent = '00:00';
+                return;
+            }
+
+            const tick = () => {
+                const totalMs = Number.isFinite(endTs) && endTs > started ? (endTs - started) : (5 * 60 * 1000);
+                let leftMs = 0;
+                if (Number.isFinite(pausedSec) && pausedSec >= 0) leftMs = pausedSec * 1000;
+                else if (Number.isFinite(endTs) && endTs > 0) leftMs = Math.max(0, endTs - Date.now());
+                const elapsedMs = Math.max(0, totalMs - leftMs);
+                remEl.textContent = formatCountdown(leftMs);
+                elapEl.textContent = formatCountdown(elapsedMs);
+            };
+
+            tick();
+            if (!(Number.isFinite(pausedSec) && pausedSec >= 0)) {
+                adminRaceTimer = setInterval(tick, 1000);
+            }
+        }
+
+        function renderArenaQueue() {
+            const wrap = document.getElementById('arena-queue-list');
+            if (!wrap) return;
+            if (!_arenaQueue.length) {
+                wrap.innerHTML = '<div class="arena-list-item text-gray-500 text-center">QUEUE IS EMPTY</div>';
+                return;
+            }
+            wrap.innerHTML = _arenaQueue.map((item, idx) => {
+                const right = item.b ? ` vs ${item.b}` : '';
+                return `<div class="arena-list-item flex items-center justify-between"><span>#${idx + 1} ${item.a || 'TBD'}${right}</span><button onclick="removeArenaQueueItem(${idx})" class="arena-mini-btn">REMOVE</button></div>`;
+            }).join('');
+        }
+
+        function renderArenaHistory() {
+            const body = document.getElementById('arena-history-body');
+            if (!body) return;
+            if (!_arenaHistory.length) {
+                body.innerHTML = '<tr><td colspan="4" class="py-3 text-center text-gray-600 font-code text-xs">NO HISTORY LOGS DETECTED.</td></tr>';
+                return;
+            }
+            body.innerHTML = _arenaHistory.slice(0, 50).map(h => `
+                <tr class="border-b border-[#151515] text-gray-300">
+                    <td class="py-1 pr-2">${h.time || '-'}</td>
+                    <td class="py-1 pr-2">${h.venue || '-'}</td>
+                    <td class="py-1 pr-2">${h.matchup || '-'}</td>
+                    <td class="py-1 text-right text-white">${h.result || '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function hydrateArenaLiveInputs(players, broadcast) {
+            const aEl = document.getElementById('arena-name-a');
+            const bEl = document.getElementById('arena-name-b');
+            const venueEl = document.getElementById('arena-venue');
+            const roundEl = document.getElementById('arena-round');
+            const lastEl = document.getElementById('arena-last');
+            const durationEl = document.getElementById('arena-duration');
+            const scoreA = document.getElementById('arena-score-a');
+            const scoreB = document.getElementById('arena-score-b');
+
+            if (players) {
+                const parts = String(players).split(/\s+vs\s+/i);
+                if (aEl) aEl.value = parts[0] || '';
+                if (bEl) bEl.value = parts[1] || '';
+            }
+            if (venueEl) venueEl.value = (broadcast && broadcast.round) ? broadcast.round : '';
+            if (roundEl) roundEl.value = (broadcast && broadcast.round) ? broadcast.round : '';
+            if (lastEl) lastEl.value = (broadcast && broadcast.last) ? broadcast.last : '';
+            if (durationEl) durationEl.value = '';
+
+            const scoreText = (broadcast && broadcast.score) ? String(broadcast.score) : '';
+            const nums = scoreText.match(/-?\d+/g) || [];
+            if (scoreA) scoreA.textContent = nums[0] || '0';
+            if (scoreB) scoreB.textContent = nums[1] || '0';
+        }
+
+        async function loadAdminArenaState(silent = false) {
+            const gameId = document.getElementById('lm-game-select')?.value || 'robosoccer';
+            const table = gameTableMap[gameId];
+            const meta = getArenaMeta(gameId);
+            const coming = document.getElementById('arena-coming-soon');
+            const main = document.getElementById('arena-main-wrap');
+            applyArenaMeta(meta);
+
+            if (meta.comingSoon || !table) {
+                if (coming) coming.classList.remove('hidden');
+                if (main) main.classList.add('hidden');
+                _arenaQueue = [];
+                _arenaHistory = [];
+                renderArenaQueue();
+                renderArenaHistory();
+                if (!silent) setAdminLog('<span class="text-aicyan">• J.A.R.V.I.S. is marked as Coming Soon.</span>');
+                return;
+            }
+
+            if (coming) coming.classList.add('hidden');
+            if (main) main.classList.remove('hidden');
+            if (!supabaseClient) { if (!silent) setAdminLog('<span class="text-red-400">✗ No Supabase connection.</span>'); return; }
+
+            const { data, error } = await supabaseClient.from(table).select('*');
+            if (error) { if (!silent) setAdminLog(`<span class="text-red-400">✗ ${error.message}</span>`); return; }
+
+            const rows = data || [];
+            _arenaQueue = parseControlJsonArray(rows, 'QUEUE');
+            _arenaHistory = parseControlJsonArray(rows, 'HISTORY');
+            const bcast = parseBroadcastData(rows);
+            hydrateArenaLiveInputs(parseCurrentPlayers(rows), bcast);
+            if (gameId === 'roborace') renderAdminRaceTimerFromBroadcast(bcast || {});
+            renderArenaQueue();
+            renderArenaHistory();
+            if (!silent) setAdminLog('<span class="text-green-400">✓ Arena state synced from backend.</span>');
+        }
+
+        async function startRoboRaceFiveMin() {
+            const gameId = document.getElementById('lm-game-select')?.value || '';
+            if (gameId !== 'roborace') return;
+            const durationEl = document.getElementById('arena-duration');
+            if (durationEl) durationEl.value = '05:00';
+            await arenaGoLiveNow();
+        }
+
+        async function resetRoboRaceTimer() {
+            const gameId = document.getElementById('lm-game-select')?.value || '';
+            if (gameId !== 'roborace') return;
+            const { error, isTeam, state } = await getBroadcastControlState(gameId);
+            if (error) { setAdminLog(`<span class="text-red-400">✗ ${error.message}</span>`); return; }
+            const next = { ...state, started: Date.now(), end: Date.now() + (5 * 60 * 1000), time: '05:00', mode: 'race' };
+            delete next.paused;
+            const res = await saveBroadcastControlState(gameId, isTeam, next);
+            if (res.error) { setAdminLog(`<span class="text-red-400">✗ ${res.error.message}</span>`); return; }
+            setAdminLog('<span class="text-green-400">✓ Robo Race timer reset to 05:00.</span>');
+            await refreshEditedGame(gameId);
+            await loadAdminArenaState(true);
+        }
+
+        function adjustArenaScore(side, delta) {
+            const id = side === 'a' ? 'arena-score-a' : 'arena-score-b';
+            const el = document.getElementById(id);
+            if (!el) return;
+            const next = Math.max(0, (Number(el.textContent) || 0) + Number(delta || 0));
+            el.textContent = String(next);
+        }
+
+        async function addArenaQueueItem() {
+            const gameId = document.getElementById('lm-game-select')?.value || 'robosoccer';
+            const meta = getArenaMeta(gameId);
+            if (meta.comingSoon) { setAdminLog('<span class="text-aicyan">• J.A.R.V.I.S. controls are coming soon.</span>'); return; }
+
+            const a = (document.getElementById('arena-name-a')?.value || '').trim();
+            const b = (document.getElementById('arena-name-b')?.value || '').trim();
+            if (!a) { setAdminLog('<span class="text-yellow-400">⚠ Enter at least one participant/team.</span>'); return; }
+            if (!meta.single && !b) { setAdminLog('<span class="text-yellow-400">⚠ Enter both sides for this match type.</span>'); return; }
+
+            _arenaQueue.push({ a, b, ts: Date.now() });
+            const res = await saveArenaArray(gameId, 'QUEUE', _arenaQueue);
+            if (res.error) { setAdminLog(`<span class="text-red-400">✗ ${res.error.message}</span>`); return; }
+
+            renderArenaQueue();
+            setAdminLog('<span class="text-green-400">✓ Added to queue and synced.</span>');
+            await refreshEditedGame(gameId);
+        }
+
+        async function removeArenaQueueItem(index) {
+            const gameId = document.getElementById('lm-game-select')?.value || 'robosoccer';
+            _arenaQueue.splice(index, 1);
+            const res = await saveArenaArray(gameId, 'QUEUE', _arenaQueue);
+            if (res.error) { setAdminLog(`<span class="text-red-400">✗ ${res.error.message}</span>`); return; }
+            renderArenaQueue();
+            setAdminLog('<span class="text-green-400">✓ Queue updated.</span>');
+        }
+
+        async function arenaGoLiveNow() {
+            const gameId = document.getElementById('lm-game-select')?.value || 'robosoccer';
+            const meta = getArenaMeta(gameId);
+            if (meta.comingSoon) { setAdminLog('<span class="text-aicyan">• J.A.R.V.I.S. controls are coming soon.</span>'); return; }
+
+            const a = (document.getElementById('arena-name-a')?.value || '').trim();
+            const b = (document.getElementById('arena-name-b')?.value || '').trim();
+            const venue = (document.getElementById('arena-venue')?.value || '').trim();
+            const round = (document.getElementById('arena-round')?.value || '').trim();
+            const last = (document.getElementById('arena-last')?.value || '').trim();
+            let duration = (document.getElementById('arena-duration')?.value || '').trim();
+            if (gameId === 'roborace' && !duration) duration = '05:00';
+            const sA = Number(document.getElementById('arena-score-a')?.textContent || 0);
+            const sB = Number(document.getElementById('arena-score-b')?.textContent || 0);
+
+            const players = meta.single ? a : [a, b].filter(Boolean).join(' vs ');
+            const scoreText = meta.single ? `${a || 'Participant'} ${sA}` : `${a || 'A'} ${sA} - ${sB} ${b || 'B'}`;
+            const roundOrVenue = round || venue || 'LIVE';
+
+            document.getElementById('lm-players').value = players;
+            document.getElementById('lm-round').value = roundOrVenue;
+            document.getElementById('lm-duration').value = duration;
+            document.getElementById('lm-time').value = duration ? '' : 'LIVE';
+            document.getElementById('lm-last').value = last || (meta.single ? 'Run In Progress' : 'Match In Progress');
+            document.getElementById('lm-score').value = scoreText;
+            await pushLiveMatch();
+            await syncArenaResultToStandings(gameId, meta, a, b, sA, sB);
+            await refreshEditedGame(gameId);
+            await loadAdminArenaState(true);
+        }
+
+        async function arenaUpdateScoreOnly() {
+            const gameId = document.getElementById('lm-game-select')?.value || 'robosoccer';
+            const meta = getArenaMeta(gameId);
+            if (meta.comingSoon) {
+                setAdminLog('<span class="text-aicyan">• J.A.R.V.I.S. controls are coming soon.</span>');
+                return;
+            }
+
+            const a = (document.getElementById('arena-name-a')?.value || '').trim();
+            const b = (document.getElementById('arena-name-b')?.value || '').trim();
+            const sA = Number(document.getElementById('arena-score-a')?.textContent || 0);
+            const sB = Number(document.getElementById('arena-score-b')?.textContent || 0);
+            const scoreText = meta.single ? `${a || 'Participant'} ${sA}` : `${a || 'A'} ${sA} - ${sB} ${b || 'B'}`;
+
+            const { error, isTeam, state } = await getBroadcastControlState(gameId);
+            if (error) {
+                setAdminLog(`<span class="text-red-400">✗ ${error.message}</span>`);
+                return;
+            }
+
+            const next = { ...state, score: scoreText };
+            const res = await saveBroadcastControlState(gameId, isTeam, next);
+            if (res.error) {
+                setAdminLog(`<span class="text-red-400">✗ ${res.error.message}</span>`);
+                return;
+            }
+
+            const syncRes = await syncArenaResultToStandings(gameId, meta, a, b, sA, sB);
+            if (syncRes.error) {
+                setAdminLog(`<span class="text-yellow-400">⚠ Score updated live, but standings sync failed: ${syncRes.error.message}</span>`);
+                await refreshEditedGame(gameId);
+                return;
+            }
+
+            setAdminLog('<span class="text-green-400">✓ Score updated without changing timer state.</span>');
+            await refreshEditedGame(gameId);
+            await loadAdminArenaState(true);
+        }
+
+        async function arenaSendNextLive() {
+            const gameId = document.getElementById('lm-game-select')?.value || 'robosoccer';
+            if (!_arenaQueue.length) { setAdminLog('<span class="text-yellow-400">⚠ Queue is empty.</span>'); return; }
+
+            const next = _arenaQueue.shift();
+            const aEl = document.getElementById('arena-name-a');
+            const bEl = document.getElementById('arena-name-b');
+            if (aEl) aEl.value = next.a || '';
+            if (bEl) bEl.value = next.b || '';
+
+            const queueRes = await saveArenaArray(gameId, 'QUEUE', _arenaQueue);
+            if (queueRes.error) { setAdminLog(`<span class="text-red-400">✗ ${queueRes.error.message}</span>`); return; }
+            renderArenaQueue();
+            await arenaGoLiveNow();
+        }
+
+        async function arenaLogResult() {
+            const gameId = document.getElementById('lm-game-select')?.value || 'robosoccer';
+            const meta = getArenaMeta(gameId);
+            if (meta.comingSoon) { setAdminLog('<span class="text-aicyan">• J.A.R.V.I.S. controls are coming soon.</span>'); return; }
+
+            const a = (document.getElementById('arena-name-a')?.value || '').trim();
+            const b = (document.getElementById('arena-name-b')?.value || '').trim();
+            const venue = (document.getElementById('arena-venue')?.value || '').trim();
+            const sA = Number(document.getElementById('arena-score-a')?.textContent || 0);
+            const sB = Number(document.getElementById('arena-score-b')?.textContent || 0);
+
+            const matchup = meta.single ? (a || 'Participant') : `${a || 'A'} vs ${b || 'B'}`;
+            const result = meta.single ? `${sA}` : `${sA}-${sB}`;
+            _arenaHistory.unshift({ time: new Date().toLocaleTimeString(), venue: venue || '-', matchup, result });
+            const res = await saveArenaArray(gameId, 'HISTORY', _arenaHistory);
+            if (res.error) { setAdminLog(`<span class="text-red-400">✗ ${res.error.message}</span>`); return; }
+
+            const syncRes = await syncArenaResultToStandings(gameId, meta, a, b, sA, sB);
+            if (syncRes.error) {
+                setAdminLog(`<span class="text-yellow-400">⚠ History saved but standings sync failed: ${syncRes.error.message}</span>`);
+                await refreshEditedGame(gameId);
+                return;
+            }
+
+            renderArenaHistory();
+            setAdminLog('<span class="text-green-400">✓ Result logged and synced to standings leaderboard.</span>');
+            await refreshEditedGame(gameId);
+        }
+
+        async function syncArenaResultToStandings(gameId, meta, a, b, sA, sB) {
+            const table = gameTableMap[gameId];
+            if (!table || !supabaseClient) return { error: { message: 'No Supabase connection.' } };
+            const schema = await detectAdminSchema(gameId, table);
+
+            if (schema === 'team') {
+                const { data, error } = await supabaseClient.from(table).select('*');
+                if (error) return { error };
+
+                const clean = (v) => String(v || '').trim().toLowerCase();
+                const cA = clean(a), cB = clean(b);
+                const rows = (data || []).filter(r => !String(r.team1_name || '').startsWith('__'));
+                const match = rows.find(r => {
+                    const t1 = clean(r.team1_name);
+                    const t2 = clean(r.team2_name);
+                    return (t1 === cA && t2 === cB) || (t1 === cB && t2 === cA);
+                });
+
+                if (match) {
+                    const direct = clean(match.team1_name) === cA;
+                    const rec = direct
+                        ? { team1_goals: Number(sA) || 0, team2_goals: Number(sB) || 0 }
+                        : { team1_goals: Number(sB) || 0, team2_goals: Number(sA) || 0 };
+                    const { error: upErr } = await supabaseClient.from(table).update(rec).eq('id', match.id);
+                    return { error: upErr || null };
+                }
+
+                const rec = {
+                    team1_name: a || 'Team A',
+                    team2_name: b || 'Team B',
+                    team1_goals: Number(sA) || 0,
+                    team2_goals: Number(sB) || 0
+                };
+                const { error: inErr } = await supabaseClient.from(table).insert(rec);
+                return { error: inErr || null };
+            }
+
+            const buildEnrollment = (name) => {
+                const base = String(name || 'participant').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 24) || 'participant';
+                return `rr-${base}-${Date.now().toString().slice(-6)}`;
+            };
+            const upsertSimple = async (name, score) => {
+                if (!String(name || '').trim()) return null;
+                const { data, error } = await supabaseClient.from(table).select('id').eq('name', name).limit(1);
+                if (error) return error;
+                if (data && data[0]?.id) {
+                    const { error: upErr } = await supabaseClient.from(table)
+                        .update({ score: String(score) })
+                        .eq('id', data[0].id);
+                    return upErr || null;
+                }
+                const insertRec = { name, score: String(score) };
+                if (table === 'roborace') {
+                    insertRec.enrollment = buildEnrollment(name);
+                }
+                const { error: inErr } = await supabaseClient.from(table)
+                    .insert(insertRec);
+                return inErr || null;
+            };
+
+            if (meta.single) {
+                const e = await upsertSimple(a || b || 'Participant', sA);
+                return { error: e || null };
+            }
+
+            const e1 = await upsertSimple(a, sA);
+            if (e1) return { error: e1 };
+            const e2 = await upsertSimple(b, sB);
+            return { error: e2 || null };
+        }
+
+        // Keyboard shortcut: Ctrl+Shift+A
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                e.preventDefault();
+                openAdminPanel();
+            }
+        });
 
         // --- 2. INTRO, DOSSIER & FAILSAVES ---
         function startExperience() {
@@ -1515,6 +3678,11 @@
             const showsVideos = document.querySelectorAll('#shows video');
             showsVideos.forEach(vid => { vid.muted = true; vid.volume = 0; });
             loadTodaysDirective();
+            initSupabaseRealtime();
+            if (!SUPABASE_ENABLED) {
+                updateRealtimeStatus(false, 'ADD SUPABASE KEYS');
+                setLastSyncLabel('STATIC');
+            }
         });
 
         function loadTodaysDirective() {
@@ -1689,25 +3857,25 @@
                 const avatar = "https://media.licdn.com/dms/image/v2/D560BAQHZvHdAAzLOxg/company-logo_200_200/company-logo_200_200/0/1705683330825/cicrjiit128_logo?e=2147483647&v=beta&t=SkWN-NG5hWyOxjw6RjtS38V8T9vDDnhBxb0p98MSeFw";
                 const desc = member.desc || "Initiative Member";
                 const lvl = member.name === "Kumar Shaurya" ? "L-8" : "L-7";
-                
+
                 const idHtml = member.id ? `<p class="font-code text-[4px] min-[400px]:text-[5px] sm:text-[7px] md:text-[10px] opacity-80 mt-0.5 md:mt-1 truncate group-hover:text-white transition-colors" style="color: ${c.hex};">ID: ${member.id}</p>` : `<p class="font-code text-[4px] md:text-[10px] text-transparent mt-0.5 md:mt-1"> </p>`;
 
                 container.innerHTML += `
                 <div class="opacity-0 animate-[fade-in-up_0.5s_forwards]" style="animation-delay: ${delay}s; perspective: 1000px;">
                     <div class="cyber-agent-card flex flex-col h-full group p-2 md:p-5 border-t-[4px] md:border-t-[6px]" style="--border-color: ${c.hex}; --border-color-rgb: ${c.rgb}; border-top-color: ${c.hex};">
-                        
+
                         <div class="flex justify-between items-start w-full mb-2 md:mb-4 relative z-10">
                             <div class="text-black font-code text-[6px] min-[400px]:text-[8px] md:text-[11px] px-2 py-0.5 font-bold uppercase tracking-widest leading-none shadow-[2px_2px_0px_#000] transform -skew-x-6" style="background-color: ${c.hex};">LEVEL ${lvl}</div>
                             <div class="flex flex-col items-end">
                                 <i class="fas fa-fingerprint opacity-30 text-[10px] md:text-2xl group-hover:opacity-100 group-hover:animate-pulse transition-opacity" style="color: ${c.hex}; text-shadow: 0 0 10px ${c.hex};"></i>
                             </div>
                         </div>
-                        
+
                         <div class="w-12 h-12 min-[400px]:w-14 min-[400px]:h-14 sm:w-20 sm:h-20 md:w-32 md:h-32 mx-auto border-2 overflow-hidden mb-2 md:mb-4 relative z-10 transition-all duration-300 flex-shrink-0 team-avatar-wrap cyber-avatar-container" style="border-color: #333;">
                             <div class="absolute inset-0 opacity-40 mix-blend-overlay z-20 group-hover:opacity-0 transition-opacity pointer-events-none" style="background-color: ${c.hex};"></div>
                             <img src="${avatar}" alt="${member.name}" class="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-500 transform group-hover:scale-110">
                         </div>
-                        
+
                         <div class="text-center mt-auto relative z-10 flex flex-col justify-end h-full">
                             <h3 class="text-[9px] min-[400px]:text-[11px] sm:text-sm md:text-2xl font-bangers text-white tracking-[0.15em] comic-text-shadow mb-1 uppercase drop-shadow-md leading-none group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all">${member.name}</h3>
                             <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-[#333] to-transparent my-1 group-hover:via-white transition-colors"></div>
